@@ -2,8 +2,17 @@
 
 # ==========================================================
 # ROS-Hacks Diagnostics Tool
-# Version: 1.0.0
 # ==========================================================
+
+# Get script directory
+SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+
+# Read version from VERSION file
+if [[ -f "${SCRIPT_DIR}/VERSION" ]]; then
+    VERSION=$(cat "${SCRIPT_DIR}/VERSION")
+else
+    VERSION="unknown"
+fi
 
 # Define colors for output
 NC='\033[0m'

@@ -2,8 +2,17 @@
 
 # ==========================================================
 # ROS-Hacks Updater Script
-# Version: 1.0.0
 # ==========================================================
+
+# Get script directory
+DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+
+# Read version from VERSION file
+if [[ -f "${DIR}/VERSION" ]]; then
+    VERSION=$(cat "${DIR}/VERSION")
+else
+    VERSION="unknown"
+fi
 
 # Set error handling
 set -e

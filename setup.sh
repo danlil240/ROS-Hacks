@@ -2,8 +2,17 @@
 
 # ==========================================================
 # ROS-Hacks Setup Script
-# Version: 1.0.0
 # ==========================================================
+
+# Get script directory
+SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+
+# Read version from VERSION file
+if [[ -f "${SCRIPT_DIR}/VERSION" ]]; then
+    VERSION=$(cat "${SCRIPT_DIR}/VERSION")
+else
+    VERSION="unknown"
+fi
 
 # Set error handling
 set -e
@@ -90,7 +99,7 @@ create_initial_configs() {
 # Main setup function
 main() {
     printf "${LIGHT_BLUE_TXT}===============================${NC}\n"
-    printf "${LIGHT_BLUE_TXT}Setting up ROS-Hacks v1.0.0${NC}\n"
+    printf "${LIGHT_BLUE_TXT}Setting up ROS-Hacks v${VERSION}${NC}\n"
     printf "${LIGHT_BLUE_TXT}===============================${NC}\n\n"
     
     # Run setup steps

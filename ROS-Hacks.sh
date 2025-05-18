@@ -2,11 +2,17 @@
 
 # ==========================================================
 # ROS-Hacks - Main Entry Point
-# Version: 1.0.0
 # ==========================================================
 
 # Define script directory
 ROSHACKS_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+
+# Read version from VERSION file
+if [[ -f "${ROSHACKS_DIR}/VERSION" ]]; then
+    VERSION=$(cat "${ROSHACKS_DIR}/VERSION")
+else
+    VERSION="unknown"
+fi
 
 # Prevent duplicate sourcing
 if [[ -n "${ROSHACKS_LOADED}" ]]; then
