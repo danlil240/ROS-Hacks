@@ -1,0 +1,57 @@
+# Refer to: https://stackoverflow.com/questions/4200800/in-bash-how-do-i-bind-a-function-key-to-a-command
+#  https://superuser.com/questions/269464/understanding-control-characters-in-inputrc
+
+"\e\C-t": "ros2 topic list\n"
+"\e\C-n": "ros2 node list\n"
+"\e\C-g": "git clone "
+"\C-g": " | grep -i "
+
+# Watch the typed command
+"\e[15;5~": "\e[Hwatch -n 0.1 \"\e[F\" \n"              # On Ctrl+F5
+"\e[15;3~": "\e[Hwatch -n 0.1 \"\e[F\" \n"              # On Alt+F5
+"\e[15;5~": "\e[Hwhile date; do time \e[F\ ; done\n"              # On Ctrl+F5
+# Run a command in tmux detached session
+"\e[15;2~": "\e[Htmux new -d \"\e[F\" \n"              # On Shift+F5
+
+# Use F3 to call select_ws
+"\eOR": "select_ws\n"
+# Shift-F3 - Create new WS
+"\e[1;2R": "prompt_new_ws\n"
+
+# Shift-F1/F2 shortcut to install ROS package
+"\e[1;2P": "sudo apt install -y ros-${ROS1_NAME}-\e\C-e"
+"\e[1;2Q": "sudo apt install -y ros-${ROS2_NAME}-\e\C-e"
+
+# Source bash, catkin etc.
+"\e[15~": "source ~/.bashrc\n"              # On F5
+
+# Rebuild the current workspace
+"\e[20~": "rebuild_curr_ws\n"               # On F9
+"\e[20;2~": "rebuild_curr_ws && exit\n"               # On Shift-F9
+"\e[20;5~": "rebuild_curr_ws "--cmake-force-configure"\n"               # On Ctrl-F9
+
+# Colcon build specific package
+"\e[19~": "\e[Hpushd `cat ~/.ros_ws_selected` > /dev/null; colcon build --symlink-install --packages-select \e[F ; popd > /dev/null\n"
+
+"\e\C-i": "sudo apt install -y "
+"\e\C-p": "python3 -m pip install "
+
+
+# mappings for Ctrl-left-arrow and Ctrl-right-arrow for word moving
+"\e[1;5C": forward-word
+"\e[1;5D": backward-word
+"\e[5C": forward-word
+"\e[5D": backward-word
+"\e\e[C": forward-word
+"\e\e[D": backward-word
+
+
+#set completion-ignore-case on
+#set bell-style visible
+set convert-meta off
+set input-meta on
+set output-meta on
+#set show-all-if-ambiguous on
+#set visible-stats on
+set colored-stats On
+set completion-prefix-display-length 3

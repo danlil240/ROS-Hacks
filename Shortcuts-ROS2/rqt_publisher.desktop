@@ -1,0 +1,22 @@
+[Desktop Entry]
+Categories=Development;IDE;
+Comment[en_IL]=
+Comment=
+Exec=bash -i -c "ros2 run rqt_publisher rqt_publisher" %f
+GenericName[en_IL]=
+GenericName=
+Icon=mail-send
+MimeType=
+Name[en_IL]=RQT Publisher
+Name=RQT Publisher
+Path=
+StartupNotify=true
+StartupWMClass=rqt
+Terminal=false
+TerminalOptions=
+Type=Application
+Version=1.0
+X-DBUS-ServiceName=
+X-DBUS-StartupType=
+X-KDE-SubstituteUID=false
+X-KDE-Username=
