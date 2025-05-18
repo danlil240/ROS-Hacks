@@ -3,12 +3,16 @@ if [[ ${SKIP} == 1 ]]; then
     return 1
 fi
 
-ROS2_NAME='foxy'
-if [[ $(lsb_release -cs) == 'xenial' ]]; then
-    ROS1_NAME='kinetic'
-elif [[ $(lsb_release -cs) == 'bionic' ]]; then
-    ROS1_NAME='melodic'
-    ROS2_NAME='dashing'
+# Determine ROS2 distribution based on Ubuntu version
+if [[ $(lsb_release -cs) == 'focal' ]]; then
+    ROS2_NAME='foxy'
+elif [[ $(lsb_release -cs) == 'jammy' ]]; then
+    ROS2_NAME='humble'
+elif [[ $(lsb_release -cs) == 'noble' ]]; then
+    ROS2_NAME='iron'
+else
+    # Default to latest stable release if version can't be determined
+    ROS2_NAME='humble'
 fi
 
 
@@ -37,46 +41,65 @@ WS_FILE=$HOME/.ros_ws_selected
 ROS_DOMAIN_ID_FILE=$HOME/.ros_domain_id
 QUICK_COMMAND_FILE=.quick_command
 
-alias pR='printenv | grep -i -e ROS -e CATKIN -e CMAKE -e RMW'
+alias pR='printenv | grep -i -e ROS -e CMAKE -e RMW -e AMENT -e COLCON'
 alias sw='source_ws $(cat $WS_FILE)'
-alias sr='source /opt/ros/${ROS1_NAME}/setup.bash'
-alias csr='unROS; source /opt/ros/${ROS1_NAME}/setup.bash'
-alias sr2='source /opt/ros/${ROS2_NAME}/setup.bash'
-alias csr2='unROS; source /opt/ros/${ROS2_NAME}/setup.bash'
+alias sr='source /opt/ros/${ROS2_NAME}/setup.bash'
+alias csr='unROS; source /opt/ros/${ROS2_NAME}/setup.bash'
 
-alias cab='catkin build --summary'
+# Build aliases
 alias cob='colcon build --symlink-install'
 alias cobd='colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Debug'
 alias cobr='colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release'
 alias cobp='colcon build --symlink-install --packages-select'
 alias cobput='colcon build --symlink-install --packages-up-to'
 alias cobpv='colcon build --symlink-install --event-handlers console_cohesion+ --packages-select'
-alias coc='clean_ROS2_ws $(cat $WS_FILE)'
+alias cobta='colcon build --symlink-install --packages-select --cmake-args -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=1'
+alias coc='clean_ros2_ws $(cat $WS_FILE)'
+
+# Navigation aliases
 alias cw='cd $(cat $WS_FILE)'
 alias cs='cd $(cat $WS_FILE)/src'
 alias cg='touch COLCON_IGNORE'
 alias rcg='rm COLCON_IGNORE'
 
+# ROS2 command aliases
 alias rt='ros2 topic'
+alias rtl='ros2 topic list'
+alias rte='ros2 topic echo'
+alias rti='ros2 topic info'
 alias rn='ros2 node'
+alias rnl='ros2 node list'
+alias rni='ros2 node info'
+alias rs='ros2 service'
+alias rsl='ros2 service list'
+alias rp='ros2 param'
+alias rpl='ros2 param list'
+alias ra='ros2 action'
+alias ral='ros2 action list'
 alias rb='ros2 bag'
+alias rl='ros2 launch'
+
+# Utility aliases
 alias whgit='git config --get remote.origin.url'
 alias o='sudo chown -R $USER:$USER '
 alias x='chmod +x'
 alias mke='make -j`nproc`'
 alias temp='watch -n 0.1 sensors'
-alias show_colcon_errors='for pkg in $curr_ws/log/latest_build/*/; do   pkg_name=$(basename "$pkg");   log_file="$pkg/stdout_stderr.log";   if grep -qiw "error" "$log_file"; then     echo -e "\n===== 🔴 Error in $pkg_name =====";     tail -n 50 "$log_file";   fi; done'
+alias show_colcon_errors='for pkg in $curr_ws/log/latest_build/*/; do   pkg_name=$(basename "$pkg");   log_file="$pkg/stdout_stderr.log";   if grep -qiw "error" "$log_file"; then     echo -e "\n===== 🔴 Error in $pkg_name =====";     grep -A 20 -B 5 "error" "$log_file";   fi; done'
 alias se='show_colcon_errors'
 
-# shopt -s direxpand
+# Shell options
+shopt -s direxpand
 shopt -s expand_aliases
 shopt -s histappend
 shopt -s cmdhist
+
+# History settings
 export PROMPT_COMMAND='history -a'
-# export HISTFILESIZE=1000000
-# export HISTSIZE=1000000
+export HISTFILESIZE=10000
+export HISTSIZE=10000
 export HISTCONTROL=ignoreboth
-export HISTIGNORE='t:f:l:ls:bg:fg:history:h:select_ws:kill-tmux-gz:test-launch:qe-file:kp:f_run_icl'
+export HISTIGNORE='t:f:l:ls:bg:fg:history:h:select_ws:kill-tmux-gz:rt:rtl:rte:rti:rn:rs:rp:ra:rb'
 export HISTTIMEFORMAT='%F %T '
 
 # PS1=' \[\e[1;32m\]\u\[\033[00m\] \[\e[32m\]$(get_current_ws_name):$ROS_DOMAIN_ID\[\033[00m\] \[\033[03;94m\]\w\[\033[00m\]\[\033[38;5;51m\]$(__git_ps1)\[\033[00m\]:\n\$ '

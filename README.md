@@ -10,20 +10,14 @@ Everything was tested on Ubuntu 18.04.2 with ROS Melodic & ROS2 Dashing.
 Make sure that `tmux` and `python-catkin-tools` is installed:
 
 ```shell
-sudo apt install tmux python-catkin-tools
+sudo apt install tmux
 ```
 
 
 Clone the repo into some folder, for example:
 
 ```shell
-git clone git@gitlab.com:robotican/birds/ROS-Hacks.git ~/.ROS-Hacks
-```
-
-or if you like SSH😉:
-
-```shell
-git clone git@gitlab.com:robotican/birds/ROS-Hacks.git ~/.ROS-Hacks
+git clone https://github.com/danlil240/ROS-Hacks.git ~/.ROS-Hacks
 ```
 
 Navigate to the directory and execute the `setup.sh` script.

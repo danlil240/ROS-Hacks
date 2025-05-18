@@ -1,62 +1,37 @@
 #!/usr/bin/env bash
 
+# ==========================================================
+# ROS2 Workspace Management Functions
+# ==========================================================
+
 function prompt_new_ws() {
-    printf "${LIGHT_BLUE_TXT}Creating new ROS workspace, specify ROS1 or ROS2 (enter 1 or 2):${NC}\n"
-    num=0
-    while [[ $num != [12] ]]; do
-        read -n 1 -p "[1/2]: " num
-        case $num in
-            [1]*)
-                type="ROS1"
-                echo ""
-            ;;
-            [2]*)
-                type="ROS2"
-                echo ""
-            ;;
-            *)
-                echo ""
-                printf "${RED_TXT}Incorrect values selected. Enter 1 or 2:${NC}\n"
-                # return 1
-            ;;
-        esac
-        
-    done
-    printf "${LIGHT_BLUE_TXT}Please enter the WS name, will create ~/####_ws/src:${NC}\n"
+    printf "${LIGHT_BLUE_TXT}Creating new ROS2 workspace${NC}\n"
+    printf "${LIGHT_BLUE_TXT}Please enter the workspace name, will create ~/####_ws/src:${NC}\n"
     read -p ":  " name
-    createWS $type $name
+    createWS $name
 }
 
 function createWS() {
-    type=${1:-""}
-    name=${2:-""}
-    if [[ -z "${type}" ]]; then
-        printf "${RED_TXT}ROS type not specified, specify ROS1 or ROS2.${NC}\n"
-    else
-        if [[ -z "${name}" ]]; then
-            printf "${RED_TXT}ROS workspace name not specified.${NC}\n"
-        else
-            mkdir -p ~/${name}_ws/src
-            set_current_ws ~/${name}_ws
-            get_current_ws
-            cd $curr_ws
-            if [[ $type == "ROS1" ]]; then # Catkin found in ws
-                csr
-                catkin build
-                source_ws ${curr_ws}
-                elif [[ $type == "ROS2" ]]; then # Catkin found in ws
-                csr2
-                colcon build --symlink-install
-                source_ws ${curr_ws}
-            else
-                printf "${RED_TXT}UNKNOWN ROS type.${NC}\n"
-            fi
-        fi
+    name=${1:-""}
+    if [[ -z "${name}" ]]; then
+        printf "${RED_TXT}ROS2 workspace name not specified.${NC}\n"
+        return 1
     fi
+    
+    mkdir -p ~/${name}_ws/src
+    set_current_ws ~/${name}_ws
+    get_current_ws
+    cd $curr_ws
+    
+    # Initialize as ROS2 workspace
+    source /opt/ros/${ROS2_NAME}/setup.bash
+    colcon build --symlink-install
+    source_ws ${curr_ws}
+    printf "${GREEN_TXT}ROS2 workspace created successfully at ${WHITE_TXT}${curr_ws}${NC}\n"
 }
 
 function unROS() {
-    # Get all variables containing 'ROS' or 'ros'
+    # Get all variables containing 'ROS'
     vars=$(env | egrep -i ROS | column -t -s '=' | sed -E 's/ .*//g')
     
     # For everyone do:
@@ -115,17 +90,8 @@ function select_ws() {
     for i in "${arrIN[@]}"; do
         c=$(($c + 1))
         if [[ $c == $num ]]; then
-            determine_ws_ros_version $i
-            if [[ $ros_type == "ROS1" ]]; then # Catkin found in ws
-                set_current_ws $i
-                source_ws $i
-                elif [[ $ros_type == "ROS2" ]]; then # Catkin found in ws
-                set_current_ws $i
-                source_ws $i
-            else
-                printf "${RED_TXT}MIXED ROS WS - Sourcing aborted.${NC}\n"
-            fi
-            
+            set_current_ws $i
+            source_ws $i
             return 0
         fi
     done
@@ -133,21 +99,26 @@ function select_ws() {
 
 function get_current_ws() {
     unset curr_ws
-    curr_ws=$(cat $WS_FILE)
-    # printf "${GREEN_TXT2}ROS workspace: $curr_ws ${NC}\n"
+    curr_ws=$(cat $WS_FILE 2>/dev/null || echo "")
 }
+
 function get_current_ws_name(){
     get_current_ws
+    if [[ -z "$curr_ws" ]]; then
+        echo "none"
+        return
+    fi
     myarray=(${curr_ws//\// })
-    
     echo ${myarray[-1]}
 }
+
 function set_current_ws() {
     new_curr_ws=${1:-""}
     if [[ -z "${new_curr_ws}" ]]; then
-        printf "${RED_TXT}ROS workspace path not specified.${NC}\n"
+        printf "${RED_TXT}ROS2 workspace path not specified.${NC}\n"
+        return 1
     else
-        echo $new_curr_ws >$WS_FILE
+        echo $new_curr_ws > $WS_FILE
     fi
 }
 
@@ -167,36 +138,34 @@ function set_ros_domain_id(){
     id=${1:-""}
     if [[ -z "${id}" ]]; then
         printf "${RED_TXT}ROS DOMAIN ID not specified.${NC}\n"
+        return 1
     else
-        printf "${BLUE}ROS DOMAIN ID${NC} set to: ${BLUE}$id${NC}\n"
-        echo $id >$ROS_DOMAIN_ID_FILE
+        printf "${BLUE_TXT}ROS DOMAIN ID${NC} set to: ${BLUE_TXT}$id${NC}\n"
+        echo $id > $ROS_DOMAIN_ID_FILE
     fi
 }
 
 function source_ws() {
     ws_name=${1:-""}
     if [[ -z "${ws_name}" ]]; then
-        printf "${RED_TXT}ROS workspace path not specified.${NC}\n"
-    else
-        determine_ws_ros_version $ws_name
-        if [[ $ros_type == "ROS1" ]]; then # Catkin found in ws
-            unROS
-            printf "Sourcing ${WHITE_TXT} $ws_name ${NC}\n"
-            source $ws_name/devel/setup.bash
-            if [ -f $ws_name/post_source.bash ]; then
-                  source $ws_name/post_source.bash
-            fi
-            elif [[ $ros_type == "ROS2" ]]; then # Catkin found in ws
-            unROS
-            printf "Sourcing ${WHITE_TXT}$ws_name ${NC}\n"
-            source $ws_name/install/setup.bash
-            if [ -f $ws_name/post_source.bash ]; then
-                  source $ws_name/post_source.bash
-            fi
-        else
-            printf "${RED_TXT}ERROR in ROS WS $ws_name - Sourcing aborted.${NC}\n"
-        fi
+        printf "${RED_TXT}ROS2 workspace path not specified.${NC}\n"
+        return 1
     fi
+    
+    if [[ ! -d "$ws_name/install" ]]; then
+        printf "${RED_TXT}Not a valid ROS2 workspace: $ws_name${NC}\n"
+        printf "${YELLOW_TXT}Make sure the workspace has been built with colcon.${NC}\n"
+        return 1
+    fi
+    
+    unROS
+    printf "Sourcing ${WHITE_TXT}$ws_name ${NC}\n"
+    source $ws_name/install/setup.bash
+    
+    if [ -f $ws_name/post_source.bash ]; then
+        source $ws_name/post_source.bash
+    fi
+    
     get_ros_domain_id
     if [[ ! -z "${domain_id}" ]]; then
         export ROS_DOMAIN_ID=$domain_id
@@ -205,10 +174,11 @@ function source_ws() {
 
 function ask_for_ws_and_domain() {
     if [[ $(($ws_count)) -lt 10 ]]; then
-        read -n 1 -p "Select desired WS # to do a clean source [1-$ws_count] or 'd' to change domain : " num
+        read -n 1 -p "Select desired workspace [1-$ws_count] or 'd' to change domain : " num
     else
-        read -n 2 -p "Select desired WS ## to do a clean source [1-$ws_count] or 'd' to change domain : " num
+        read -n 2 -p "Select desired workspace [1-$ws_count] or 'd' to change domain : " num
     fi
+    
     case $num in
         [123456789]*)
             echo ""
@@ -220,7 +190,7 @@ function ask_for_ws_and_domain() {
             read new_domain
             if [[ -z "${new_domain}" ]]; then
                 echo "Disabling domain"
-                rm $ROS_DOMAIN_ID_FILE
+                rm -f $ROS_DOMAIN_ID_FILE
                 unset ROS_DOMAIN_ID
             else
                 set_ros_domain_id $new_domain
@@ -231,102 +201,120 @@ function ask_for_ws_and_domain() {
         *)
             echo ""
             echo "Cancelling."
+            return 1
         ;;
     esac
 }
 
 function rebuild_curr_ws() {
     get_current_ws
-    determine_ws_ros_version $curr_ws
-    if [[ $ros_type == "ROS1" ]]
-    then # Catkin found in ws
-        (cd $curr_ws && source devel/setup.bash  && cab $1)
-        if [[ $? == 0 ]]; then
-            source_ws $curr_ws
-        else
-            printf "${RED_TXT}catkin errors - sourcing aborted.${NC}\n"
-        fi
-    elif [[ $ros_type == "ROS2" ]]
-    then # Catkin found in ws
-        (unROS && cd $curr_ws && source install/setup.bash && cob $1)
-        if [[ $? == 0 ]]; then
-            source_ws $curr_ws
-        else
-            printf "${RED_TXT}catkin errors - sourcing aborted.${NC}\n"
-            show_colcon_errors
-        fi
-    else
-        printf "${RED_TXT}ERROR in ROS WS $ws_name - Sourcing aborted.${NC}\n"
+    
+    if [[ -z "$curr_ws" ]]; then
+        printf "${RED_TXT}No workspace currently selected.${NC}\n"
+        return 1
     fi
     
+    if [[ ! -d "$curr_ws" ]]; then
+        printf "${RED_TXT}Selected workspace doesn't exist: $curr_ws${NC}\n"
+        return 1
+    fi
+    
+    printf "${GREEN_TXT}Rebuilding workspace: ${WHITE_TXT}$curr_ws${NC}\n"
+    (unROS && cd $curr_ws && source install/setup.bash && cob $1)
+    
+    if [[ $? == 0 ]]; then
+        source_ws $curr_ws
+        printf "${GREEN_TXT}Rebuild successful.${NC}\n"
+    else
+        printf "${RED_TXT}Build errors occurred - check logs for details.${NC}\n"
+        show_colcon_errors
+    fi
 }
 
 function get_version_stamp() {
-  repo_list=`find $curr_ws -name .git -type d -prune`
-  info_file="$curr_ws/install/release_info.txt"
-  echo "Worksapce: `basename $curr_ws`" > $info_file
-  echo "===========================" >> $info_file
-  echo `uname -a` >> $info_file
-  echo "===========================" >> $info_file
-  echo "commits:" >> $info_file
-  for repo in $repo_list
-            do
-              pushd $curr_ws > /dev/null
-              cd $repo/..
-              echo "`basename $PWD` `git rev-parse HEAD`" >> $info_file
-              popd > /dev/null
-            done
-  cat $info_file
+    if [[ -z "$curr_ws" ]]; then
+        printf "${RED_TXT}No workspace selected.${NC}\n"
+        return 1
+    fi
+    
+    repo_list=`find $curr_ws -name .git -type d -prune`
+    info_file="$curr_ws/install/release_info.txt"
+    echo "Workspace: `basename $curr_ws`" > $info_file
+    echo "===========================" >> $info_file
+    echo `uname -a` >> $info_file
+    echo `date` >> $info_file
+    echo "===========================" >> $info_file
+    echo "ROS2 Distribution: $ROS2_NAME" >> $info_file
+    echo "===========================" >> $info_file
+    echo "Git Repositories:" >> $info_file
+    
+    for repo in $repo_list; do
+        pushd $curr_ws > /dev/null
+        cd $repo/..
+        echo "`basename $PWD` `git rev-parse HEAD` (`git describe --tags --always`)" >> $info_file
+        popd > /dev/null
+    done
+    
+    cat $info_file
 }
 
 function build_release() {
-     if [[ $ros_type == "ROS1" ]]
-      then # Catkin found in ws
-          printf "${RED_TXT}build_release - not supported for ROS1.${NC}\n"
+    get_current_ws
+    
+    if [[ -z "$curr_ws" ]]; then
+        printf "${RED_TXT}No workspace selected.${NC}\n"
+        return 1
+    fi
+    
+    printf "Building deployable package of ${WHITE_TXT}$curr_ws${NC}\n"
+    unROS
+    cd $curr_ws
+    source /opt/ros/${ROS2_NAME}/setup.bash
+    
+    # Check for version scripts
+    pkg_list=`colcon list -p`
+    for pkg_path in $pkg_list; do
+        if [[ -f "$curr_ws/$pkg_path/scripts/version_release.py" ]]; then
+            cd $curr_ws/$pkg_path
+            python3 $curr_ws/$pkg_path/scripts/version_release.py
+            cd $curr_ws
+        fi
+    done
+    
+    if [[ ! -d "$curr_ws/releases" ]]; then
+        mkdir -p "$curr_ws/releases"
+    fi
 
-      elif [[ $ros_type == "ROS2" ]]
-      then # Catkin found in ws
-          printf "Building deployable package.\n"
-          unROS
-          cd $curr_ws
-          csr2
-          pkg_list=`colcon list -p`
-          for pkg_path in $pkg_list
-          do
-            if [[ -f "$curr_ws/$pkg_path/scripts/version_release.py" ]]; then
-              cd $curr_ws/$pkg_path
-              python3 $curr_ws/$pkg_path/scripts/version_release.py
-              cd $curr_ws
-            fi
-          done
-          if [[ ! -d "$curr_ws/releases" ]]; then
-            mkdir "$curr_ws/releases"
-          fi
-
-          version_name="`basename $curr_ws`_release_$(date '+%Y-%m-%d-%H-%M-%S')"
-          get_version_stamp
-          clean_ROS2_ws $(cat $WS_FILE) && colcon build  --cmake-args -DCMAKE_BUILD_TYPE=Release && tar cvfz $curr_ws/releases/${version_name}.tar.gz -C $curr_ws install
-      else
-          printf "${RED_TXT}ERROR in ROS WS $ws_name - Sourcing aborted.${NC}\n"
-      fi
+    version_name="`basename $curr_ws`_release_$(date '+%Y-%m-%d_%H-%M-%S')"
+    get_version_stamp
+    
+    # Clean and build release version
+    clean_ros2_ws $curr_ws && \
+    colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release && \
+    tar czf $curr_ws/releases/${version_name}.tar.gz -C $curr_ws install
+    
+    if [[ $? -eq 0 ]]; then
+        printf "${GREEN_TXT}Release package created: ${WHITE_TXT}$curr_ws/releases/${version_name}.tar.gz${NC}\n"
+    else
+        printf "${RED_TXT}Failed to create release package.${NC}\n"
+    fi
 }
 
 function find_ws() {
     ws=$(find ~/ -maxdepth 1 -type d -name \*ws\* | sort)
-    # echo $ws
     arrIN=(${ws// / })
-    # echo ${arrIN[2]}
-    printf "${GREEN_TXT}Workspaces in ~${NC}\n"
+    
+    printf "${GREEN_TXT}ROS2 Workspaces in ~${NC}\n"
+    
     # Search for longest ws name
     max_l=0
     for i in "${arrIN[@]}"; do
         l=$(expr length "$i")
-        # echo $(($l)), $(($max_l))
         if [[ $(($l)) -gt $(($max_l)) ]]; then
-            # echo "New line is longer"
             max_l=$(($l))
         fi
     done
+    
     ws_count=0
     pad=""
     c=$(($max_l + 2))
@@ -335,9 +323,10 @@ function find_ws() {
         c=$((c - 1))
     done
     
-    printf "┌%-5s┬%-10s┬%-$(echo $max_l)s┐\n" "─────" "──────────" "$pad"
-    printf "│ %-3s │ %-8s │ %-$(echo $max_l)s │\n" "NUM" "ROS_TYPE" "LOCATION"
-    printf "├%-5s┼%-10s┼%-$(echo $max_l)s┤\n" "─────" "──────────" "$pad"
+    printf "┌%-5s┬%-$(echo $max_l)s┐\n" "─────" "$pad"
+    printf "│ %-3s │ %-$(echo $max_l)s │\n" "NUM" "LOCATION"
+    printf "├%-5s┼%-$(echo $max_l)s┤\n" "─────" "$pad"
+    
     for i in "${arrIN[@]}"; do
         if [[ $i == $curr_ws ]]; then
             sourced_color=${WHITE_TXT}
@@ -345,21 +334,13 @@ function find_ws() {
             sourced_color=${NC}
         fi
         
-        determine_ws_ros_version $i
         ws_count=$(($ws_count + 1))
         l=$(expr length "$i")
         
-        if [[ $ros_type == "ROS1" ]]; then # Catkin found in ws
-            printf "│ ${NC}%-3s${NC} │ ${BLUE_TXT}%-8s${NC} │ ${sourced_color}%-$(echo $max_l)s${NC} │\n" "$ws_count" "$ros_type" "$i"
-            elif [[ $ros_type == "ROS2" ]]; then # Catkin found in ws
-            printf "│ ${NC}%-3s${NC} │ ${GREEN_TXT2}%-8s${NC} │ ${sourced_color}%-$(echo $max_l)s${NC} │\n" "$ws_count" "$ros_type" "$i"
-        else
-            printf "│ ${NC}%-3s${NC} │ ${RED_TXT}%-8s${NC} │ ${sourced_color}%-$(echo $max_l)s${NC} │\n" "$ws_count" "$ros_type" "$i"
-        fi
-        
+        printf "│ ${NC}%-3s${NC} │ ${sourced_color}%-$(echo $max_l)s${NC} │\n" "$ws_count" "$i"
     done
-    printf "└%-5s┴%-10s┴%-$(echo $max_l)s┘\n" "─────" "──────────" "$pad"
     
+    printf "└%-5s┴%-$(echo $max_l)s┘\n" "─────" "$pad"
 }
 
 function print_domain_info(){
@@ -367,146 +348,204 @@ function print_domain_info(){
     printf "${BLUE_TXT}ROS_DOMAIN_ID${NC}: ${LIGHT_BLUE_TXT}$domain_id${NC}\n"
 }
 
-function determine_ws_ros_version() {
-    ws=${1:-""}
-    catkinws=0
-    colconws=0
-    if [[ -z "${ws}" ]]; then
-        printf "${RED_TXT}ROS workspace path not specified.${NC}\n"
-    else
-        # printf "${BLUE_TXT}Checking WS: ${ws}.${NC}\n"
-        if [[ -f "${ws}/.catkin_tools/CATKIN_IGNORE" ]]; then
-            # echo CATKIN_IGNORE FOUND
-            catkinws=1
-        fi
-        if [[ -f "${ws}/build/CATKIN_IGNORE" ]]; then
-            # echo CATKIN_IGNORE FOUND
-            catkinws=1
-        fi
-        if [[ -f "${ws}/build/COLCON_IGNORE" ]]; then
-            # echo CATKIN_IGNORE FOUND
-            colconws=1
-        fi
-        # echo CATKIN, COLCON = $catkinws, $colconws
-        if [[ $catkinws -eq "1" ]]; then # Catkin found in ws
-            ros_type='ROS1'
-            if [[ $colconws -eq "1" ]]; then # COLCON found in ws
-                ros_type='MIXED'
-            fi
-        else                               # Catkin not found in ws
-            if [[ $colconws -eq "1" ]]; then # COLCON found in ws
-                ros_type='ROS2'
-            else
-                ros_type='ERR'
-                
-            fi
-        fi
-    fi
-}
-
 function ask_for_num() {
     max=${1:-"1"}
     if [[ $(($max)) -lt 10 ]]; then
-        read -n 1 -p "Select a number of file to edit [1-$max] or cancel : " num
+        read -n 1 -p "Select a number [1-$max] or cancel : " num
     else
-        read -n 2 -p "Select a number of file to edit [1-$max] or cancel : " num
+        read -n 2 -p "Select a number [1-$max] or cancel : " num
     fi
     case $num in
         [123456789]*)
             echo ""
-            # echo "Sourcing WS #$num"
         ;;
-        # [Cc]*)
-        #   echo ""
-        #   return 1
-        #   ;;
         *)
             echo ""
             echo "Cancelling."
+            return 1
         ;;
     esac
+    
+    return 0
 }
 
-# Function sets ROS_MASTER_URI variable. Either specify last byte for Mobilicom pool, or specify full ip and second argumen 1
-function RM() {
-    ip=${1:-100}
-    full_ip=${2:-0}
-    if [ ${full_ip} != 1 ]; then
-        ip="192.168.131.${ip}"
+# ==========================================================
+# ROS2 Utility Functions
+# ==========================================================
+
+function clean_ros2_ws() {
+    ws=${1:-""}
+    if [[ -z "${ws}" ]]; then
+        printf "${RED_TXT}ROS2 workspace path not specified.${NC}\n"
+        return 1
     fi
-    arg="ROS_MASTER_URI=http://${ip}:11311"
-    printf "Setting environment variable: ${arg}\n"
-    export ${arg}
+    
+    printf "${YELLOW_TXT}Clearing the workspace: ${ws} ${NC}\n"
+    find ${ws}/log -mindepth 1 -maxdepth 1 -type d -print0 | xargs -0 rm -R >/dev/null 2>&1
+    find ${ws}/install -mindepth 1 -maxdepth 1 -type d -print0 | xargs -0 rm -R >/dev/null 2>&1
+    find ${ws}/build -mindepth 1 -maxdepth 1 -type d -print0 | xargs -0 rm -R >/dev/null 2>&1
+    printf "${GREEN_TXT}Workspace cleaned successfully.${NC}\n"
+    
+    return 0
 }
 
-function rt() {
-    topic_filter=${1:-0}
-    if [ ${topic_filter} == 0 ]; then
-        ros2 topic list
-    else
-        ros2 topic list | grep ${topic_filter}
+function ros2cd() {
+    pkgname=${1:-""}
+    if [[ -z "${pkgname}" ]]; then
+        printf "${RED_TXT}ROS2 package name not specified.${NC}\n"
+        return 1
     fi
+    
+    get_current_ws
+    cd $(ros2 pkg prefix $pkgname)
+    return 0
 }
+
+# ==========================================================
+# Quick Command Functions
+# ==========================================================
+
+function set-quick-command() {
+    currline=$(fc -ln | tail -n2 | head -n1)
+    if [[ -z "${currline}" ]]; then
+        echo "No command available for saving"
+        return 1
+    fi
+    
+    quick_file=$curr_ws/${QUICK_COMMAND_FILE}
+    echo "# Auto-saved at $(date +'%Y-%m-%d %H:%M:%S')" > ${quick_file}
+    echo "${currline}" >> ${quick_file}
+    echo "Command saved!"
+}
+
+function get-quick-command() {
+    quick_file=$curr_ws/${QUICK_COMMAND_FILE}
+    if [ ! -f ${quick_file} ]; then
+        echo "No quick command exists in this workspace"
+        return 1
+    fi
+    
+    cat ${quick_file} | tail -n1
+    return 0
+}
+
+function print-quick-command() {
+    quick_file=$curr_ws/${QUICK_COMMAND_FILE}
+    if [ ! -f ${quick_file} ]; then
+        echo "No quick command exists in this workspace"
+        return 1
+    fi
+    
+    echo "Quick command in $curr_ws workspace:"
+    cat ${quick_file}
+    return 0
+}
+
+function exec-quick-command() {
+    quick_file=$curr_ws/${QUICK_COMMAND_FILE}
+    if [ ! -f ${quick_file} ]; then
+        echo "No quick command exists in this workspace"
+        return 1
+    fi
+    
+    cmd_line=$(cat ${quick_file} | tail -n1)
+    ses_name=$(get_current_ws_name)
+    printf "Executing in tmux session ${ses_name}: '${cmd_line}'\n"
+    tmux new-session -d -s ${ses_name} "cd ${curr_ws} && source install/setup.bash && ${cmd_line}; read"
+    return 0
+}
+
+function kill-tmux-quick-command() {
+    ses_name=$(get_current_ws_name)
+    printf "Killing tmux session ${ses_name} and all ROS2 nodes...\n"
+    tmux kill-session -t ${ses_name} >/dev/null 2>&1
+    sleep 0.2
+    
+    # Kill all ROS2 nodes
+    ros2 node list | xargs -r -L 1 -I % sh -c 'ros2 lifecycle set % shutdown || true; ros2 service call % shutdown || true' >/dev/null 2>&1
+    pkill -f ros2
+    
+    # Kill Gazebo processes
+    pkill -f gz
+    pkill -f gazebo
+    
+    printf "All processes terminated.\n"
+    return 0
+}
+
+# ==========================================================
+# System Utility Functions
+# ==========================================================
 
 function fixJB() {
     CLION_FILE=~/.local/share/applications/jetbrains-clion.desktop
     PYCHARM_FILE=~/.local/share/applications/jetbrains-pycharm.desktop
     PYCHARM_CE_FILE=~/.local/share/applications/jetbrains-pycharm-ce.desktop
+    
     if [ -f "$CLION_FILE" ]; then
-        printf "${GREEN_TXT}Patching Clion shortcut.${NC}\n"
+        printf "${GREEN_TXT}Patching CLion shortcut for ROS2 compatibility.${NC}\n"
         sed -i -e 's/Exec="/Exec=bash -i -c "/g' $CLION_FILE
-        sed -i -e 's/Name=CLion/Name=ROS flavored CLion/g' $CLION_FILE
+        sed -i -e 's/Name=CLion/Name=ROS2 CLion/g' $CLION_FILE
     else
-        printf "${YELLOW_TXT}Clion not found in ~/.local/share/applications${NC}\n"
+        printf "${YELLOW_TXT}CLion not found in ~/.local/share/applications${NC}\n"
     fi
     
     if [ -f "$PYCHARM_FILE" ]; then
-        printf "${GREEN_TXT}Patching Pycharm Professional shortcut.${NC}\n"
+        printf "${GREEN_TXT}Patching PyCharm Professional shortcut for ROS2 compatibility.${NC}\n"
         sed -i -e 's/Exec="/Exec=bash -i -c "/g' $PYCHARM_FILE
-        sed -i -e 's/Name=PyCharm Professional/Name=ROS flavored PyCharm Professional/g' $PYCHARM_FILE
+        sed -i -e 's/Name=PyCharm Professional/Name=ROS2 PyCharm Professional/g' $PYCHARM_FILE
     else
         printf "${YELLOW_TXT}PyCharm Professional not found in ~/.local/share/applications${NC}\n"
     fi
     
     if [ -f "$PYCHARM_CE_FILE" ]; then
-        printf "${GREEN_TXT}Patching PyCharm CE shortcut.${NC}\n"
+        printf "${GREEN_TXT}Patching PyCharm CE shortcut for ROS2 compatibility.${NC}\n"
         sed -i -e 's/Exec="/Exec=bash -i -c "/g' $PYCHARM_CE_FILE
-        sed -i -e 's/Name=PyCharm /Name=ROS flavored PyCharm /g' $PYCHARM_CE_FILE
+        sed -i -e 's/Name=PyCharm /Name=ROS2 PyCharm /g' $PYCHARM_CE_FILE
     else
         printf "${YELLOW_TXT}PyCharm CE not found in ~/.local/share/applications${NC}\n"
     fi
 }
 
-### Arducopter TMUX:
+# ==========================================================
+# ROS2 Message Debugging Functions
+# ==========================================================
 
-function clean_ROS2_ws() {
-    ws=${1:-""}
-    if [[ -z "${ws}" ]]; then
-        printf "${RED_TXT}ROS workspace path not specified.${NC}\n"
-    else
-        printf "${YELLOW_TXT}Clearing the workspace: ${ws} ${NC}\n"
-        find ${ws}/log -mindepth 1 -maxdepth 1 -type d -print0 | xargs -0 rm -R >/dev/null 2>&1
-        find ${ws}/install -mindepth 1 -maxdepth 1 -type d -print0 | xargs -0 rm -R >/dev/null 2>&1
-        find ${ws}/build -mindepth 1 -maxdepth 1 -type d -print0 | xargs -0 rm -R >/dev/null 2>&1
-        printf "${GREEN_TXT}---DONE---${NC}\n"
+function ros2_topic_monitor() {
+    topic=${1:-""}
+    if [[ -z "${topic}" ]]; then
+        printf "${RED_TXT}Topic name not specified.${NC}\n"
+        return 1
     fi
     
+    printf "${GREEN_TXT}Monitoring topic: ${topic}${NC}\n"
+    printf "${YELLOW_TXT}Press Ctrl+C to stop${NC}\n"
+    ros2 topic echo $topic
 }
 
-function roscd() {
-    pkgname=${1:-""}
-    if [[ -z "${pkgname}" ]]; then
-        printf "${RED_TXT}ROS package name not specified.${NC}\n"
-    else
-        get_current_ws
-        determine_ws_ros_version $curr_ws
-        if [[ $ros_type == "ROS2" ]]; then # Catkin found in ws
-            cd $(ros2 pkg prefix $pkgname)
-        else
-            roscd $pkgname
-        fi
-        
+function ros2_topic_hz() {
+    topic=${1:-""}
+    if [[ -z "${topic}" ]]; then
+        printf "${RED_TXT}Topic name not specified.${NC}\n"
+        return 1
     fi
     
+    printf "${GREEN_TXT}Checking topic frequency: ${topic}${NC}\n"
+    printf "${YELLOW_TXT}Press Ctrl+C to stop${NC}\n"
+    ros2 topic hz $topic
 }
 
+function ros2_topic_bw() {
+    topic=${1:-""}
+    if [[ -z "${topic}" ]]; then
+        printf "${RED_TXT}Topic name not specified.${NC}\n"
+        return 1
+    fi
+    
+    printf "${GREEN_TXT}Checking topic bandwidth: ${topic}${NC}\n"
+    printf "${YELLOW_TXT}Press Ctrl+C to stop${NC}\n"
+    ros2 topic bw $topic
+}
+
+# Export commands with autocompletion
+complete -W "$(ros2 pkg list)" ros2cd
