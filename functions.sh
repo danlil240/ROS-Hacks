@@ -547,5 +547,5 @@ function ros2_topic_bw() {
     ros2 topic bw $topic
 }
 
-# Export commands with autocompletion
-complete -W "$(ros2 pkg list)" ros2cd
+# # Export commands with autocompletion
+# complete -W "$(ros2 pkg list)" ros2cd

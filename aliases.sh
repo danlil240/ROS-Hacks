@@ -29,13 +29,13 @@ BLUE_TXT='\e[34m'
 DIM_BLUE_TXT='\e[2;34m'
 DARK_GREY_TXT='\e[90m'
 YELLOW_TXT='\e[93m'
-BOLDRED="\033[1m\033[31m"     # /* Bold Red */
-BOLDGREEN="\033[1m\033[32m"   # /* Bold Green */
-BOLDYELLOW="\033[1m\033[33m"  # /* Bold Yellow */
-BOLDBLUE="\033[1m\033[34m"    # /* Bold Blue */
-BOLDMAGENTA="\033[1m\033[35m" # /* Bold Magenta */
-BOLDCYAN="\033[1m\033[36m"    # /* Bold Cyan */
-BOLDWHITE="\033[1m\033[37m"   # /* Bold White */
+BOLDRED="\033[1m\033[31m"     # Bold Red
+BOLDGREEN="\033[1m\033[32m"   # Bold Green
+BOLDYELLOW="\033[1m\033[33m"  # Bold Yellow
+BOLDBLUE="\033[1m\033[34m"    # Bold Blue
+BOLDMAGENTA="\033[1m\033[35m" # Bold Magenta
+BOLDCYAN="\033[1m\033[36m"    # Bold Cyan
+BOLDWHITE="\033[1m\033[37m"   # Bold White
 
 WS_FILE=$HOME/.ros_ws_selected
 ROS_DOMAIN_ID_FILE=$HOME/.ros_domain_id
@@ -52,8 +52,6 @@ alias cobd='colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Debug
 alias cobr='colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release'
 alias cobp='colcon build --symlink-install --packages-select'
 alias cobput='colcon build --symlink-install --packages-up-to'
-alias cobpv='colcon build --symlink-install --event-handlers console_cohesion+ --packages-select'
-alias cobta='colcon build --symlink-install --packages-select --cmake-args -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=1'
 alias coc='clean_ros2_ws $(cat $WS_FILE)'
 
 # Navigation aliases
@@ -81,10 +79,6 @@ alias rl='ros2 launch'
 
 # Utility aliases
 alias whgit='git config --get remote.origin.url'
-alias o='sudo chown -R $USER:$USER '
-alias x='chmod +x'
-alias mke='make -j`nproc`'
-alias temp='watch -n 0.1 sensors'
 alias show_colcon_errors='for pkg in $curr_ws/log/latest_build/*/; do   pkg_name=$(basename "$pkg");   log_file="$pkg/stdout_stderr.log";   if grep -qiw "error" "$log_file"; then     echo -e "\n===== 🔴 Error in $pkg_name =====";     grep -A 20 -B 5 "error" "$log_file";   fi; done'
 alias se='show_colcon_errors'
 
