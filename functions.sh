@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # ==========================================================
-# ROS2-Hacks - ROS2 Workspace Management Functions
+# ROS-Hacks - ROS2 Workspace Management Functions
 # Version: 1.0.0
 # ==========================================================
 
@@ -247,37 +247,43 @@ function ask_for_ws_and_domain() {
     get_current_ws
     find_ws
     print_domain_info
-    # ws_count is set in find_ws function
-    if [[ $(($ws_count)) -lt 10 ]]; then
-        read -n 1 -p "Select desired workspace [1-$ws_count] or 'd' to change domain : " num
-    else
-        read -n 2 -p "Select desired workspace [1-$ws_count] or 'd' to change domain : " num
+    
+    # Create an array for fzf
+    local options=("Change ROS_DOMAIN_ID")
+    for ((i=0; i<${#arrIN[@]}; i++)); do
+        options+=("${arrIN[$i]}")
+    done
+    
+    local selection=$(printf "%s\n" "${options[@]}" | fzf --no-multi --height=50% --border --prompt="Select workspace or option: " \
+                      --header="Current WS: ${curr_ws:-None} | ROS_DOMAIN_ID: ${domain_id:-Not set}" \
+                      --preview="ls -la {} 2>/dev/null || echo 'Special option'")
+    
+    if [[ -z "$selection" ]]; then
+        echo "Cancelling."
+        return 1
     fi
     
-    case $num in
-        [123456789]*)
-            echo ""
-            # echo "Sourcing WS #$num"
-        ;;
-        [Dd]*)
-            echo ""
-            printf "Please enter new ${BLUE_TXT}ROS_DOMAIN_ID${NC} (empty to disable): "
-            read new_domain
-            if [[ -z "${new_domain}" ]]; then
-                echo "Disabling domain"
-                rm -f $ROS_DOMAIN_ID_FILE
-                unset ROS_DOMAIN_ID
-            else
-                set_ros_domain_id $new_domain
+    if [[ "$selection" == "Change ROS_DOMAIN_ID" ]]; then
+        printf "Please enter new ${BLUE_TXT}ROS_DOMAIN_ID${NC} (empty to disable): "
+        read new_domain
+        if [[ -z "${new_domain}" ]]; then
+            echo "Disabling domain"
+            rm -f $ROS_DOMAIN_ID_FILE
+            unset ROS_DOMAIN_ID
+        else
+            set_ros_domain_id $new_domain
+        fi
+        return 0
+    else
+        # Find the index in arrIN
+        for i in "${!arrIN[@]}"; do
+            if [[ "${arrIN[$i]}" = "$selection" ]]; then
+                num=$((i+1))
+                echo "Sourcing WS: $selection"
+                break
             fi
-            return 0
-        ;;
-        *)
-            echo ""
-            echo "Cancelling."
-            return 1
-        ;;
-    esac
+        done
+    fi
 }
 
 function rebuild_curr_ws() {
@@ -405,14 +411,9 @@ function build_release() {
     fi
 }
 
-function find_ws() {
-     ws=$(find ~/ -maxdepth 1 -type d -name \*ws\* | sort)
-     arrIN=(${ws// / })
-    
-    printf "${GREEN_TXT}ROS2 Workspaces in ~${NC}\n"
-    
+function print_ws() {
     # Search for longest ws name
-         max_l=0
+    max_l=0
     for i in "${arrIN[@]}"; do
          l=$(expr length "$i")
         if [[ $(($l)) -gt $(($max_l)) ]]; then
@@ -427,12 +428,11 @@ function find_ws() {
         pad="$pad─"
         c=$((c - 1))
     done
-    
+    printf "${GREEN_TXT}ROS2 Workspaces in ~${NC}\n"
     printf "┌%-5s┬%-$(echo $max_l)s┐\n" "─────" "$pad"
     printf "│ %-3s │ %-$(echo $max_l)s │\n" "NUM" "LOCATION"
     printf "├%-5s┼%-$(echo $max_l)s┤\n" "─────" "$pad"
-    
-    for i in "${arrIN[@]}"; do
+        for i in "${arrIN[@]}"; do
         if [[ $i == $curr_ws ]]; then
             sourced_color=${WHITE_TXT}
         else
@@ -448,9 +448,15 @@ function find_ws() {
     printf "└%-5s┴%-$(echo $max_l)s┘\n" "─────" "$pad"
 }
 
+function find_ws() {
+    ws=$(find ~/ -maxdepth 1 -type d -name \*ws\* | sort)
+    arrIN=(${ws// / })
+    # print_ws
+}
+
 function print_domain_info(){
     get_ros_domain_id
-    printf "${BLUE_TXT}ROS_DOMAIN_ID${NC}: ${LIGHT_BLUE_TXT}$domain_id${NC}\n"
+    # printf "${BLUE_TXT}ROS_DOMAIN_ID${NC}: ${LIGHT_BLUE_TXT}$domain_id${NC}\n"
 }
 
 function ask_for_num() {
@@ -615,6 +621,7 @@ function fixJB() {
 # ==========================================================
 # ROS2 Message Debugging Functions
 # ==========================================================
+
 
 function ros2_topic_monitor() {
     topic=${1:-""}

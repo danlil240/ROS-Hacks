@@ -14,11 +14,6 @@ else
     VERSION="unknown"
 fi
 
-# Prevent duplicate sourcing
-if [[ -n "${ROSHACKS_LOADED}" ]]; then
-    return 0
-fi
-
 # Source configuration files
 if [[ -f "${ROSHACKS_DIR}/aliases.sh" ]]; then
     source "${ROSHACKS_DIR}/aliases.sh"
