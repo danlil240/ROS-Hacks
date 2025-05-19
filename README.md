@@ -4,13 +4,16 @@
 ## Overview
 The repository is designed to make ROS developer's life easier.
 After the installation usefull aliases and functions will be added to the terminal.
-Everything was tested on Ubuntu 18.04.2 with ROS Melodic & ROS2 Dashing.
+Everything was tested on Ubuntu 22.04 with ROS2 humble.
 
 ## Installation
-Make sure that `tmux` and `python-catkin-tools` is installed:
+Make sure that `tmux` and `fzf` is installed:
 
 ```shell
 sudo apt install tmux
+
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+~/.fzf/install
 ```
 
 
@@ -27,8 +30,6 @@ cd ~/.ROS-Hacks;  bash setup.sh
 ```
 
 The `~/.inputrc` file is saved to  `~/.inputrc.bak` prior to being overwritten.
-
-Defaults for ROS versions are: Melodic for ROS1, and Dashing for ROS2. Adjust in `aliases.sh` if needed.
 
 ## Terminal shortcuts
 The shortcuts can be run in a **new** terminal after the installation. _Note: re-sourcing `~/.bashrc` isn't enough._
