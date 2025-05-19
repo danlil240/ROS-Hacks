@@ -43,6 +43,21 @@ check_dependencies() {
     else
         printf "${GREEN_TXT}✓ tmux is installed${NC}\n"
     fi
+
+    # Check for fzf
+    if ! command -v fzf &> /dev/null; then
+        printf "${YELLOW_TXT}fzf is not installed. It's recommended for quick commands.${NC}\n"
+        read -p "Do you want to install fzf? (y/n): " choice
+        if [[ "$choice" == "y" || "$choice" == "Y" ]]; then
+            git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+            ~/.fzf/install
+            printf "${GREEN_TXT}fzf installed successfully.${NC}\n"
+        else
+            printf "${YELLOW_TXT}Continuing without fzf. Some functionality will be limited.${NC}\n"
+        fi
+    else
+        printf "${GREEN_TXT}✓ fzf is installed${NC}\n"
+    fi
 }
 
 # Configure .bashrc

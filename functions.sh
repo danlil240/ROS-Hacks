@@ -322,6 +322,15 @@ function rebuild_curr_ws() {
         printf "${GREEN_TXT}Workspace rebuild completed successfully.${NC}\n"
     else
         printf "${RED_TXT}Workspace rebuild completed with errors. Check the build logs.${NC}\n"
+        for pkg in $curr_ws/log/latest_build/*/; do
+            pkg_name=$(basename "$pkg")
+            log_file="$pkg/stdout_stderr.log"
+            if grep -qiw "error" "$log_file"; then
+            echo -e "\n===== 🔴 Error in $pkg_name ====="
+            tail -n 50 "$log_file"
+            fi
+        done
+
     fi
     
     return $build_status
@@ -610,8 +619,11 @@ function fixJB() {
 function ros2_topic_monitor() {
     topic=${1:-""}
     if [[ -z "${topic}" ]]; then
-        printf "${RED_TXT}Topic name not specified.${NC}\n"
-        return 1
+        topic=$(ros2 topic list | fzf --prompt="Select topic: ")
+        if [[ -z "${topic}" ]]; then
+            printf "${RED_TXT}No topic selected.${NC}\n"
+            return 1
+        fi
     fi
     
     printf "${GREEN_TXT}Monitoring topic: ${topic}${NC}\n"
@@ -622,8 +634,11 @@ function ros2_topic_monitor() {
 function ros2_topic_hz() {
     topic=${1:-""}
     if [[ -z "${topic}" ]]; then
-        printf "${RED_TXT}Topic name not specified.${NC}\n"
-        return 1
+        topic=$(ros2 topic list | fzf --prompt="Select topic: ")
+        if [[ -z "${topic}" ]]; then
+            printf "${RED_TXT}No topic selected.${NC}\n"
+            return 1
+        fi
     fi
     
     printf "${GREEN_TXT}Checking topic frequency: ${topic}${NC}\n"
@@ -634,8 +649,11 @@ function ros2_topic_hz() {
 function ros2_topic_bw() {
     topic=${1:-""}
     if [[ -z "${topic}" ]]; then
-        printf "${RED_TXT}Topic name not specified.${NC}\n"
-        return 1
+        topic=$(ros2 topic list | fzf --prompt="Select topic: ")
+        if [[ -z "${topic}" ]]; then
+            printf "${RED_TXT}No topic selected.${NC}\n"
+            return 1
+        fi
     fi
     
     printf "${GREEN_TXT}Checking topic bandwidth: ${topic}${NC}\n"
