@@ -403,7 +403,7 @@ function build_release() {
 
     # Clean and build release version
     clean_ros2_ws $curr_ws &&
-        colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release &&
+        colcon build --cmake-args -GNinja -DCMAKE_BUILD_TYPE=Release &&
         tar czf $curr_ws/releases/${version_name}.tar.gz -C $curr_ws install
 
     if [[ $? -eq 0 ]]; then

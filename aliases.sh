@@ -47,8 +47,8 @@ alias csr='unROS; source /opt/ros/${ROS2_NAME}/setup.bash'
 
 # Build aliases
 alias cob='colcon build --symlink-install'
-alias cobd='colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Debug'
-alias cobr='colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release'
+alias cobd='colcon build --symlink-install --cmake-args -GNinja -DCMAKE_BUILD_TYPE=Debug'
+alias cobr='colcon build --symlink-install --cmake-args -GNinja -DCMAKE_BUILD_TYPE=Release'
 alias cobp='colcon build --symlink-install --packages-select'
 alias cobput='colcon build --symlink-install --packages-up-to'
 alias coc='clean_ros2_ws $(cat $WS_FILE)'
