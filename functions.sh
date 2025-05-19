@@ -32,14 +32,17 @@ function createWS() {
         printf "${RED_TXT}ROS2 workspace name not specified.${NC}\n"
         return 1
     fi
-    
+
     # Check if workspace already exists
     if [[ -d "~/${name}_ws" ]]; then
         printf "${YELLOW_TXT}Workspace ~/${name}_ws already exists.${NC}\n"
         read -p "Do you want to use it anyway? (y/n): " choice
-        case "$choice" in 
-            y|Y ) printf "${YELLOW_TXT}Using existing workspace.${NC}\n" ;;
-            * ) printf "${RED_TXT}Aborting workspace creation.${NC}\n"; return 1 ;;
+        case "$choice" in
+        y | Y) printf "${YELLOW_TXT}Using existing workspace.${NC}\n" ;;
+        *)
+            printf "${RED_TXT}Aborting workspace creation.${NC}\n"
+            return 1
+            ;;
         esac
     else
         # Create workspace directory structure
@@ -49,22 +52,22 @@ function createWS() {
             return 1
         fi
     fi
-    
+
     # Set and initialize workspace
-    set_current_ws ~/${name}_ws
+    set_current_ws "${HOME}/${name}_ws"
     get_current_ws
     cd "$curr_ws" || {
         printf "${RED_TXT}Failed to change to workspace directory.${NC}\n"
         return 1
     }
-    
+
     # Initialize as ROS2 workspace
     printf "${BLUE_TXT}Initializing ROS2 workspace...${NC}\n"
     source /opt/ros/${ROS2_NAME}/setup.bash
     colcon build --symlink-install
     local build_status=$?
     source_ws "${curr_ws}"
-    
+
     if [[ $build_status -eq 0 ]]; then
         printf "${GREEN_TXT}ROS2 workspace created successfully at ${WHITE_TXT}${curr_ws}${NC}\n"
     else
@@ -75,7 +78,7 @@ function createWS() {
 function unROS() {
     # Get all variables containing 'ROS'
     vars=$(env | egrep -i ROS | column -t -s '=' | sed -E 's/ .*//g')
-    
+
     # For everyone do:
     for v in $vars; do
         # Get the value
@@ -115,7 +118,7 @@ function unROS() {
             fi
         fi
     done
-    
+
     # Unset paths that are setup from sourcing ROS
     unset CMAKE_PREFIX_PATH
     unset AMENT_PREFIX_PATH
@@ -125,7 +128,7 @@ function unROS() {
 function select_ws() {
 
     ask_for_ws_and_domain
-    
+
     c=0
     for i in "${arrIN[@]}"; do
         c=$(($c + 1))
@@ -170,15 +173,15 @@ function set_current_ws() {
         printf "${RED_TXT}ROS2 workspace path not specified.${NC}\n"
         return 1
     fi
-    
+
     # Verify workspace path exists
     if [[ ! -d "${new_curr_ws}" ]]; then
         printf "${RED_TXT}Workspace directory does not exist: ${WHITE_TXT}${new_curr_ws}${NC}\n"
         return 1
     fi
-    
+
     # Set the workspace path
-    echo "$new_curr_ws" > "$WS_FILE"
+    echo "$new_curr_ws" >"$WS_FILE"
     if [[ $? -ne 0 ]]; then
         printf "${RED_TXT}Failed to write to workspace file: ${WHITE_TXT}${WS_FILE}${NC}\n"
         return 1
@@ -195,48 +198,48 @@ function get_ros_domain_id() {
     if [[ -f "$ROS_DOMAIN_ID_FILE" ]]; then
         domain_id=$(cat "$ROS_DOMAIN_ID_FILE" 2>/dev/null || echo "0")
     else
-        domain_id="0"  # Default to domain ID 0
+        domain_id="0" # Default to domain ID 0
     fi
 }
 
-function print_ros_domain_id(){
+function print_ros_domain_id() {
     get_ros_domain_id
     echo $domain_id
 }
 
-function set_ros_domain_id(){
-     id=${1:-""}
+function set_ros_domain_id() {
+    id=${1:-""}
     if [[ -z "${id}" ]]; then
         printf "${RED_TXT}ROS DOMAIN ID not specified.${NC}\n"
         return 1
     else
         printf "${BLUE_TXT}ROS DOMAIN ID${NC} set to: ${BLUE_TXT}$id${NC}\n"
-        echo $id > $ROS_DOMAIN_ID_FILE
+        echo $id >$ROS_DOMAIN_ID_FILE
         export ROS_DOMAIN_ID=$id
     fi
 }
 
 function source_ws() {
-     ws_name=${1:-""}
+    ws_name=${1:-""}
     if [[ -z "${ws_name}" ]]; then
         printf "${RED_TXT}ROS2 workspace path not specified.${NC}\n"
         return 1
     fi
-    
+
     if [[ ! -d "$ws_name/install" ]]; then
         printf "${RED_TXT}Not a valid ROS2 workspace: $ws_name${NC}\n"
         printf "${YELLOW_TXT}Make sure the workspace has been built with colcon.${NC}\n"
         return 1
     fi
-    
+
     unROS
     printf "Sourcing ${WHITE_TXT}$ws_name ${NC}\n"
     source $ws_name/install/setup.bash
-    
+
     if [ -f $ws_name/post_source.bash ]; then
         source $ws_name/post_source.bash
     fi
-    
+
     get_ros_domain_id
     if [[ ! -z "${domain_id}" ]]; then
         export ROS_DOMAIN_ID=$domain_id
@@ -247,22 +250,22 @@ function ask_for_ws_and_domain() {
     get_current_ws
     find_ws
     print_domain_info
-    
+
     # Create an array for fzf
     local options=("Change ROS_DOMAIN_ID")
-    for ((i=0; i<${#arrIN[@]}; i++)); do
+    for ((i = 0; i < ${#arrIN[@]}; i++)); do
         options+=("${arrIN[$i]}")
     done
-    
+
     local selection=$(printf "%s\n" "${options[@]}" | fzf --no-multi --height=50% --border --prompt="Select workspace or option: " \
-                      --header="Current WS: ${curr_ws:-None} | ROS_DOMAIN_ID: ${domain_id:-Not set}" \
-                      --preview="ls -la {} 2>/dev/null || echo 'Special option'")
-    
+        --header="Current WS: ${curr_ws:-None} | ROS_DOMAIN_ID: ${domain_id:-Not set}" \
+        --preview="ls -la {} 2>/dev/null || echo 'Special option'")
+
     if [[ -z "$selection" ]]; then
         echo "Cancelling."
         return 1
     fi
-    
+
     if [[ "$selection" == "Change ROS_DOMAIN_ID" ]]; then
         printf "Please enter new ${BLUE_TXT}ROS_DOMAIN_ID${NC} (empty to disable): "
         read new_domain
@@ -278,7 +281,7 @@ function ask_for_ws_and_domain() {
         # Find the index in arrIN
         for i in "${!arrIN[@]}"; do
             if [[ "${arrIN[$i]}" = "$selection" ]]; then
-                num=$((i+1))
+                num=$((i + 1))
                 echo "Sourcing WS: $selection"
                 break
             fi
@@ -292,38 +295,37 @@ function rebuild_curr_ws() {
         printf "${RED_TXT}No ROS workspace selected. Use ${BLUE_TXT}select_ws${RED_TXT} to select one.${NC}\n"
         return 1
     fi
-    
+
     if [[ ! -d "$curr_ws" ]]; then
         printf "${RED_TXT}Selected workspace does not exist: ${WHITE_TXT}$curr_ws${NC}\n"
         return 1
     fi
-    
+
     # Get current directory to return to it later
-    pushd . > /dev/null || {
+    pushd . >/dev/null || {
         printf "${RED_TXT}Failed to save current directory.${NC}\n"
         return 1
     }
-    
+
     cd "$curr_ws" || {
         printf "${RED_TXT}Failed to change to workspace directory.${NC}\n"
-        popd > /dev/null
+        popd >/dev/null || exit
         return 1
     }
-    
+
     printf "${BLUE_TXT}Rebuilding workspace:${WHITE_TXT} $curr_ws ${NC}\n"
-    
+
     local build_status=0
 
     colcon build --symlink-install "$@"
     build_status=$?
 
-    
     # Source the workspace
     source_ws "$curr_ws"
-    
+
     # Return to the original directory
-    popd > /dev/null
-    
+    popd >/dev/null || exit
+
     if [[ $build_status -eq 0 ]]; then
         printf "${GREEN_TXT}Workspace rebuild completed successfully.${NC}\n"
     else
@@ -332,13 +334,13 @@ function rebuild_curr_ws() {
             pkg_name=$(basename "$pkg")
             log_file="$pkg/stdout_stderr.log"
             if grep -qiw "error" "$log_file"; then
-            echo -e "\n===== 🔴 Error in $pkg_name ====="
-            tail -n 50 "$log_file"
+                echo -e "\n===== 🔴 Error in $pkg_name ====="
+                tail -n 50 "$log_file"
             fi
         done
 
     fi
-    
+
     return $build_status
 }
 
@@ -347,43 +349,43 @@ function get_version_stamp() {
         printf "${RED_TXT}No workspace selected.${NC}\n"
         return 1
     fi
-    
-     repo_list=`find $curr_ws -name .git -type d -prune`
-     info_file="$curr_ws/install/release_info.txt"
-    echo "Workspace: `basename $curr_ws`" > $info_file
-    echo "===========================" >> $info_file
-    echo `uname -a` >> $info_file
-    echo `date` >> $info_file
-    echo "===========================" >> $info_file
-    echo "ROS2 Distribution: $ROS2_NAME" >> $info_file
-    echo "===========================" >> $info_file
-    echo "Git Repositories:" >> $info_file
-    
+
+    repo_list=$(find $curr_ws -name .git -type d -prune)
+    info_file="$curr_ws/install/release_info.txt"
+    echo "Workspace: $(basename $curr_ws)" >$info_file
+    echo "===========================" >>$info_file
+    echo $(uname -a) >>$info_file
+    echo $(date) >>$info_file
+    echo "===========================" >>$info_file
+    echo "ROS2 Distribution: $ROS2_NAME" >>$info_file
+    echo "===========================" >>$info_file
+    echo "Git Repositories:" >>$info_file
+
     for repo in $repo_list; do
-        pushd $curr_ws > /dev/null
+        pushd $curr_ws >/dev/null
         cd $repo/..
-        echo "`basename $PWD` `git rev-parse HEAD` (`git describe --tags --always`)" >> $info_file
-        popd > /dev/null
+        echo "$(basename $PWD) $(git rev-parse HEAD) ($(git describe --tags --always))" >>$info_file
+        popd >/dev/null
     done
-    
+
     cat $info_file
 }
 
 function build_release() {
     get_current_ws
-    
+
     if [[ -z "$curr_ws" ]]; then
         printf "${RED_TXT}No workspace selected.${NC}\n"
         return 1
     fi
-    
+
     printf "Building deployable package of ${WHITE_TXT}$curr_ws${NC}\n"
     unROS
     cd $curr_ws
     source /opt/ros/${ROS2_NAME}/setup.bash
-    
+
     # Check for version scripts
-     pkg_list=`colcon list -p`
+    pkg_list=$(colcon list -p)
     for pkg_path in $pkg_list; do
         if [[ -f "$curr_ws/$pkg_path/scripts/version_release.py" ]]; then
             cd $curr_ws/$pkg_path
@@ -391,19 +393,19 @@ function build_release() {
             cd $curr_ws
         fi
     done
-    
+
     if [[ ! -d "$curr_ws/releases" ]]; then
         mkdir -p "$curr_ws/releases"
     fi
 
-     version_name="`basename $curr_ws`_release_$(date '+%Y-%m-%d_%H-%M-%S')"
+    version_name="$(basename $curr_ws)_release_$(date '+%Y-%m-%d_%H-%M-%S')"
     get_version_stamp
-    
+
     # Clean and build release version
-    clean_ros2_ws $curr_ws && \
-    colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release && \
-    tar czf $curr_ws/releases/${version_name}.tar.gz -C $curr_ws install
-    
+    clean_ros2_ws $curr_ws &&
+        colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release &&
+        tar czf $curr_ws/releases/${version_name}.tar.gz -C $curr_ws install
+
     if [[ $? -eq 0 ]]; then
         printf "${GREEN_TXT}Release package created: ${WHITE_TXT}$curr_ws/releases/${version_name}.tar.gz${NC}\n"
     else
@@ -415,15 +417,15 @@ function print_ws() {
     # Search for longest ws name
     max_l=0
     for i in "${arrIN[@]}"; do
-         l=$(expr length "$i")
+        l=$(expr length "$i")
         if [[ $(($l)) -gt $(($max_l)) ]]; then
             max_l=$(($l))
         fi
     done
-    
-     ws_count=0
-     pad=""
-     c=$(($max_l + 2))
+
+    ws_count=0
+    pad=""
+    c=$(($max_l + 2))
     while [[ $c > 0 ]]; do
         pad="$pad─"
         c=$((c - 1))
@@ -432,19 +434,19 @@ function print_ws() {
     printf "┌%-5s┬%-$(echo $max_l)s┐\n" "─────" "$pad"
     printf "│ %-3s │ %-$(echo $max_l)s │\n" "NUM" "LOCATION"
     printf "├%-5s┼%-$(echo $max_l)s┤\n" "─────" "$pad"
-        for i in "${arrIN[@]}"; do
+    for i in "${arrIN[@]}"; do
         if [[ $i == $curr_ws ]]; then
             sourced_color=${WHITE_TXT}
         else
             sourced_color=${NC}
         fi
-        
+
         ws_count=$(($ws_count + 1))
         l=$(expr length "$i")
-        
+
         printf "│ ${NC}%-3s${NC} │ ${sourced_color}%-$(echo $max_l)s${NC} │\n" "$ws_count" "$i"
     done
-    
+
     printf "└%-5s┴%-$(echo $max_l)s┘\n" "─────" "$pad"
 }
 
@@ -454,7 +456,7 @@ function find_ws() {
     # print_ws
 }
 
-function print_domain_info(){
+function print_domain_info() {
     get_ros_domain_id
     # printf "${BLUE_TXT}ROS_DOMAIN_ID${NC}: ${LIGHT_BLUE_TXT}$domain_id${NC}\n"
 }
@@ -467,16 +469,16 @@ function ask_for_num() {
         read -n 2 -p "Select a number [1-$max] or cancel : " num
     fi
     case $num in
-        [123456789]*)
-            echo ""
+    [123456789]*)
+        echo ""
         ;;
-        *)
-            echo ""
-            echo "Cancelling."
-            return 1
+    *)
+        echo ""
+        echo "Cancelling."
+        return 1
         ;;
     esac
-    
+
     return 0
 }
 
@@ -490,13 +492,13 @@ function clean_ros2_ws() {
         printf "${RED_TXT}ROS2 workspace path not specified.${NC}\n"
         return 1
     fi
-    
+
     printf "${YELLOW_TXT}Clearing the workspace: ${ws} ${NC}\n"
     find ${ws}/log -mindepth 1 -maxdepth 1 -type d -print0 | xargs -0 rm -R >/dev/null 2>&1
     find ${ws}/install -mindepth 1 -maxdepth 1 -type d -print0 | xargs -0 rm -R >/dev/null 2>&1
     find ${ws}/build -mindepth 1 -maxdepth 1 -type d -print0 | xargs -0 rm -R >/dev/null 2>&1
     printf "${GREEN_TXT}Workspace cleaned successfully.${NC}\n"
-    
+
     return 0
 }
 
@@ -506,7 +508,7 @@ function ros2cd() {
         printf "${RED_TXT}ROS2 package name not specified.${NC}\n"
         return 1
     fi
-    
+
     get_current_ws
     cd $(ros2 pkg prefix $pkgname)
     return 0
@@ -522,10 +524,10 @@ function set-quick-command() {
         echo "No command available for saving"
         return 1
     fi
-    
+
     quick_file=$curr_ws/${QUICK_COMMAND_FILE}
-    echo "# Auto-saved at $(date +'%Y-%m-%d %H:%M:%S')" > ${quick_file}
-    echo "${currline}" >> ${quick_file}
+    echo "# Auto-saved at $(date +'%Y-%m-%d %H:%M:%S')" >${quick_file}
+    echo "${currline}" >>${quick_file}
     echo "Command saved!"
 }
 
@@ -535,7 +537,7 @@ function get-quick-command() {
         echo "No quick command exists in this workspace"
         return 1
     fi
-    
+
     cat ${quick_file} | tail -n1
     return 0
 }
@@ -546,7 +548,7 @@ function print-quick-command() {
         echo "No quick command exists in this workspace"
         return 1
     fi
-    
+
     echo "Quick command in $curr_ws workspace:"
     cat ${quick_file}
     return 0
@@ -558,7 +560,7 @@ function exec-quick-command() {
         echo "No quick command exists in this workspace"
         return 1
     fi
-    
+
     cmd_line=$(cat ${quick_file} | tail -n1)
     ses_name=$(get_current_ws_name)
     printf "Executing in tmux session ${ses_name}: '${cmd_line}'\n"
@@ -571,15 +573,15 @@ function kill-tmux-quick-command() {
     printf "Killing tmux session ${ses_name} and all ROS2 nodes...\n"
     tmux kill-session -t ${ses_name} >/dev/null 2>&1
     sleep 0.2
-    
+
     # Kill all ROS2 nodes
     ros2 node list | xargs -r -L 1 -I % sh -c 'ros2 lifecycle set % shutdown || true; ros2 service call % shutdown || true' >/dev/null 2>&1
     pkill -f ros2
-    
+
     # Kill Gazebo processes
     pkill -f gz
     pkill -f gazebo
-    
+
     printf "All processes terminated.\n"
     return 0
 }
@@ -592,7 +594,7 @@ function fixJB() {
     CLION_FILE=~/.local/share/applications/jetbrains-clion.desktop
     PYCHARM_FILE=~/.local/share/applications/jetbrains-pycharm.desktop
     PYCHARM_CE_FILE=~/.local/share/applications/jetbrains-pycharm-ce.desktop
-    
+
     if [ -f "$CLION_FILE" ]; then
         printf "${GREEN_TXT}Patching CLion shortcut for ROS2 compatibility.${NC}\n"
         sed -i -e 's/Exec="/Exec=bash -i -c "/g' $CLION_FILE
@@ -600,7 +602,7 @@ function fixJB() {
     else
         printf "${YELLOW_TXT}CLion not found in ~/.local/share/applications${NC}\n"
     fi
-    
+
     if [ -f "$PYCHARM_FILE" ]; then
         printf "${GREEN_TXT}Patching PyCharm Professional shortcut for ROS2 compatibility.${NC}\n"
         sed -i -e 's/Exec="/Exec=bash -i -c "/g' $PYCHARM_FILE
@@ -608,7 +610,7 @@ function fixJB() {
     else
         printf "${YELLOW_TXT}PyCharm Professional not found in ~/.local/share/applications${NC}\n"
     fi
-    
+
     if [ -f "$PYCHARM_CE_FILE" ]; then
         printf "${GREEN_TXT}Patching PyCharm CE shortcut for ROS2 compatibility.${NC}\n"
         sed -i -e 's/Exec="/Exec=bash -i -c "/g' $PYCHARM_CE_FILE
@@ -622,7 +624,6 @@ function fixJB() {
 # ROS2 Message Debugging Functions
 # ==========================================================
 
-
 function ros2_topic_monitor() {
     topic=${1:-""}
     if [[ -z "${topic}" ]]; then
@@ -632,7 +633,7 @@ function ros2_topic_monitor() {
             return 1
         fi
     fi
-    
+
     printf "${GREEN_TXT}Monitoring topic: ${topic}${NC}\n"
     printf "${YELLOW_TXT}Press Ctrl+C to stop${NC}\n"
     ros2 topic echo $topic
@@ -647,7 +648,7 @@ function ros2_topic_hz() {
             return 1
         fi
     fi
-    
+
     printf "${GREEN_TXT}Checking topic frequency: ${topic}${NC}\n"
     printf "${YELLOW_TXT}Press Ctrl+C to stop${NC}\n"
     ros2 topic hz $topic
@@ -662,7 +663,7 @@ function ros2_topic_bw() {
             return 1
         fi
     fi
-    
+
     printf "${GREEN_TXT}Checking topic bandwidth: ${topic}${NC}\n"
     printf "${YELLOW_TXT}Press Ctrl+C to stop${NC}\n"
     ros2 topic bw $topic

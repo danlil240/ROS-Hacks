@@ -5,7 +5,7 @@
 # ==========================================================
 
 # Get script directory
-DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
 
 # Read version from VERSION file
 if [[ -f "${DIR}/VERSION" ]]; then
@@ -25,27 +25,27 @@ YELLOW_TXT='\e[93m'
 BLUE_TXT='\e[34m'
 
 # Get the script directory
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
 function update_ros_hacks() {
     printf "${BLUE_TXT}Updating ROS-Hacks from repository...${NC}\n"
-    
+
     # Check if the directory is a git repository
     if [[ ! -d "$DIR/.git" ]]; then
         printf "${RED_TXT}Error: Directory is not a git repository.${NC}\n"
         printf "${YELLOW_TXT}Please reinstall ROS-Hacks from the official repository.${NC}\n"
         exit 1
     fi
-    
+
     # Create backup
     BACKUP_DIR="$DIR/backups/$(date +"%Y%m%d_%H%M%S")"
     printf "${BLUE_TXT}Creating backup in ${BACKUP_DIR}...${NC}\n"
     mkdir -p "$BACKUP_DIR"
     cp -r "$DIR"/* "$BACKUP_DIR" 2>/dev/null || true
-    
+
     # Save current git hash for version tracking
     OLD_VERSION=$(git -C "$DIR" rev-parse HEAD)
-    
+
     # Stash any local changes
     printf "${BLUE_TXT}Saving local changes...${NC}\n"
     HAS_CHANGES=$(git -C "$DIR" status --porcelain | wc -l)
@@ -55,7 +55,7 @@ function update_ros_hacks() {
     else
         STASHED=false
     fi
-    
+
     # Pull latest changes
     printf "${BLUE_TXT}Pulling latest updates...${NC}\n"
     if ! git -C "$DIR" pull; then
@@ -66,7 +66,7 @@ function update_ros_hacks() {
         fi
         exit 1
     fi
-    
+
     # Apply stashed changes if any
     if [[ $STASHED == true ]]; then
         printf "${BLUE_TXT}Applying your local customizations...${NC}\n"
@@ -75,16 +75,16 @@ function update_ros_hacks() {
             printf "${YELLOW_TXT}Please resolve them manually. Your changes are still in the stash.${NC}\n"
         fi
     fi
-    
+
     # Get new version hash
     NEW_VERSION=$(git -C "$DIR" rev-parse HEAD)
-    
+
     # Save update information
     printf "${BLUE_TXT}Recording update information...${NC}\n"
-    echo "Updated: $(date)" > "$DIR/LastUpdated"
-    echo "Previous version: $OLD_VERSION" >> "$DIR/LastUpdated"
-    echo "Current version: $NEW_VERSION" >> "$DIR/LastUpdated"
-    
+    echo "Updated: $(date)" >"$DIR/LastUpdated"
+    echo "Previous version: $OLD_VERSION" >>"$DIR/LastUpdated"
+    echo "Current version: $NEW_VERSION" >>"$DIR/LastUpdated"
+
     # Check if version changed
     if [[ "$OLD_VERSION" == "$NEW_VERSION" ]]; then
         printf "${GREEN_TXT}ROS-Hacks is already up to date.${NC}\n"

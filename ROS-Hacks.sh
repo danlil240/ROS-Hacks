@@ -5,7 +5,7 @@
 # ==========================================================
 
 # Define script directory
-ROSHACKS_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+ROSHACKS_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
 
 # Read version from VERSION file
 if [[ -f "${ROSHACKS_DIR}/VERSION" ]]; then
@@ -42,7 +42,6 @@ get_ros_domain_id
 if [[ -n "$domain_id" ]]; then
     export ROS_DOMAIN_ID="$domain_id"
 fi
-
 
 # Mark as loaded to prevent duplicate sourcing
 export ROSHACKS_LOADED=1

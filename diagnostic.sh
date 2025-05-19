@@ -5,7 +5,7 @@
 # ==========================================================
 
 # Get script directory
-SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
 
 # Read version from VERSION file
 if [[ -f "${SCRIPT_DIR}/VERSION" ]]; then
@@ -34,7 +34,7 @@ function print_header() {
 function check_file() {
     local file="$1"
     local desc="$2"
-    
+
     printf "${BLUE_TXT}Checking ${desc}...${NC} "
     if [[ -f "$file" ]]; then
         printf "${GREEN_TXT}✓ Found${NC}\n"
@@ -49,7 +49,7 @@ function check_file() {
 function check_dir() {
     local dir="$1"
     local desc="$2"
-    
+
     printf "${BLUE_TXT}Checking ${desc}...${NC} "
     if [[ -d "$dir" ]]; then
         printf "${GREEN_TXT}✓ Found${NC}\n"
@@ -63,7 +63,7 @@ function check_dir() {
 # Check ROS workspace
 function check_workspace() {
     local ws_file="$HOME/.ros_ws_selected"
-    
+
     printf "${BLUE_TXT}Checking ROS workspace configuration...${NC}\n"
     if [[ -f "$ws_file" ]]; then
         local ws=$(cat "$ws_file" 2>/dev/null || echo "")
@@ -85,7 +85,7 @@ function check_workspace() {
 # Check ROS domain ID
 function check_domain_id() {
     local domain_file="$HOME/.ros_domain_id"
-    
+
     printf "${BLUE_TXT}Checking ROS domain ID configuration...${NC}\n"
     if [[ -f "$domain_file" ]]; then
         local domain=$(cat "$domain_file" 2>/dev/null || echo "")
@@ -97,7 +97,7 @@ function check_domain_id() {
     else
         printf "  ${YELLOW_TXT}⚠ No domain ID file found. Default (0) will be used.${NC}\n"
     fi
-    
+
     # Check if ROS_DOMAIN_ID environment variable is set
     if [[ -n "$ROS_DOMAIN_ID" ]]; then
         printf "  ${GREEN_TXT}✓ ROS_DOMAIN_ID environment variable set to:${NC} ${ROS_DOMAIN_ID}\n"
@@ -109,7 +109,7 @@ function check_domain_id() {
 # Check bash configuration
 function check_bash_config() {
     printf "${BLUE_TXT}Checking bash configuration...${NC}\n"
-    
+
     if grep -q "ROS-HACKS entries" "$HOME/.bashrc"; then
         printf "  ${GREEN_TXT}✓ ROS-Hacks entries found in .bashrc${NC}\n"
     else
@@ -121,9 +121,9 @@ function check_bash_config() {
 # Check tmux installation
 function check_dependencies() {
     printf "${BLUE_TXT}Checking dependencies...${NC}\n"
-    
+
     # Check for tmux
-    if command -v tmux &> /dev/null; then
+    if command -v tmux &>/dev/null; then
         printf "  ${GREEN_TXT}✓ tmux is installed${NC}\n"
     else
         printf "  ${RED_TXT}✗ tmux is not installed${NC}\n"
@@ -134,11 +134,11 @@ function check_dependencies() {
 # Fix common problems
 function fix_problems() {
     printf "\n${BLUE_TXT}Attempting to fix common problems...${NC}\n"
-    
+
     # Fix .bashrc if needed
     if ! grep -q "ROS-HACKS entries" "$HOME/.bashrc"; then
         printf "  ${BLUE_TXT}Adding ROS-Hacks to .bashrc...${NC} "
-        cat << 'EOF' >> "$HOME/.bashrc"
+        cat <<'EOF' >>"$HOME/.bashrc"
 
 ## ROS-HACKS entries ##
 if [[ -f "$HOME/.ROS-Hacks/ROS-Hacks.sh" ]]; then
@@ -148,18 +148,18 @@ fi
 EOF
         printf "${GREEN_TXT}Done${NC}\n"
     fi
-    
+
     # Create domain ID file if needed
     if [[ ! -f "$HOME/.ros_domain_id" ]]; then
         printf "  ${BLUE_TXT}Creating default domain ID file...${NC} "
-        echo "0" > "$HOME/.ros_domain_id"
+        echo "0" >"$HOME/.ros_domain_id"
         printf "${GREEN_TXT}Done${NC}\n"
     fi
-    
+
     # Fix keyboard shortcuts if needed
     if [[ ! -L "$HOME/.inputrc" ]]; then
         printf "  ${BLUE_TXT}Fixing keyboard shortcuts...${NC} "
-        SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+        SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
         if [[ -f "$HOME/.inputrc" && ! -L "$HOME/.inputrc" ]]; then
             cp "$HOME/.inputrc" "$HOME/.inputrc.bak"
         fi
@@ -167,22 +167,22 @@ EOF
         printf "${GREEN_TXT}Done${NC}\n"
         bind -f $HOME/.inputrc
     fi
-    
+
     printf "\n${GREEN_TXT}Fixes applied. Please run 'source ~/.bashrc' to apply changes.${NC}\n"
 }
 
 # Run all checks
 function run_diagnostics() {
     print_header
-    
-    local script_dir="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-    
+
+    local script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
+
     # Check core files
     check_file "${script_dir}/ROS-Hacks.sh" "main script"
     check_file "${script_dir}/aliases.sh" "aliases file"
     check_file "${script_dir}/functions.sh" "functions file"
     check_file "${script_dir}/inputrc" "keyboard shortcuts file"
-    
+
     printf "\n"
     check_workspace
     printf "\n"
@@ -191,14 +191,14 @@ function run_diagnostics() {
     check_bash_config
     printf "\n"
     check_dependencies
-    
+
     # Ask about fixing problems
     printf "\n${BLUE_TXT}Would you like to attempt to fix common problems? (y/n):${NC} "
     read -r choice
     if [[ "$choice" == "y" || "$choice" == "Y" ]]; then
         fix_problems
     fi
-    
+
     printf "\n${BLUE_TXT}Diagnostics completed.${NC}\n"
 }
 

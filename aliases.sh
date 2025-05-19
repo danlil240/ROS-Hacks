@@ -15,7 +15,6 @@ else
     ROS2_NAME='humble'
 fi
 
-
 # Define colors:
 NC='\033[0m'
 GREEN_TXT='\e[0;32m'
