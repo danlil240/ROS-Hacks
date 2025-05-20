@@ -219,27 +219,40 @@ function set_ros_domain_id() {
     fi
 }
 
-function source_ws() {
+function determine_ws_ros_version() {
     ws_name=${1:-""}
     if [[ -z "${ws_name}" ]]; then
-        printf "${RED_TXT}ROS2 workspace path not specified.${NC}\n"
+        printf "${RED_TXT}ROS workspace path not specified.${NC}\n"
         return 1
     fi
-
-    if [[ ! -d "$ws_name/install" ]]; then
-        printf "${RED_TXT}Not a valid ROS2 workspace: $ws_name${NC}\n"
+    if [[ -d "$ws_name/install" ]]; then
+        ros_type="ROS2"
+    elif [[ -d "$ws_name/devel" ]]; then
+        ros_type="ROS1"
+    else
+        printf "${RED_TXT}Not a valid ROS workspace: $ws_name${NC}\n"
         printf "${YELLOW_TXT}Make sure the workspace has been built with colcon.${NC}\n"
         return 1
     fi
+}
 
-    unROS
-    printf "Sourcing ${WHITE_TXT}$ws_name ${NC}\n"
-    source $ws_name/install/setup.bash
-
-    if [ -f $ws_name/post_source.bash ]; then
-        source $ws_name/post_source.bash
+function source_ws() {
+    ws_name=${1:-""}
+    if [[ -z "${ws_name}" ]]; then
+        printf "${RED_TXT}ROS workspace path not specified.${NC}\n"
+    else
+        determine_ws_ros_version $ws_name
+        if [[ $ros_type == "ROS2" ]]; then # Catkin found in ws
+            unROS
+            printf "Sourcing ${WHITE_TXT}$ws_name ${NC}\n"
+            source $ws_name/install/setup.bash
+            if [ -f $ws_name/post_source.bash ]; then
+                source $ws_name/post_source.bash
+            fi
+        else
+            printf "${RED_TXT}ERROR in ROS WS $ws_name - Sourcing aborted.${NC}\n"
+        fi
     fi
-
     get_ros_domain_id
     if [[ ! -z "${domain_id}" ]]; then
         export ROS_DOMAIN_ID=$domain_id
@@ -316,6 +329,7 @@ function rebuild_curr_ws() {
     printf "${BLUE_TXT}Rebuilding workspace:${WHITE_TXT} $curr_ws ${NC}\n"
 
     local build_status=0
+    csr
 
     colcon build --symlink-install "$@"
     build_status=$?
