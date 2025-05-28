@@ -1,0 +1,5 @@
+*.sh usr/share/ros-hacks/
+*.yaml usr/share/ros-hacks/
+inputrc usr/share/ros-hacks/
+VERSION usr/share/ros-hacks/
+README.md usr/share/ros-hacks/

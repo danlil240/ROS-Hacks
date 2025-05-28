@@ -1,0 +1,55 @@
+# Refer to: https://stackoverflow.com/questions/4200800/in-bash-how-do-i-bind-a-function-key-to-a-command
+#  https://superuser.com/questions/269464/understanding-control-characters-in-inputrc
+
+"\e\C-t": "ros2 topic list\n"         # Alt+Ctrl+t - List ROS2 topics
+"\e\C-n": "ros2 node list\n"          # Alt+Ctrl+n - List ROS2 nodes
+"\C-g": " | grep -i "                # Ctrl+g - Add grep filter
+
+# Watch the typed command
+"\e[15;5~": "\e[Hwatch -n 0.1 \"\e[F\" \n"              # Ctrl+F5 - Watch current command with refresh every 0.1s
+"\e[15;3~": "\e[Hwatch -n 0.1 \"\e[F\" \n"              # Alt+F5 - Watch current command with refresh every 0.1s
+"\e[15;5~": "\e[Hwhile date; do time \e[F\ ; done\n"              # Ctrl+F5 - Loop current command with timing
+# Run a command in tmux detached session
+"\e[15;2~": "\e[Htmux new -d \"\e[F\" \n"              # Shift+F5 - Run current command in detached tmux session
+
+# Workspace management shortcuts
+"\eOR": "select_ws\n"                  # F3 - Select ROS2 workspace
+"\e[1;2R": "prompt_new_ws\n"          # Shift+F3 - Create new ROS2 workspace
+
+# ROS package installation shortcuts
+"\e[1;2Q": "sudo apt install -y ros-${ROS2_NAME}-\e\C-e"  # Shift+F2 - Install ROS2 package
+
+# Environment management
+"\e[15~": "source ~/.bashrc\n"              # F5 - Reload bash configuration
+
+# Workspace build shortcuts
+"\e[20~": "rebuild_curr_ws\n"               # F9 - Rebuild current workspace
+"\e[20;2~": "rebuild_curr_ws && exit\n"     # Shift+F9 - Rebuild workspace and exit terminal
+"\e[20;5~": "rebuild_curr_ws "--cmake-force-configure"\n"  # Ctrl+F9 - Force CMake reconfigure and rebuild
+
+# Package building shortcuts
+"\e[19~": "\e[Hpushd `cat ~/.ros_ws_selected` > /dev/null; colcon build --symlink-install --packages-select \e[F ; popd > /dev/null\n"  # F8 - Build specific package in current workspace
+
+# Installation shortcuts
+"\e\C-i": "sudo apt install -y "         # Alt+Ctrl+i - Start apt install command
+"\e\C-p": "python3 -m pip install "     # Alt+Ctrl+p - Start pip install command
+
+
+# Word navigation shortcuts
+"\e[1;5C": forward-word                # Ctrl+Right - Move cursor forward one word
+"\e[1;5D": backward-word               # Ctrl+Left - Move cursor backward one word
+"\e[5C": forward-word                  # Alternative Ctrl+Right mapping
+"\e[5D": backward-word                 # Alternative Ctrl+Left mapping
+"\e\e[C": forward-word                 # Alt+Right - Alternative forward word
+"\e\e[D": backward-word                # Alt+Left - Alternative backward word
+
+
+#set completion-ignore-case on
+#set bell-style visible
+set convert-meta off
+set input-meta on
+set output-meta on
+#set show-all-if-ambiguous on
+#set visible-stats on
+set colored-stats On
+set completion-prefix-display-length 3

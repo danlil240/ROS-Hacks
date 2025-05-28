@@ -1,0 +1,9 @@
+#!/usr/bin/make -f
+%:
+	dh $@
+
+override_dh_install:
+	mkdir -p debian/ros-hacks/usr/share/ros-hacks
+	cp -r *.sh *.yaml inputrc VERSION README.md debian/ros-hacks/usr/share/ros-hacks/
+	mkdir -p debian/ros-hacks/usr/bin
+	ln -sf /usr/share/ros-hacks/setup.sh debian/ros-hacks/usr/bin/ros-hacks-setup
