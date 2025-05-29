@@ -1,0 +1,152 @@
+#!/usr/bin/env bash
+
+# ==========================================================
+# ROS-Hacks Setup Script
+# ==========================================================
+
+# Get script directory
+if [ -d "/usr/share/ros-hacks" ]; then
+    # When installed via apt
+    SCRIPT_DIR="/usr/share/ros-hacks"
+else
+    # When run from cloned repository
+    SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
+fi
+
+# Read version from VERSION file
+if [[ -f "${SCRIPT_DIR}/VERSION" ]]; then
+    VERSION=$(cat "${SCRIPT_DIR}/VERSION")
+else
+    VERSION="unknown"
+fi
+
+# Set error handling
+set -e
+
+# Define colors for output
+NC='\033[0m'
+GREEN_TXT='\e[0;32m'
+RED_TXT='\e[31m'
+YELLOW_TXT='\e[93m'
+BLUE_TXT='\e[34m'
+LIGHT_BLUE_TXT='\e[96m'
+WHITE_TXT='\e[1;37m'
+
+# Check for required dependencies
+check_dependencies() {
+    printf "${BLUE_TXT}Checking for required dependencies...${NC}\n"
+
+    # Check for tmux
+    if ! command -v tmux &>/dev/null; then
+        printf "${YELLOW_TXT}tmux is not installed. It's recommended for quick commands.${NC}\n"
+        read -p "Do you want to install tmux? (y/n): " choice
+        if [[ "$choice" == "y" || "$choice" == "Y" ]]; then
+            sudo apt update && sudo apt install -y tmux
+            printf "${GREEN_TXT}tmux installed successfully.${NC}\n"
+        else
+            printf "${YELLOW_TXT}Continuing without tmux. Some functionality will be limited.${NC}\n"
+        fi
+    else
+        printf "${GREEN_TXT}✓ tmux is installed${NC}\n"
+    fi
+
+    # Check for fzf
+    if ! command -v fzf &>/dev/null; then
+        printf "${YELLOW_TXT}fzf is not installed. It's recommended for quick commands.${NC}\n"
+        read -p "Do you want to install fzf? (y/n): " choice
+        if [[ "$choice" == "y" || "$choice" == "Y" ]]; then
+            git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+            ~/.fzf/install
+            printf "${GREEN_TXT}fzf installed successfully.${NC}\n"
+        else
+            printf "${YELLOW_TXT}Continuing without fzf. Some functionality will be limited.${NC}\n"
+        fi
+    else
+        printf "${GREEN_TXT}✓ fzf is installed${NC}\n"
+    fi
+}
+
+# Configure .bashrc
+configure_bashrc() {
+    printf "${BLUE_TXT}Configuring your bash environment...${NC}\n"
+
+    # Remove any existing ROS-Hacks entries
+    if grep -q "ROS-HACKS entries" "$HOME/.bashrc"; then
+        printf "${YELLOW_TXT}Found existing ROS-Hacks configuration in ~/.bashrc${NC}\n"
+        printf "${BLUE_TXT}Updating configuration...${NC}\n"
+        sed -i '/## ROS-HACKS entries ##/,/## ROS-HACKS END ##/d' "$HOME/.bashrc"
+    fi
+
+    # Add new entries
+    printf "${BLUE_TXT}Adding ROS-Hacks to your ~/.bashrc${NC}\n"
+    cat <<'EOF' >>"$HOME/.bashrc"
+
+## ROS-HACKS entries ##
+if [[ -f "/usr/share/ros-hacks/ROS-Hacks.sh" ]]; then
+    source "/usr/share/ros-hacks/ROS-Hacks.sh"
+elif [[ -f "$HOME/.ROS-Hacks/ROS-Hacks.sh" ]]; then
+    source "$HOME/.ROS-Hacks/ROS-Hacks.sh"
+fi
+## ROS-HACKS END ##
+EOF
+}
+
+# Configure inputrc
+configure_inputrc() {
+    printf "${BLUE_TXT}Configuring keyboard shortcuts...${NC}\n"
+
+    # Backup existing inputrc if it exists
+    if [[ -f "$HOME/.inputrc" && ! -L "$HOME/.inputrc" ]]; then
+        printf "${YELLOW_TXT}Backing up existing ~/.inputrc to ~/.inputrc.bak${NC}\n"
+        cp "$HOME/.inputrc" "$HOME/.inputrc.bak"
+    fi
+
+    # Create symbolic link
+    printf "${BLUE_TXT}Linking ROS2-Hacks inputrc file...${NC}\n"
+    SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
+    ln -sf "${SCRIPT_DIR}/inputrc" "$HOME/.inputrc"
+    bind -f $HOME/.inputrc
+}
+
+# Create initial config files
+create_initial_configs() {
+    printf "${BLUE_TXT}Creating initial configuration files...${NC}\n"
+
+    # Create domain ID file if it doesn't exist
+    if [[ ! -f "$HOME/.ros_domain_id" ]]; then
+        echo "0" >"$HOME/.ros_domain_id"
+        printf "${GREEN_TXT}Created ROS domain ID file with default value (0)${NC}\n"
+    fi
+
+    # Create .colcon directory if it doesn't exist and plant defaults.yaml
+    if [[ ! -d "$HOME/.colcon" ]]; then
+        mkdir -p "$HOME/.colcon"
+    fi
+
+    # Copy defaults.yaml to .colcon directory
+    cp "$SCRIPT_DIR/defaults.yaml" "$HOME/.colcon/"
+    printf "${GREEN_TXT}Planted defaults.yaml in ~/.colcon directory${NC}\n"
+}
+
+# Main setup function
+main() {
+    printf "${LIGHT_BLUE_TXT}===============================${NC}\n"
+    printf "${LIGHT_BLUE_TXT}Setting up ROS-Hacks v${VERSION}${NC}\n"
+    printf "${LIGHT_BLUE_TXT}===============================${NC}\n\n"
+
+    # Run setup steps
+    check_dependencies
+    configure_bashrc
+    configure_inputrc
+    create_initial_configs
+
+    printf "\n${GREEN_TXT}ROS-Hacks installed successfully!${NC}\n"
+    printf "${BLUE_TXT}To complete installation, please run:${NC}\n"
+    printf "${WHITE_TXT}    source ~/.bashrc${NC}\n"
+    printf "\n${BLUE_TXT}Keyboard shortcuts and functions are now available.${NC}\n"
+    printf "${BLUE_TXT}Use ${WHITE_TXT}F3${BLUE_TXT} to select a ROS workspace.${NC}\n"
+    printf "${BLUE_TXT}Use ${WHITE_TXT}Shift+F3${BLUE_TXT} to create a new ROS workspace.${NC}\n"
+}
+
+# Run the main setup
+main
