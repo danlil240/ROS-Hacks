@@ -4,13 +4,20 @@
 # ROS-Hacks Setup Script
 # ==========================================================
 
-# Get script directory
+# Get script directory - handle symlinks properly
 if [ -d "/usr/share/ros-hacks" ]; then
     # When installed via apt
     SCRIPT_DIR="/usr/share/ros-hacks"
 else
     # When run from cloned repository
-    SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
+    # Follow symlinks to get the real script path
+    SOURCE="${BASH_SOURCE[0]}"
+    while [ -h "$SOURCE" ]; do
+        DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+        SOURCE="$(readlink "$SOURCE")"
+        [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+    done
+    SCRIPT_DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 fi
 
 # Read version from VERSION file
