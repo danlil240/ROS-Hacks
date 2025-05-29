@@ -304,13 +304,13 @@ elif [ "$1" = "all" ]; then
     create_instructions
     build_package
     setup_github
-    # Pass the username to show_instructions
-    local GITHUB_USER=$(git config --get remote.origin.url | sed -n 's|.*github.com[:/]\([^/]*\)/.*|\1|p')
+    # Get the username for instructions
+    GITHUB_USER=$(git config --get remote.origin.url | sed -n 's|.*github.com[:/]\([^/]*\)/.*|\1|p')
     show_instructions "$GITHUB_USER"
 elif [ "$1" = "github" ]; then
     setup_github
-    # Pass the username to show_instructions
-    local GITHUB_USER=$(git config --get remote.origin.url | sed -n 's|.*github.com[:/]\([^/]*\)/.*|\1|p')
+    # Get the username for instructions
+    GITHUB_USER=$(git config --get remote.origin.url | sed -n 's|.*github.com[:/]\([^/]*\)/.*|\1|p')
     show_instructions "$GITHUB_USER"
 elif [ "$1" = "build" ]; then
     build_package
