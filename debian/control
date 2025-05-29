@@ -1,7 +1,7 @@
 Source: ros-hacks
 Section: utils
 Priority: optional
-Maintainer: Daniel <daniel@example.com>
+Maintainer: Daniel <danlil240@gmail.com>
 Build-Depends: debhelper-compat (= 13)
 Standards-Version: 4.5.1
 Homepage: https://github.com/danlil240/ROS-Hacks
@@ -10,7 +10,7 @@ Package: ros-hacks
 Architecture: all
 Depends: ${misc:Depends}, tmux, fzf
 Description: Utilities to make ROS development easier
- ROS-Hacks provides useful aliases, functions, and keyboard shortcuts
- to enhance the ROS development experience. It includes workspace
- management, quick command execution, and various convenience
- functions for both ROS1 and ROS2 development.
+  ROS-Hacks provides useful aliases, functions, and keyboard shortcuts
+  to enhance the ROS development experience. It includes workspace
+  management, quick command execution, and various convenience
+  functions for both ROS1 and ROS2 development.

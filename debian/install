@@ -3,3 +3,5 @@
 inputrc usr/share/ros-hacks/
 VERSION usr/share/ros-hacks/
 README.md usr/share/ros-hacks/
+defaults.yaml usr/share/ros-hacks/
+
