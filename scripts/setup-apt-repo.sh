@@ -95,7 +95,8 @@ EOF
     # Generate hashes for the Packages files
     echo "SHA256:" >>dists/stable/Release
     cd "$REPO_DIR"
-    for f in dists/stable/main/binary-amd64/Packages*; do
+    # Include both amd64 and i386 package files in the hashes
+    for f in dists/stable/main/binary-*/Packages*; do
         echo -n " "
         echo -n $(sha256sum $f | cut -d" " -f1)
         echo -n " "
@@ -104,7 +105,7 @@ EOF
     done >>dists/stable/Release
 
     echo "MD5Sum:" >>dists/stable/Release
-    for f in dists/stable/main/binary-amd64/Packages*; do
+    for f in dists/stable/main/binary-*/Packages*; do
         echo -n " "
         echo -n $(md5sum $f | cut -d" " -f1)
         echo -n " "
