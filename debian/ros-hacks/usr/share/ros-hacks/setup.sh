@@ -128,7 +128,13 @@ create_initial_configs() {
     fi
 
     # Copy defaults.yaml to .colcon directory
-    cp "$SCRIPT_DIR/defaults.yaml" "$HOME/.colcon/"
+    if [ -f "$SCRIPT_DIR/defaults.yaml" ]; then
+        cp "$SCRIPT_DIR/defaults.yaml" "$HOME/.colcon/"
+    elif [ -f "/usr/share/ros-hacks/defaults.yaml" ]; then
+        cp "/usr/share/ros-hacks/defaults.yaml" "$HOME/.colcon/"
+    else
+        printf "${YELLOW_TXT}Warning: Could not find defaults.yaml${NC}\n"
+    fi
     printf "${GREEN_TXT}Planted defaults.yaml in ~/.colcon directory${NC}\n"
 }
 
