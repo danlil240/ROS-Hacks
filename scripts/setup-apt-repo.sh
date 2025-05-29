@@ -263,6 +263,11 @@ show_instructions() {
     echo -e "echo \"deb https://$GITHUB_USER.github.io/ROS-Hacks stable main\" | sudo tee /etc/apt/sources.list.d/ros-hacks.list"
     echo -e "sudo apt update"
     echo -e "sudo apt install ros-hacks"
+
+    echo -e "\n${YELLOW}Note: Make sure GitHub Pages is enabled in your repository settings:${NC}"
+    echo -e "${YELLOW}1. Go to https://github.com/$GITHUB_USER/ROS-Hacks/settings/pages${NC}"
+    echo -e "${YELLOW}2. Set source to 'main' branch and '/' folder${NC}"
+    echo -e "${YELLOW}3. It may take a few minutes for the pages to be published${NC}"
 }
 
 # Main logic
