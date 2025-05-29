@@ -275,7 +275,10 @@ setup_github() {
 
 # Show installation instructions
 show_instructions() {
-    local GITHUB_USER=$(grep -o 'https://[^/]*/\([^/]*\)' "$REPO_DIR/README.md" | sed 's|https://||g' | head -1)
+    local GITHUB_USER=$1
+    if [ -z "$GITHUB_USER" ]; then
+        GITHUB_USER=$(git config --get remote.origin.url | sed -n 's|.*github.com[:/]\([^/]*\)/.*|\1|p')
+    fi
 
     echo -e "\n${GREEN}=== INSTALLATION INSTRUCTIONS FOR TARGET MACHINE ===${NC}"
     echo -e "${BLUE}Run these commands on the target machine:${NC}"
@@ -301,10 +304,14 @@ elif [ "$1" = "all" ]; then
     create_instructions
     build_package
     setup_github
-    show_instructions
+    # Pass the username to show_instructions
+    local GITHUB_USER=$(git config --get remote.origin.url | sed -n 's|.*github.com[:/]\([^/]*\)/.*|\1|p')
+    show_instructions "$GITHUB_USER"
 elif [ "$1" = "github" ]; then
     setup_github
-    show_instructions
+    # Pass the username to show_instructions
+    local GITHUB_USER=$(git config --get remote.origin.url | sed -n 's|.*github.com[:/]\([^/]*\)/.*|\1|p')
+    show_instructions "$GITHUB_USER"
 elif [ "$1" = "build" ]; then
     build_package
 else
