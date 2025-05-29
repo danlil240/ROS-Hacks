@@ -12,19 +12,19 @@ YELLOW='\e[93m'
 BLUE='\e[34m'
 
 # Check if GPG is installed
-if ! command -v gpg &> /dev/null; then
+if ! command -v gpg &>/dev/null; then
     echo -e "${YELLOW}GPG is not installed. Installing...${NC}"
     sudo apt update && sudo apt install -y gnupg
 fi
 
 # Check if required packages are installed
-if ! command -v dpkg-scanpackages &> /dev/null; then
+if ! command -v dpkg-scanpackages &>/dev/null; then
     echo -e "${YELLOW}dpkg-dev is not installed. Installing...${NC}"
     sudo apt update && sudo apt install -y dpkg-dev
 fi
 
 # Setup repository directory
-REPO_DIR="$HOME/ros-hacks-apt-repo"
+REPO_DIR="$HOME/.ROS-Hacks"
 KEY_NAME="ros-hacks-apt-key"
 
 echo -e "${BLUE}Setting up APT repository in $REPO_DIR${NC}"
@@ -33,9 +33,9 @@ mkdir -p "$REPO_DIR"/{pool/main,dists/stable/{main/binary-amd64,Release.gpg}}
 # Generate GPG key if needed
 if ! gpg --list-keys | grep -q "$KEY_NAME"; then
     echo -e "${BLUE}Generating GPG key for signing packages...${NC}"
-    
+
     # Create key configuration file
-    cat > /tmp/gpg-key-gen.conf << EOF
+    cat >/tmp/gpg-key-gen.conf <<EOF
 Key-Type: RSA
 Key-Length: 4096
 Name-Real: ROS-Hacks APT Repository
@@ -48,23 +48,23 @@ EOF
     # Generate key
     gpg --batch --gen-key /tmp/gpg-key-gen.conf
     rm /tmp/gpg-key-gen.conf
-    
+
     # Export public key
-    gpg --armor --export "ROS-Hacks APT Repository" > "$REPO_DIR/ros-hacks-apt.key"
+    gpg --armor --export "ROS-Hacks APT Repository" >"$REPO_DIR/ros-hacks-apt.key"
     echo -e "${GREEN}GPG key generated and exported to $REPO_DIR/ros-hacks-apt.key${NC}"
 fi
 
 # Function to update the repository
 update_repo() {
     echo -e "${BLUE}Updating repository index...${NC}"
-    
+
     # Create Packages file
     cd "$REPO_DIR"
-    dpkg-scanpackages --multiversion pool/ > dists/stable/main/binary-amd64/Packages
+    dpkg-scanpackages --multiversion pool/ >dists/stable/main/binary-amd64/Packages
     gzip -k -f dists/stable/main/binary-amd64/Packages
-    
+
     # Create Release file
-    cat > dists/stable/Release << EOF
+    cat >dists/stable/Release <<EOF
 Origin: ROS-Hacks Repository
 Label: ROS-Hacks
 Suite: stable
@@ -74,23 +74,23 @@ Components: main
 Description: ROS-Hacks APT Repository
 Date: $(date -R)
 EOF
-    
+
     # Sign Release file
     gpg --default-key "ROS-Hacks APT Repository" -abs -o dists/stable/Release.gpg dists/stable/Release
     gpg --default-key "ROS-Hacks APT Repository" --clearsign -o dists/stable/InRelease dists/stable/Release
-    
+
     echo -e "${GREEN}Repository index updated and signed${NC}"
 }
 
 # Add packages to repo
 add_package() {
     local PACKAGE=$1
-    
+
     if [ ! -f "$PACKAGE" ]; then
         echo -e "${YELLOW}Package file not found: $PACKAGE${NC}"
         return 1
     fi
-    
+
     echo -e "${BLUE}Adding package to repository: $(basename $PACKAGE)${NC}"
     cp "$PACKAGE" "$REPO_DIR/pool/main/"
     update_repo
@@ -99,7 +99,7 @@ add_package() {
 
 # Create instructions file
 create_instructions() {
-    cat > "$REPO_DIR/README.md" << EOF
+    cat >"$REPO_DIR/README.md" <<EOF
 # ROS-Hacks APT Repository
 
 This is a personal APT repository for the ROS-Hacks package.
@@ -143,7 +143,7 @@ git commit -m "Update repository"
 git push
 \`\`\`
 EOF
-    
+
     echo -e "${GREEN}Instructions created in $REPO_DIR/README.md${NC}"
 }
 
@@ -156,7 +156,7 @@ else
     echo -e "${BLUE}Initial repository setup...${NC}"
     update_repo
     create_instructions
-    
+
     echo -e "${GREEN}Repository setup complete!${NC}"
     echo -e "${YELLOW}Next steps:${NC}"
     echo -e "1. Initialize the repo directory as a git repository"

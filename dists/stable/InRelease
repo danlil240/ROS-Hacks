@@ -1,0 +1,28 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+Origin: ROS-Hacks Repository
+Label: ROS-Hacks
+Suite: stable
+Codename: stable
+Architectures: amd64
+Components: main
+Description: ROS-Hacks APT Repository
+Date: Thu, 29 May 2025 09:26:22 +0300
+-----BEGIN PGP SIGNATURE-----
+
+iQJLBAEBCgA1FiEEJPbwOa3R56Gf5hF2Fy3Hh7tjpp8FAmg3/hYXHHlvdXItZW1h
+aWxAZXhhbXBsZS5jb20ACgkQFy3Hh7tjpp+QQQ//a2o4Q269zqcC/IunrtZ7KPpM
+bGPg4nv7sl3a8qeFxl9Dq/vmfybVA7EkrGrg89A+HMU/5HIHT+PUHnbHQ6WxFo7J
+vZA/oi7xo4hEu8UEtD8jFwY2dVAhxyI6JDHiaKA30UN/99tCmL9+hvaqEiZf9jc0
+dJpILnF9CqYpkOL2QWdBLbRzBnvmrSOLxF9DVx5flrtdmsgYOrZI6ijWyTHnr31L
+rgQFKFBwgIc8hURY9VN0oA95rE0VfqtjbjA1lcjmUiJ9sPgS3g8UP4THBqcecAdV
+woLuGpasNqK+yQ1W3NT33eaont+BqnWyDaeP4FlUBdBaxf2qXOB62iL8fQMRdoTR
+flA6RysQUpER+ssLFOFJICWs1qpv99qr2R2Y+J/lEFEyhiGjoF7J1eIxoukqu/rj
+lkU9zy0MDVeHpBz8zZHuBDKXuJFgjOSls1KcVotwQH33t7iuYPLDbFwxKA535oam
+3ziaQB6wNsvKj0+VXHC5hhoJZbih6g5aJu0rV6tCY6DvoQOzhUrHDx1PMLpZj1qC
+l7OBilRKHoPkDGYK6bPAXpHHRtf2Kds4n5ggWL8OK+LKwZcy41MBI6M8KUFHyykD
+zSr92RCptHgF3Z3OMZH3QLLf2zjtLXkhKzvD5nenTa0BDmUX9VjSwgRdBc9EmMxi
+aeBG3qqX0hxHyJFZqKY=
+=jlye
+-----END PGP SIGNATURE-----
