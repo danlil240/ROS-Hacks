@@ -70,8 +70,15 @@ update_repo() {
 
     # Create Packages file
     cd "$REPO_DIR"
+    
+    # Create amd64 Packages file
     dpkg-scanpackages --multiversion pool/ >dists/stable/main/binary-amd64/Packages
     gzip -k -f dists/stable/main/binary-amd64/Packages
+    
+    # Create empty i386 Packages file to prevent warnings
+    mkdir -p "$REPO_DIR/dists/stable/main/binary-i386"
+    touch "$REPO_DIR/dists/stable/main/binary-i386/Packages"
+    gzip -k -f "$REPO_DIR/dists/stable/main/binary-i386/Packages"
 
     # Create Release file with proper date format and hashes
     cat >dists/stable/Release <<EOF
@@ -79,29 +86,29 @@ Origin: ROS-Hacks Repository
 Label: ROS-Hacks
 Suite: stable
 Codename: stable
-Architectures: amd64
+Architectures: amd64 i386
 Components: main
 Description: ROS-Hacks APT Repository
 Date: $(date -R -u)
 EOF
-    
+
     # Generate hashes for the Packages files
     echo "SHA256:" >>dists/stable/Release
     cd "$REPO_DIR"
     for f in dists/stable/main/binary-amd64/Packages*; do
         echo -n " "
-        echo -n $(sha256sum $f | cut -d" " -f1) 
+        echo -n $(sha256sum $f | cut -d" " -f1)
         echo -n " "
-        echo -n $(stat -c%s $f) 
+        echo -n $(stat -c%s $f)
         echo " $(echo $f | sed 's|^dists/stable/||')"
     done >>dists/stable/Release
 
     echo "MD5Sum:" >>dists/stable/Release
     for f in dists/stable/main/binary-amd64/Packages*; do
         echo -n " "
-        echo -n $(md5sum $f | cut -d" " -f1) 
+        echo -n $(md5sum $f | cut -d" " -f1)
         echo -n " "
-        echo -n $(stat -c%s $f) 
+        echo -n $(stat -c%s $f)
         echo " $(echo $f | sed 's|^dists/stable/||')"
     done >>dists/stable/Release
 
@@ -282,8 +289,11 @@ show_instructions() {
 
     echo -e "\n${GREEN}=== INSTALLATION INSTRUCTIONS FOR TARGET MACHINE ===${NC}"
     echo -e "${BLUE}Run these commands on the target machine:${NC}"
-    echo -e "wget -qO - https://$GITHUB_USER.github.io/ROS-Hacks/ros-hacks.key | sudo apt-key add -"
-    echo -e "echo \"deb https://$GITHUB_USER.github.io/ROS-Hacks stable main\" | sudo tee /etc/apt/sources.list.d/ros-hacks.list"
+    echo -e "# Download the key file first, then process it"
+    echo -e "wget -O /tmp/ros-hacks.key https://$GITHUB_USER.github.io/ROS-Hacks/ros-hacks.key"
+    echo -e "sudo mkdir -p /etc/apt/keyrings"
+    echo -e "cat /tmp/ros-hacks.key | sudo gpg --dearmor -o /etc/apt/keyrings/ros-hacks.gpg"
+    echo -e "echo \"deb [signed-by=/etc/apt/keyrings/ros-hacks.gpg] https://$GITHUB_USER.github.io/ROS-Hacks stable main\" | sudo tee /etc/apt/sources.list.d/ros-hacks.list"
     echo -e "sudo apt update"
     echo -e "sudo apt install ros-hacks"
 
