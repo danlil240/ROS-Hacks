@@ -73,7 +73,7 @@ update_repo() {
     dpkg-scanpackages --multiversion pool/ >dists/stable/main/binary-amd64/Packages
     gzip -k -f dists/stable/main/binary-amd64/Packages
 
-    # Create Release file
+    # Create Release file with proper date format and hashes
     cat >dists/stable/Release <<EOF
 Origin: ROS-Hacks Repository
 Label: ROS-Hacks
@@ -82,8 +82,28 @@ Codename: stable
 Architectures: amd64
 Components: main
 Description: ROS-Hacks APT Repository
-Date: $(date -R)
+Date: $(date -R -u)
 EOF
+    
+    # Generate hashes for the Packages files
+    echo "SHA256:" >>dists/stable/Release
+    cd "$REPO_DIR"
+    for f in dists/stable/main/binary-amd64/Packages*; do
+        echo -n " "
+        echo -n $(sha256sum $f | cut -d" " -f1) 
+        echo -n " "
+        echo -n $(stat -c%s $f) 
+        echo " $(echo $f | sed 's|^dists/stable/||')"
+    done >>dists/stable/Release
+
+    echo "MD5Sum:" >>dists/stable/Release
+    for f in dists/stable/main/binary-amd64/Packages*; do
+        echo -n " "
+        echo -n $(md5sum $f | cut -d" " -f1) 
+        echo -n " "
+        echo -n $(stat -c%s $f) 
+        echo " $(echo $f | sed 's|^dists/stable/||')"
+    done >>dists/stable/Release
 
     # Sign Release file
     rm -f dists/stable/Release.gpg dists/stable/InRelease
