@@ -20,8 +20,8 @@ jobs:
 
     - name: Install dependencies
       run: |
-        apt-get update
-        apt-get install -y devscripts debhelper build-essential dh-make lintian
+        for i in $(seq 1 5); do apt-get update && break || sleep 5; done
+        for i in $(seq 1 5); do apt-get install -y devscripts debhelper build-essential dh-make lintian && break || sleep 5; done
 
     - name: Build package
       run: |
