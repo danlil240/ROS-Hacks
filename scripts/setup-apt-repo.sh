@@ -190,10 +190,12 @@ EOF
 build_package() {
     echo -e "${BLUE}Building ROS-Hacks package...${NC}"
 
-    # Install required build dependencies
-    echo -e "${BLUE}Installing build dependencies...${NC}"
-    sudo apt-get update
-    sudo apt-get install -y debhelper debhelper-compat build-essential dh-make
+    # Check if build dependencies are installed
+    if ! command -v dpkg-buildpackage &>/dev/null; then
+        echo -e "${YELLOW}dpkg-buildpackage is not installed. Installing...${NC}"
+        sudo apt-get update
+        sudo apt-get install -y debhelper debhelper-compat build-essential dh-make
+    fi
 
     cd "$SOURCE_DIR"
     dpkg-buildpackage -us -uc -b -d

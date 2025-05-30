@@ -23,12 +23,12 @@ Version: 1.0.1-1
 Architecture: all
 Maintainer: Daniel <danlil240@gmail.com>
 Installed-Size: 57
-Depends: tmux, fzf
+Depends: tmux
 Filename: pool/main/ros-hacks_1.0.1-1_all.deb
-Size: 11798
-MD5sum: ab1c3121bce62c43e8b917862646bedf
-SHA1: bce1a70215829fa2272f7b26a56b15602d55922d
-SHA256: 84e207127681d9de4972633c9a41b1b098e219e6e79bbe31f89f0aa00c96f21c
+Size: 11792
+MD5sum: 6b84de6457921e5ee31aa7c83a49a436
+SHA1: 22006d87a51987c59da25fc603089c0449494bdf
+SHA256: c7f56b2112d8eb8d91b98df43f6d1c05ff3178556b3e3fcb758361f47e6efbe9
 Section: utils
 Priority: optional
 Homepage: https://github.com/danlil240/ROS-Hacks

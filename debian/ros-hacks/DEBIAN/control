@@ -3,7 +3,7 @@ Version: 1.0.1-1
 Architecture: all
 Maintainer: Daniel <danlil240@gmail.com>
 Installed-Size: 57
-Depends: tmux, fzf
+Depends: tmux
 Section: utils
 Priority: optional
 Homepage: https://github.com/danlil240/ROS-Hacks
