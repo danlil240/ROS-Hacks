@@ -70,11 +70,11 @@ update_repo() {
 
     # Create Packages file
     cd "$REPO_DIR"
-    
+
     # Create amd64 Packages file
     dpkg-scanpackages --multiversion pool/ >dists/stable/main/binary-amd64/Packages
     gzip -k -f dists/stable/main/binary-amd64/Packages
-    
+
     # Create empty i386 Packages file to prevent warnings
     mkdir -p "$REPO_DIR/dists/stable/main/binary-i386"
     touch "$REPO_DIR/dists/stable/main/binary-i386/Packages"
@@ -218,9 +218,7 @@ build_package() {
 setup_github() {
     echo -e "${BLUE}Setting up GitHub repository...${NC}"
 
-    local GITHUB_USER
-    echo -e "${YELLOW}Enter your GitHub username:${NC}"
-    read GITHUB_USER
+    local GITHUB_USER="danlil240"
 
     if [ -z "$GITHUB_USER" ]; then
         echo -e "${RED}GitHub username cannot be empty${NC}"
@@ -254,9 +252,7 @@ setup_github() {
     # Get the current branch name
     BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
 
-    # Ask if user wants to push
-    echo -e "${YELLOW}Do you want to push to GitHub now? (y/n)${NC}"
-    read PUSH_NOW
+    PUSH_NOW="y"
 
     if [ "$PUSH_NOW" = "y" ] || [ "$PUSH_NOW" = "Y" ]; then
         echo -e "${BLUE}Pushing to GitHub...${NC}"

@@ -6,12 +6,12 @@ This is a personal APT repository for the ROS-Hacks package.
 
 1. Add the GPG key:
 ```bash
-wget -qO - https://danlil240.github.io/ros-hacks-repo/ros-hacks.key | sudo apt-key add -
+wget -qO - https://your-github-username.github.io/ros-hacks-repo/ros-hacks.key | sudo apt-key add -
 ```
 
 2. Add the repository to your sources:
 ```bash
-echo "deb https://danlil240.github.io/ros-hacks-repo stable main" | sudo tee /etc/apt/sources.list.d/ros-hacks.list
+echo "deb https://your-github-username.github.io/ros-hacks-repo stable main" | sudo tee /etc/apt/sources.list.d/ros-hacks.list
 ```
 
 3. Update and install:
