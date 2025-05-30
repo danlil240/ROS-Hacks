@@ -6,8 +6,13 @@ case "$1" in
         # Create symbolic link for easy access
         ln -sf /usr/share/ros-hacks/setup.sh /usr/bin/ros-hacks-setup
         
-        echo "ROS-Hacks has been installed! Running setup..."
-        /usr/bin/ros-hacks-setup
+        echo "ROS-Hacks has been installed!"
+        if [ -z "$CI" ]; then
+            echo "Running setup..."
+            /usr/bin/ros-hacks-setup
+        else
+            echo "Skipping setup in CI environment."
+        fi
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)
