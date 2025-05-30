@@ -25,7 +25,6 @@ jobs:
 
     - name: Build package
       run: |
-        cd ${{ github.workspace }}
         dpkg-buildpackage -us -uc -b
 
     - name: Move deb files
