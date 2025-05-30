@@ -13,11 +13,11 @@ else
     # Follow symlinks to get the real script path
     SOURCE="${BASH_SOURCE[0]}"
     while [ -h "$SOURCE" ]; do
-        DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+        DIR="$(cd -P "$(dirname "$SOURCE")" && pwd)"
         SOURCE="$(readlink "$SOURCE")"
         [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
     done
-    SCRIPT_DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+    SCRIPT_DIR="$(cd -P "$(dirname "$SOURCE")" && pwd)"
 fi
 
 # Read version from VERSION file

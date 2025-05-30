@@ -13,6 +13,61 @@ YELLOW='\e[93m'
 BLUE='\e[34m'
 RED='\e[31m'
 
+# Function to increment version number
+increment_version() {
+    echo -e "${BLUE}Incrementing version number...${NC}"
+    
+    # Read current version from VERSION file
+    SOURCE_DIR="$(dirname "$(dirname "$0")")"
+    VERSION_FILE="${SOURCE_DIR}/VERSION"
+    CURRENT_VERSION=$(cat "$VERSION_FILE")
+    
+    # Parse the version components
+    MAJOR=$(echo "$CURRENT_VERSION" | cut -d. -f1)
+    MINOR=$(echo "$CURRENT_VERSION" | cut -d. -f2)
+    PATCH=$(echo "$CURRENT_VERSION" | cut -d. -f3)
+    
+    # Increment patch version
+    PATCH=$((PATCH + 1))
+    
+    # Create new version string
+    NEW_VERSION="${MAJOR}.${MINOR}.${PATCH}"
+    NEW_DEBIAN_VERSION="${NEW_VERSION}-1"
+    
+    # Update VERSION file
+    echo "$NEW_VERSION" > "$VERSION_FILE"
+    
+    # Update debian/changelog
+    CHANGELOG_FILE="${SOURCE_DIR}/debian/changelog"
+    TIMESTAMP=$(date "+%a, %d %b %Y %H:%M:%S %z")
+    
+    # Create new changelog entry - write it properly with actual newlines
+    cat > "$CHANGELOG_FILE.new" << EOF
+ros-hacks (${NEW_DEBIAN_VERSION}) unstable; urgency=medium
+
+  * Auto-updated version to ${NEW_VERSION}
+
+ -- Daniel <danlil240@gmail.com>  $TIMESTAMP
+
+EOF
+    
+    # Append the existing changelog to the new entry
+    cat "$CHANGELOG_FILE" >> "$CHANGELOG_FILE.new"
+    
+    # Replace the old changelog with the new one
+    mv "$CHANGELOG_FILE.new" "$CHANGELOG_FILE"
+    
+    # Also update the DEBIAN/control file if it exists (generated during build)
+    DEBIAN_CONTROL="${SOURCE_DIR}/debian/ros-hacks/DEBIAN/control"
+    if [ -f "$DEBIAN_CONTROL" ]; then
+        # Update the Version field in the DEBIAN/control file
+        sed -i "s/^Version: .*/Version: ${NEW_DEBIAN_VERSION}/" "$DEBIAN_CONTROL"
+        echo -e "${GREEN}Updated version in DEBIAN/control to ${NEW_DEBIAN_VERSION}${NC}"
+    fi
+    
+    echo -e "${GREEN}Version updated from $CURRENT_VERSION to $NEW_VERSION${NC}"
+}
+
 # Check if GPG is installed
 if ! command -v gpg &>/dev/null; then
     echo -e "${YELLOW}GPG is not installed. Installing...${NC}"
@@ -189,6 +244,9 @@ EOF
 # Build the package
 build_package() {
     echo -e "${BLUE}Building ROS-Hacks package...${NC}"
+    
+    # Increment version before building
+    increment_version
 
     # Check if build dependencies are installed
     if ! command -v dpkg-buildpackage &>/dev/null; then

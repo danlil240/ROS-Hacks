@@ -237,29 +237,24 @@ function determine_ws_ros_version() {
 }
 
 function source_ws() {
-    local ws_name=${1:-""}
+    ws_name=${1:-""}
     if [[ -z "${ws_name}" ]]; then
         printf "${RED_TXT}ROS workspace path not specified.${NC}\n"
     else
-        determine_ws_ros_version "$ws_name"
+        determine_ws_ros_version $ws_name
         if [[ $ros_type == "ROS2" ]]; then # Catkin found in ws
             unROS
             printf "Sourcing ${WHITE_TXT}$ws_name ${NC}\n"
-            # Check if setup.bash exists before sourcing
-            if [[ -f "$ws_name/install/setup.bash" ]]; then
-                source "$ws_name/install/setup.bash"
-                if [[ -f "$ws_name/post_source.bash" ]]; then
-                    source "$ws_name/post_source.bash"
-                fi
-            else
-                printf "${RED_TXT}Warning: $ws_name/install/setup.bash not found.${NC}\n"
+            source $ws_name/install/setup.bash
+            if [ -f $ws_name/post_source.bash ]; then
+                source $ws_name/post_source.bash
             fi
         else
             printf "${RED_TXT}ERROR in ROS WS $ws_name - Sourcing aborted.${NC}\n"
         fi
     fi
     get_ros_domain_id
-    if [[ -n "${domain_id}" ]]; then
+    if [[ ! -z "${domain_id}" ]]; then
         export ROS_DOMAIN_ID=$domain_id
     fi
 }

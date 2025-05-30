@@ -94,6 +94,5 @@ export HISTSIZE=10000
 export HISTCONTROL=ignoreboth
 export HISTIGNORE='t:f:l:ls:bg:fg:history:h:select_ws:kill-tmux-gz:rt:rtl:rte:rti:rn:rs:rp:ra:rb'
 export HISTTIMEFORMAT='%F %T '
-echo aliases loaded
 
 # PS1=' \[\e[1;32m\]\u\[\033[00m\] \[\e[32m\]$(get_current_ws_name):$ROS_DOMAIN_ID\[\033[00m\] \[\033[03;94m\]\w\[\033[00m\]\[\033[38;5;51m\]$(__git_ps1)\[\033[00m\]:\n\$ '
