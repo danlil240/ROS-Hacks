@@ -1,40 +1,52 @@
-ros-hacks (1.0.8-1) unstable; urgency=medium
+ros-hacks (1.0.10) unstable; urgency=medium
+
+  * Auto-updated version to 1.0.10
+
+ -- Daniel <danlil240@gmail.com>  Tue, 03 Jun 2025 11:28:27 +0300
+
+ros-hacks (1.0.9) unstable; urgency=medium
+
+  * Auto-updated version to 1.0.9
+
+ -- Daniel <danlil240@gmail.com>  Tue, 03 Jun 2025 11:25:13 +0300
+
+ros-hacks (1.0.8) unstable; urgency=medium
 
   * Auto-updated version to 1.0.8
 
  -- Daniel <danlil240@gmail.com>  Tue, 03 Jun 2025 11:23:06 +0300
 
-ros-hacks (1.0.7-1) unstable; urgency=medium
+ros-hacks (1.0.7) unstable; urgency=medium
 
   * Auto-updated version to 1.0.7
 
  -- Daniel <danlil240@gmail.com>  Tue, 03 Jun 2025 08:51:01 +0300
 
-ros-hacks (1.0.6-1) unstable; urgency=medium
+ros-hacks (1.0.6) unstable; urgency=medium
 
   * Auto-updated version to 1.0.6
 
  -- Daniel <danlil240@gmail.com>  Fri, 30 May 2025 09:37:33 +0300
 
-ros-hacks (1.0.5-1) unstable; urgency=medium
+ros-hacks (1.0.5) unstable; urgency=medium
 
   * Auto-updated version to 1.0.5
 
  -- Daniel <danlil240@gmail.com>  Fri, 30 May 2025 09:24:18 +0300
 
-ros-hacks (1.0.4-1) unstable; urgency=medium
+ros-hacks (1.0.4) unstable; urgency=medium
 
   * Auto-updated version to 1.0.4
 
  -- Daniel <danlil240@gmail.com>  Fri, 30 May 2025 09:09:29 +0300
 
-ros-hacks (1.0.3-1) unstable; urgency=medium
+ros-hacks (1.0.3) unstable; urgency=medium
 
   * Auto-updated version to 1.0.3
 
  -- Daniel <danlil240@gmail.com>  Fri, 30 May 2025 09:07:22 +0300
 
-ros-hacks (1.0.2-1) unstable; urgency=medium\n\n  * Auto-updated version to 1.0.2\n\n -- Daniel <danlil240@gmail.com>  Fri, 30 May 2025 09:06:56 +0300\n\nros-hacks (1.0.1-1) unstable; urgency=medium
+ros-hacks (1.0.2) unstable; urgency=medium\n\n  * Auto-updated version to 1.0.2\n\n -- Daniel <danlil240@gmail.com>  Fri, 30 May 2025 09:06:56 +0300\n\nros-hacks (1.0.1) unstable; urgency=medium
 
   * Initial release
 

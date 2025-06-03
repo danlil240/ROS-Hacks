@@ -1,0 +1,32 @@
+Format: 1.8
+Date: Tue, 03 Jun 2025 11:25:13 +0300
+Source: ros-hacks
+Binary: ros-hacks
+Built-For-Profiles: noudeb
+Architecture: source all
+Version: 1.0.9
+Distribution: stable
+Urgency: medium
+Maintainer: Daniel <danlil240@gmail.com>
+Changed-By: Daniel <danlil240@gmail.com>
+Description:
+ ros-hacks  - Utilities to make ROS development easier
+Changes:
+ ros-hacks (1.0.9) stable; urgency=medium
+ .
+   * Auto-updated version to 1.0.9
+Checksums-Sha1:
+ 41873d9f5b463fef0454784a2dd0e8dfd05039eb 573 ros-hacks_1.0.9.dsc
+ 795c628023e07f30229a949eed6dba494d8ec10d 1542376 ros-hacks_1.0.9.tar.xz
+ 08741f70c3175a903c309eb33415dee036582445 12974 ros-hacks_1.0.9_all.deb
+ 009f351b47b901521cec1811a51a3ff1365dc01a 5671 ros-hacks_1.0.9_amd64.buildinfo
+Checksums-Sha256:
+ 55d4abf66ea116dbd8b9961799725a301c99067d2d8673e4260a6b7e9b6a483f 573 ros-hacks_1.0.9.dsc
+ 80f56c1f77bd497f8a075ac9b3c9f46fa797b13b898f2310b730bc493ee3c084 1542376 ros-hacks_1.0.9.tar.xz
+ e88d3f7556621704820e5f7fba5d324a8f5cd17cc2167b83d96f7e4554a45356 12974 ros-hacks_1.0.9_all.deb
+ 13aa706c7adf164f3a49a775892af78233c6ca08404ac8b46e4b96815721d132 5671 ros-hacks_1.0.9_amd64.buildinfo
+Files:
+ d48f21659503c78f97ce3804965fffdd 573 utils optional ros-hacks_1.0.9.dsc
+ 86d79abefb6cfca9cb2d20570681c553 1542376 utils optional ros-hacks_1.0.9.tar.xz
+ 01f7bc5efd3a80224e0490d536fd6a4b 12974 utils optional ros-hacks_1.0.9_all.deb
+ afaa2b64e67a7ed8fbb8ea826e93099f 5671 utils optional ros-hacks_1.0.9_amd64.buildinfo

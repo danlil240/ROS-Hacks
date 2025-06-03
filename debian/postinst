@@ -1,6 +1,9 @@
 #!/bin/sh
 set -e
 
+# Automatically added by debhelper
+#DEBHELPER#
+
 case "$1" in
     configure)
         # Create symbolic link for easy access

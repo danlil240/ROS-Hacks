@@ -32,7 +32,8 @@ increment_version() {
 
     # Create new version string
     NEW_VERSION="${MAJOR}.${MINOR}.${PATCH}"
-    NEW_DEBIAN_VERSION="${NEW_VERSION}-1"
+    # For native packages, do not use a Debian revision number
+    NEW_DEBIAN_VERSION="${NEW_VERSION}"
 
     # Update VERSION file
     echo "$NEW_VERSION" >"$VERSION_FILE"

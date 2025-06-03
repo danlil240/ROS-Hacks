@@ -39,6 +39,26 @@ Description: Utilities to make ROS development easier
   functions for both ROS1 and ROS2 development.
 
 Package: ros-hacks
+Version: 1.0.10
+Architecture: all
+Maintainer: Daniel <danlil240@gmail.com>
+Installed-Size: 60
+Depends: tmux
+Filename: pool/main/ros-hacks_1.0.10_all.deb
+Size: 13004
+MD5sum: 321ac0816623c7d4ccf3ec63d3574fe0
+SHA1: 0dbee2f54e888070197c192e22a46f30944c2d0d
+SHA256: d066dc7e0eee8f192b62fad49a33198a0a20227302d8aa97fdaaed183887d7ee
+Section: utils
+Priority: optional
+Homepage: https://github.com/danlil240/ROS-Hacks
+Description: Utilities to make ROS development easier
+  ROS-Hacks provides useful aliases, functions, and keyboard shortcuts
+  to enhance the ROS development experience. It includes workspace
+  management, quick command execution, and various convenience
+  functions for both ROS1 and ROS2 development.
+
+Package: ros-hacks
 Version: 1.0.2-1
 Architecture: all
 Maintainer: Daniel <danlil240@gmail.com>
@@ -169,6 +189,26 @@ Size: 12192
 MD5sum: 0eae3aa738a1c08e875e4b70f4ac5daa
 SHA1: f1105de52ffaa243eeb752195a4532dd4a0e39fe
 SHA256: 198de22781cb9509d6406f540330521c0079d2029859d0ea51ff74001a44a504
+Section: utils
+Priority: optional
+Homepage: https://github.com/danlil240/ROS-Hacks
+Description: Utilities to make ROS development easier
+  ROS-Hacks provides useful aliases, functions, and keyboard shortcuts
+  to enhance the ROS development experience. It includes workspace
+  management, quick command execution, and various convenience
+  functions for both ROS1 and ROS2 development.
+
+Package: ros-hacks
+Version: 1.0.9
+Architecture: all
+Maintainer: Daniel <danlil240@gmail.com>
+Installed-Size: 60
+Depends: tmux
+Filename: pool/main/ros-hacks_1.0.9_all.deb
+Size: 12974
+MD5sum: 01f7bc5efd3a80224e0490d536fd6a4b
+SHA1: 08741f70c3175a903c309eb33415dee036582445
+SHA256: e88d3f7556621704820e5f7fba5d324a8f5cd17cc2167b83d96f7e4554a45356
 Section: utils
 Priority: optional
 Homepage: https://github.com/danlil240/ROS-Hacks
