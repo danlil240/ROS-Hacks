@@ -32,7 +32,7 @@ Version: 1.0
 Architectures: amd64 i386
 Components: main
 Description: ROS-Hacks APT Repository
-Date: $(LC_ALL=C date -R)
+Date: $(LC_ALL=C TZ=UTC date -R)
 EOF
     
     # Generate hash entries for Release file
@@ -130,7 +130,7 @@ function update_release_file() {
     local repo_dir=${1:-$(pwd)}
     
     # Update timestamp
-    sed -i "s/Date: .*/Date: $(LC_ALL=C date -R)/" "${repo_dir}/dists/stable/Release"
+    sed -i "s/Date: .*/Date: $(LC_ALL=C TZ=UTC date -R)/" "${repo_dir}/dists/stable/Release"
     
     # Remove old hash entries
     sed -i '/MD5Sum:/,$d' "${repo_dir}/dists/stable/Release"
