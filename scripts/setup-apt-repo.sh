@@ -84,6 +84,10 @@ fi
 REPO_DIR="$HOME/ros-hacks"
 KEY_NAME="ros-hacks-key"
 SOURCE_DIR="$HOME/ros-hacks"
+BUILD_DIR="${SOURCE_DIR}/build"
+
+# Ensure build directory exists
+mkdir -p "$BUILD_DIR"
 
 echo -e "${BLUE}Setting up APT repository in $REPO_DIR${NC}"
 # Clean up any existing directory that should be a file
@@ -221,7 +225,10 @@ sudo apt install ros-hacks
 1. Build the package:
 \`\`\`bash
 cd ros-hacks
-dpkg-buildpackage -us -uc -b
+# Create source package
+debuild -S -us -uc -i
+# Build in a clean environment with pbuilder
+sudo pbuilder build --buildresult build ../*.dsc
 \`\`\`
 
 2. Add the built package to the repository:
@@ -257,25 +264,42 @@ build_package() {
     fi
 
     # Check if build dependencies are installed
-    if ! command -v dpkg-buildpackage &>/dev/null; then
-        echo -e "${YELLOW}dpkg-buildpackage is not installed. Installing...${NC}"
+    if ! command -v pbuilder &>/dev/null; then
+        echo -e "${YELLOW}pbuilder is not installed. Installing...${NC}"
         sudo apt-get update
-        sudo apt-get install -y debhelper debhelper-compat build-essential dh-make
+        sudo apt-get install -y pbuilder devscripts build-essential lintian
     fi
-    
-    # Create build directory
-    BUILD_DIR="${SOURCE_DIR}/build"
-    mkdir -p "$BUILD_DIR"
-    
+
+    # Build directory is already defined at the top of the script
+
     cd "$SOURCE_DIR"
-    dpkg-buildpackage -us -uc -b -d
+
+    # Create source package without signing
+    echo -e "${BLUE}Creating source package...${NC}"
+    debuild -S -us -uc -i
+
+    # Initialize pbuilder environment if it doesn't exist
+    if [ ! -f /var/cache/pbuilder/base.tgz ]; then
+        echo -e "${BLUE}Setting up pbuilder environment (this may take a while)...${NC}"
+        # Copy pbuilder config to home directory if needed
+        if [ -f "$SOURCE_DIR/.pbuilderrc" ] && [ ! -f ~/.pbuilderrc ]; then
+            cp "$SOURCE_DIR/.pbuilderrc" ~/.pbuilderrc
+        fi
+        sudo pbuilder create --distribution jammy --mirror http://archive.ubuntu.com/ubuntu --components "main universe"
+    fi
+
+    # Build the package with pbuilder in a clean environment
+    echo -e "${BLUE}Building package with pbuilder...${NC}"
+    # Find the .dsc file
+    DSC_FILE=$(find ".." -maxdepth 1 -name "ros-hacks_*.dsc" -type f -printf "%T@ %p\n" | sort -n | tail -1 | cut -d' ' -f2-)
+
+    # Build in a clean chroot environment
+    sudo pbuilder build --buildresult "$BUILD_DIR" "$DSC_FILE"
     if [ $? -eq 0 ]; then
         echo -e "${GREEN}Package built successfully${NC}"
-        
-        # Move .deb files from home directory to build directory
-        echo -e "${BLUE}Moving .deb files to build directory...${NC}"
-        find "$HOME" -maxdepth 1 -name "ros-hacks_*.deb" -type f -exec mv {} "$BUILD_DIR/" \;
-        
+
+        # pbuilder already places files in the build directory with --buildresult
+
         # Find the most recent .deb file in build directory
         DEB_FILE=$(find "$BUILD_DIR" -maxdepth 1 -name "ros-hacks_*.deb" -type f -printf "%T@ %p\n" | sort -n | tail -1 | cut -d' ' -f2-)
         if [ -n "$DEB_FILE" ]; then

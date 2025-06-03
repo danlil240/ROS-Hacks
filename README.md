@@ -25,7 +25,10 @@ sudo apt install ros-hacks
 1. Build the package:
 ```bash
 cd ros-hacks
-dpkg-buildpackage -us -uc -b
+# Create source package
+debuild -S -us -uc -i
+# Build in a clean environment with pbuilder
+sudo pbuilder build --buildresult build ../*.dsc
 ```
 
 2. Add the built package to the repository:

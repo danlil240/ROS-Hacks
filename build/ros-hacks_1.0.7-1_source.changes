@@ -1,0 +1,26 @@
+Format: 1.8
+Date: Tue, 03 Jun 2025 08:51:01 +0300
+Source: ros-hacks
+Built-For-Profiles: noudeb
+Architecture: source
+Version: 1.0.7-1
+Distribution: unstable
+Urgency: medium
+Maintainer: Daniel <danlil240@gmail.com>
+Changed-By: Daniel <danlil240@gmail.com>
+Changes:
+ ros-hacks (1.0.7-1) unstable; urgency=medium
+ .
+   * Auto-updated version to 1.0.7
+Checksums-Sha1:
+ abf02075a840ea601a381bf70185f1aba28b638c 578 ros-hacks_1.0.7-1.dsc
+ 71642ac954d9a7484d89d26c5ae860228cbebc68 200856 ros-hacks_1.0.7-1.tar.xz
+ 8071dc70a5d274c374ee8c8493ed483997c62290 5685 ros-hacks_1.0.7-1_amd64.buildinfo
+Checksums-Sha256:
+ 1bf022676ebebad392e5707d2caa4091a5ff30e7d9b3dea3e720f1d6bac09a3b 578 ros-hacks_1.0.7-1.dsc
+ 05df18f46ffc58e60571ecd52e7127abfa7d5da73e4d9b30298629dbf3e32668 200856 ros-hacks_1.0.7-1.tar.xz
+ 69603e914efb75b00bc988c5fac8cae3231ec4dc17658df6b0d90ee0501bed6b 5685 ros-hacks_1.0.7-1_amd64.buildinfo
+Files:
+ 4dd7b47a3c90f63da9ba4bc54476f19e 578 utils optional ros-hacks_1.0.7-1.dsc
+ 029950b98c0db4f4bd4c62f6fc319df0 200856 utils optional ros-hacks_1.0.7-1.tar.xz
+ 8937dc8aa71c5123dabdfb61b634b311 5685 utils optional ros-hacks_1.0.7-1_amd64.buildinfo
