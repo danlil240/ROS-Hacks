@@ -15,6 +15,7 @@
 # Workspace management shortcuts
 "\eOR": "select_ws\n"                  # F3 - Select ROS2 workspace
 "\e[1;2R": "prompt_new_ws\n"          # Shift+F3 - Create new ROS2 workspace
+"\e[18~": "source_ws_alias_file\n"      # F7 - Source workspace alias file
 
 # ROS package installation shortcuts
 "\e[1;2Q": "sudo apt install -y ros-${ROS2_NAME}-\e\C-e"  # Shift+F2 - Install ROS2 package
@@ -28,7 +29,7 @@
 "\e[20;5~": "rebuild_curr_ws "--cmake-force-configure"\n"  # Ctrl+F9 - Force CMake reconfigure and rebuild
 
 # Package building shortcuts
-"\e[19~": "\e[Hpushd `cat ~/.ros_ws_selected` > /dev/null; colcon build --symlink-install --packages-select \e[F ; popd > /dev/null\n"  # F8 - Build specific package in current workspace
+"\e[19~": "\e[Hpushd `cat ~/.cache/ros-hacks/current_workspace` > /dev/null; colcon build --symlink-install --packages-select \e[F ; popd > /dev/null\n"  # F8 - Build specific package in current workspace
 
 # Installation shortcuts
 "\e\C-i": "sudo apt install -y "         # Alt+Ctrl+i - Start apt install command

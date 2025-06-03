@@ -5,11 +5,25 @@
 # Version: 1.0.0
 # ==========================================================
 
+# Define cache directory for ROS-Hacks
+ROSHACKS_CACHE_DIR=${ROSHACKS_CACHE_DIR:-"$HOME/.cache/ros-hacks"}
+# Ensure cache directory exists
+mkdir -p "${ROSHACKS_CACHE_DIR}"
+
 # Ensure required environment variables are set
-WS_FILE=${WS_FILE:-"$HOME/.ros_ws_selected"}
-ROS_DOMAIN_ID_FILE=${ROS_DOMAIN_ID_FILE:-"$HOME/.ros_domain_id"}
+WS_FILE=${WS_FILE:-"${ROSHACKS_CACHE_DIR}/current_workspace"}
+ROS_DOMAIN_ID_FILE=${ROS_DOMAIN_ID_FILE:-"${ROSHACKS_CACHE_DIR}/domain_id"}
 QUICK_COMMAND_FILE=${QUICK_COMMAND_FILE:-".quick_command"}
 ROS2NAME=${ROS2_NAME:-"humble"}
+
+# Backward compatibility - migrate old files if they exist and cache files don't
+if [[ -f "$HOME/.ros_ws_selected" && ! -f "${WS_FILE}" ]]; then
+    cp "$HOME/.ros_ws_selected" "${WS_FILE}"
+fi
+
+if [[ -f "$HOME/.ros_domain_id" && ! -f "${ROS_DOMAIN_ID_FILE}" ]]; then
+    cp "$HOME/.ros_domain_id" "${ROS_DOMAIN_ID_FILE}"
+fi
 
 # Prompts the user to create a new ROS2 workspace
 # Usage: prompt_new_ws

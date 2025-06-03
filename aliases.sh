@@ -36,9 +36,24 @@ BOLDMAGENTA="\033[1m\033[35m" # Bold Magenta
 BOLDCYAN="\033[1m\033[36m"    # Bold Cyan
 BOLDWHITE="\033[1m\033[37m"   # Bold White
 
-WS_FILE=$HOME/.ros_ws_selected
-ROS_DOMAIN_ID_FILE=$HOME/.ros_domain_id
-QUICK_COMMAND_FILE=.quick_command
+# Cache directory for ROS-Hacks
+ROSHACKS_CACHE_DIR="${HOME}/.cache/ros-hacks"
+# Ensure cache directory exists
+mkdir -p "${ROSHACKS_CACHE_DIR}"
+
+# File paths
+WS_FILE="${ROSHACKS_CACHE_DIR}/current_workspace"
+ROS_DOMAIN_ID_FILE="${ROSHACKS_CACHE_DIR}/domain_id"
+QUICK_COMMAND_FILE=".quick_command"
+
+# Backward compatibility - check if old files exist and migrate them
+if [[ -f "$HOME/.ros_ws_selected" && ! -f "${WS_FILE}" ]]; then
+    mv "$HOME/.ros_ws_selected" "${WS_FILE}"
+fi
+
+if [[ -f "$HOME/.ros_domain_id" && ! -f "${ROS_DOMAIN_ID_FILE}" ]]; then
+    mv "$HOME/.ros_domain_id" "${ROS_DOMAIN_ID_FILE}"
+fi
 
 alias pR='printenv | grep -i -e ROS -e CMAKE -e RMW -e AMENT -e COLCON'
 alias sw='source_ws $(cat $WS_FILE)'

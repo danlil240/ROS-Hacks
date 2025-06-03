@@ -23,6 +23,11 @@ BLUE_TXT='\e[34m'
 LIGHT_BLUE_TXT='\e[96m'
 WHITE_TXT='\e[1;37m'
 
+# Define cache directory for ROS-Hacks
+ROSHACKS_CACHE_DIR="${HOME}/.cache/ros-hacks"
+# Ensure cache directory exists
+mkdir -p "${ROSHACKS_CACHE_DIR}"
+
 # Print header
 function print_header() {
     printf "\n${LIGHT_BLUE_TXT}===============================${NC}\n"
@@ -62,11 +67,15 @@ function check_dir() {
 
 # Check ROS workspace
 function check_workspace() {
-    local ws_file="$HOME/.ros_ws_selected"
+    local ws_file="${ROSHACKS_CACHE_DIR}/current_workspace"
+    local old_ws_file="$HOME/.ros_ws_selected"
 
     printf "${BLUE_TXT}Checking ROS workspace configuration...${NC}\n"
     if [[ -f "$ws_file" ]]; then
         local ws=$(cat "$ws_file" 2>/dev/null || echo "")
+    elif [[ -f "$old_ws_file" ]]; then
+        local ws=$(cat "$old_ws_file" 2>/dev/null || echo "")
+        printf "  ${YELLOW_TXT}⚠ Using old workspace file location. Consider migrating to the new cache directory.${NC}\n"
         if [[ -z "$ws" ]]; then
             printf "  ${YELLOW_TXT}⚠ No workspace currently selected${NC}\n"
         elif [[ ! -d "$ws" ]]; then
@@ -84,11 +93,15 @@ function check_workspace() {
 
 # Check ROS domain ID
 function check_domain_id() {
-    local domain_file="$HOME/.ros_domain_id"
+    local domain_file="${ROSHACKS_CACHE_DIR}/domain_id"
+    local old_domain_file="$HOME/.ros_domain_id"
 
     printf "${BLUE_TXT}Checking ROS domain ID configuration...${NC}\n"
     if [[ -f "$domain_file" ]]; then
         local domain=$(cat "$domain_file" 2>/dev/null || echo "")
+    elif [[ -f "$old_domain_file" ]]; then
+        local domain=$(cat "$old_domain_file" 2>/dev/null || echo "")
+        printf "  ${YELLOW_TXT}⚠ Using old domain ID file location. Consider migrating to the new cache directory.${NC}\n"
         if [[ -z "$domain" ]]; then
             printf "  ${YELLOW_TXT}⚠ Domain ID file exists but is empty${NC}\n"
         else
@@ -134,6 +147,19 @@ function check_dependencies() {
 # Fix common problems
 function fix_problems() {
     printf "\n${BLUE_TXT}Attempting to fix common problems...${NC}\n"
+    
+    # Migrate old files to the new cache directory if needed
+    if [[ -f "$HOME/.ros_ws_selected" && ! -f "${ROSHACKS_CACHE_DIR}/current_workspace" ]]; then
+        printf "  ${BLUE_TXT}Migrating workspace file to cache directory...${NC} "
+        cp "$HOME/.ros_ws_selected" "${ROSHACKS_CACHE_DIR}/current_workspace"
+        printf "${GREEN_TXT}Done${NC}\n"
+    fi
+    
+    if [[ -f "$HOME/.ros_domain_id" && ! -f "${ROSHACKS_CACHE_DIR}/domain_id" ]]; then
+        printf "  ${BLUE_TXT}Migrating domain ID file to cache directory...${NC} "
+        cp "$HOME/.ros_domain_id" "${ROSHACKS_CACHE_DIR}/domain_id"
+        printf "${GREEN_TXT}Done${NC}\n"
+    fi
 
     # Fix .bashrc if needed
     if ! grep -q "ROS-HACKS entries" "$HOME/.bashrc"; then
@@ -150,9 +176,9 @@ EOF
     fi
 
     # Create domain ID file if needed
-    if [[ ! -f "$HOME/.ros_domain_id" ]]; then
+    if [[ ! -f "${ROSHACKS_CACHE_DIR}/domain_id" ]]; then
         printf "  ${BLUE_TXT}Creating default domain ID file...${NC} "
-        echo "0" >"$HOME/.ros_domain_id"
+        echo "0" >"${ROSHACKS_CACHE_DIR}/domain_id"
         printf "${GREEN_TXT}Done${NC}\n"
     fi
 

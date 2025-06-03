@@ -36,6 +36,11 @@ GREEN_TXT='\e[0;32m'
 RED_TXT='\e[31m'
 YELLOW_TXT='\e[93m'
 BLUE_TXT='\e[34m'
+
+# Define cache directory for ROS-Hacks
+ROSHACKS_CACHE_DIR="${HOME}/.cache/ros-hacks"
+# Ensure cache directory exists
+mkdir -p "${ROSHACKS_CACHE_DIR}"
 LIGHT_BLUE_TXT='\e[96m'
 WHITE_TXT='\e[1;37m'
 
@@ -134,9 +139,23 @@ create_initial_configs() {
     printf "${BLUE_TXT}Creating initial configuration files...${NC}\n"
 
     # Create domain ID file if it doesn't exist
-    if [[ ! -f "$HOME/.ros_domain_id" ]]; then
-        echo "0" >"$HOME/.ros_domain_id"
+    if [[ ! -f "${ROSHACKS_CACHE_DIR}/domain_id" ]]; then
+        echo "0" >"${ROSHACKS_CACHE_DIR}/domain_id"
         printf "${GREEN_TXT}Created ROS domain ID file with default value (0)${NC}\n"
+    fi
+    
+    # For backward compatibility
+    if [[ -f "$HOME/.ros_domain_id" && ! -f "${ROSHACKS_CACHE_DIR}/domain_id" ]]; then
+        printf "${BLUE_TXT}Migrating domain ID file to cache directory...${NC} "
+        cp "$HOME/.ros_domain_id" "${ROSHACKS_CACHE_DIR}/domain_id"
+        printf "${GREEN_TXT}Done${NC}\n"
+    fi
+    
+    # Migrate workspace file if it exists
+    if [[ -f "$HOME/.ros_ws_selected" && ! -f "${ROSHACKS_CACHE_DIR}/current_workspace" ]]; then
+        printf "${BLUE_TXT}Migrating workspace file to cache directory...${NC} "
+        cp "$HOME/.ros_ws_selected" "${ROSHACKS_CACHE_DIR}/current_workspace"
+        printf "${GREEN_TXT}Done${NC}\n"
     fi
 
     # Create .colcon directory if it doesn't exist and plant defaults.yaml
