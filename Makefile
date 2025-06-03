@@ -29,7 +29,8 @@ help:
 install:
 	@echo "Installing ROS-Hacks to $(INSTALL_DIR)..."
 	@mkdir -p $(INSTALL_DIR)
-	@cp -r bin src config install docs $(INSTALL_DIR)/
+	@cp -r bin src config install $(INSTALL_DIR)/
+	@cp -f README.md VERSION $(INSTALL_DIR)/ 2>/dev/null || true
 	@chmod +x $(INSTALL_DIR)/bin/*.sh
 	@chmod +x $(INSTALL_DIR)/install/*.sh
 	@$(INSTALL_DIR)/install/setup.sh
