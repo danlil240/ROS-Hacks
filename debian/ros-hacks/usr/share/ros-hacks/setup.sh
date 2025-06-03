@@ -105,13 +105,21 @@ EOF
 configure_inputrc() {
     printf "${BLUE_TXT}Configuring keyboard shortcuts...${NC}\n"
 
-    # Backup existing inputrc if it exists
+    # Backup existing inputrc if it exists and is not a symlink
     if [[ -f "$HOME/.inputrc" && ! -L "$HOME/.inputrc" ]]; then
         printf "${YELLOW_TXT}Backing up existing ~/.inputrc to ~/.inputrc.bak${NC}\n"
         cp "$HOME/.inputrc" "$HOME/.inputrc.bak"
     fi
 
-    # Create symbolic link
+    # Check if symlink exists and where it points to
+    if [[ -L "$HOME/.inputrc" ]]; then
+        current_target=$(readlink "$HOME/.inputrc")
+        if [[ "$current_target" != "${SCRIPT_DIR}/inputrc" ]]; then
+            printf "${YELLOW_TXT}Replacing existing symlink from ~/.inputrc to ${current_target} with our symlink${NC}\n"
+        fi
+    fi
+
+    # Create symbolic link (will replace existing symlink if it exists)
     printf "${BLUE_TXT}Linking ROS2-Hacks inputrc file...${NC}\n"
     ln -sf "${SCRIPT_DIR}/inputrc" "$HOME/.inputrc"
 

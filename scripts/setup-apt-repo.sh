@@ -262,13 +262,22 @@ build_package() {
         sudo apt-get update
         sudo apt-get install -y debhelper debhelper-compat build-essential dh-make
     fi
-
+    
+    # Create build directory
+    BUILD_DIR="${SOURCE_DIR}/build"
+    mkdir -p "$BUILD_DIR"
+    
     cd "$SOURCE_DIR"
     dpkg-buildpackage -us -uc -b -d
     if [ $? -eq 0 ]; then
         echo -e "${GREEN}Package built successfully${NC}"
-        # Find the most recent .deb file
-        DEB_FILE=$(find "$HOME" -maxdepth 1 -name "ros-hacks_*.deb" -type f -printf "%T@ %p\n" | sort -n | tail -1 | cut -d' ' -f2-)
+        
+        # Move .deb files from home directory to build directory
+        echo -e "${BLUE}Moving .deb files to build directory...${NC}"
+        find "$HOME" -maxdepth 1 -name "ros-hacks_*.deb" -type f -exec mv {} "$BUILD_DIR/" \;
+        
+        # Find the most recent .deb file in build directory
+        DEB_FILE=$(find "$BUILD_DIR" -maxdepth 1 -name "ros-hacks_*.deb" -type f -printf "%T@ %p\n" | sort -n | tail -1 | cut -d' ' -f2-)
         if [ -n "$DEB_FILE" ]; then
             echo -e "${GREEN}Found package: $DEB_FILE${NC}"
             add_package "$DEB_FILE"
