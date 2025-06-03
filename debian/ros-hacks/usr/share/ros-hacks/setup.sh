@@ -113,7 +113,6 @@ configure_inputrc() {
 
     # Create symbolic link
     printf "${BLUE_TXT}Linking ROS2-Hacks inputrc file...${NC}\n"
-    SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
     ln -sf "${SCRIPT_DIR}/inputrc" "$HOME/.inputrc"
 
     # Only run bind if we're in an interactive shell
