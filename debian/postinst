@@ -7,12 +7,15 @@ set -e
 case "$1" in
     configure)
         # Create symbolic link for easy access
-        ln -sf /usr/share/ros-hacks/setup.sh /usr/bin/ros-hacks-setup
+        ln -sf /usr/share/ros-hacks/install/setup.sh /usr/bin/ros-hacks-setup
+        ln -sf /usr/share/ros-hacks/bin/ros-hacks.sh /usr/bin/ros-hacks
         
         echo "ROS-Hacks has been installed!"
         if [ -z "$CI" ]; then
             echo "Running setup..."
-            /usr/bin/ros-hacks-setup
+            # Make sure the script is executable
+            chmod +x /usr/share/ros-hacks/install/setup.sh
+            /usr/share/ros-hacks/install/setup.sh
         else
             echo "Skipping setup in CI environment."
         fi

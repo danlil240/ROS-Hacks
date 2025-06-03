@@ -3,7 +3,29 @@
 	dh $@
 
 override_dh_install:
+	# Create main directory
 	mkdir -p debian/ros-hacks/usr/share/ros-hacks
-	cp -r *.sh *.yaml inputrc VERSION README.md debian/ros-hacks/usr/share/ros-hacks/
+
+	# Copy bin directory with executable scripts
+	mkdir -p debian/ros-hacks/usr/share/ros-hacks/bin
+	cp -r bin/* debian/ros-hacks/usr/share/ros-hacks/bin/
+
+	# Copy src directory with modular functions
+	mkdir -p debian/ros-hacks/usr/share/ros-hacks/src
+	cp -r src/* debian/ros-hacks/usr/share/ros-hacks/src/
+
+	# Copy config directory
+	mkdir -p debian/ros-hacks/usr/share/ros-hacks/config
+	cp -r config/* debian/ros-hacks/usr/share/ros-hacks/config/
+
+	# Copy install scripts
+	mkdir -p debian/ros-hacks/usr/share/ros-hacks/install
+	cp -r install/* debian/ros-hacks/usr/share/ros-hacks/install/
+
+	# Copy docs and other important files
+	cp VERSION README.md Makefile debian/ros-hacks/usr/share/ros-hacks/
+
+	# Create symlinks in /usr/bin
 	mkdir -p debian/ros-hacks/usr/bin
-	ln -sf /usr/share/ros-hacks/setup.sh debian/ros-hacks/usr/bin/ros-hacks-setup
+	ln -sf /usr/share/ros-hacks/bin/ros-hacks.sh debian/ros-hacks/usr/bin/ros-hacks
+	ln -sf /usr/share/ros-hacks/install/setup.sh debian/ros-hacks/usr/bin/ros-hacks-setup

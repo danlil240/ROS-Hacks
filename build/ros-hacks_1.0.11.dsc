@@ -10,8 +10,8 @@ Build-Depends: debhelper-compat (= 13)
 Package-List:
  ros-hacks deb utils optional arch=all
 Checksums-Sha1:
- de5dc982340c21089f1595e906bc284d712a0085 2615352 ros-hacks_1.0.11.tar.xz
+ b07dd5f4435d16c770d2916eeaab221d723cca98 6896524 ros-hacks_1.0.11.tar.xz
 Checksums-Sha256:
- 29aa69402f584d2380bfedaff0c43ca6adc73634e481ef8a5d2c45da684d2c2f 2615352 ros-hacks_1.0.11.tar.xz
+ ddde2e1c32212c797139a141dfb708fc42a5aa23e7f994cdc640039b4b09500c 6896524 ros-hacks_1.0.11.tar.xz
 Files:
- 24bbdbe3757f08f8ab1cd5ffe52676e4 2615352 ros-hacks_1.0.11.tar.xz
+ a41e7fa29cee91e40935dc465674212b 6896524 ros-hacks_1.0.11.tar.xz

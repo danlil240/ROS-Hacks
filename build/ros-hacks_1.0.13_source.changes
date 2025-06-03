@@ -1,0 +1,26 @@
+Format: 1.8
+Date: Tue, 03 Jun 2025 13:30:05 +0300
+Source: ros-hacks
+Built-For-Profiles: noudeb
+Architecture: source
+Version: 1.0.13
+Distribution: unstable
+Urgency: medium
+Maintainer: Daniel <danlil240@gmail.com>
+Changed-By: ROS-Hacks <ros-hacks@example.com>
+Changes:
+ ros-hacks (1.0.13) unstable; urgency=medium
+ .
+   * Auto-updated version to 1.0.13
+Checksums-Sha1:
+ f6d37baaca7b60eecaf6c307b7994d3e27e26874 577 ros-hacks_1.0.13.dsc
+ b12a1a88af4f65ea8f109ba320509bb3fdca67d3 7634972 ros-hacks_1.0.13.tar.xz
+ d79f42e45b037860d61ee67fdadc79a4a615a11b 5682 ros-hacks_1.0.13_amd64.buildinfo
+Checksums-Sha256:
+ 0bfdf67535051f749e39629904deb7097c6bf4cfe7a1f2a0fb1d889138d94ea2 577 ros-hacks_1.0.13.dsc
+ 0b3d6043f691ba8c5fad36677910f8ba3f993b871088d5a51d610018ac882ed3 7634972 ros-hacks_1.0.13.tar.xz
+ 09b21a7073f8fb02bed7e45271ab54441ef1c977fab397d8b3cb516dae5cc917 5682 ros-hacks_1.0.13_amd64.buildinfo
+Files:
+ 369253f725dd8ab744e17bd8ebc63a01 577 utils optional ros-hacks_1.0.13.dsc
+ 666f49d3d24b7c72b7d00874968cd347 7634972 utils optional ros-hacks_1.0.13.tar.xz
+ dc814289d5b248ded71f08365e0e6bfe 5682 utils optional ros-hacks_1.0.13_amd64.buildinfo

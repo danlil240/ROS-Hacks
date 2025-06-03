@@ -16,17 +16,17 @@ Changes:
  .
    * Auto-updated version to 1.0.11
 Checksums-Sha1:
- e1419beb52cfad52a00b03652cbc1919e97ac54c 577 ros-hacks_1.0.11.dsc
- de5dc982340c21089f1595e906bc284d712a0085 2615352 ros-hacks_1.0.11.tar.xz
- 6fad6f98731425c541f66b5c3048d9d485b334f7 15202 ros-hacks_1.0.11_all.deb
- c293ea323cbeb18ebd5d8619883f3c46754529e5 5679 ros-hacks_1.0.11_amd64.buildinfo
+ e5b4141e955a5f650f6142b0aac9f82d81736052 577 ros-hacks_1.0.11.dsc
+ b07dd5f4435d16c770d2916eeaab221d723cca98 6896524 ros-hacks_1.0.11.tar.xz
+ 8c7026386bdae0ea373fb9132a312a009bb51c6e 13946 ros-hacks_1.0.11_all.deb
+ b1a5c5b3666f699310af2de5805bb7b42f52ea05 5679 ros-hacks_1.0.11_amd64.buildinfo
 Checksums-Sha256:
- 2b26117d3dae526c29393075b87ccec3a23fc0b0b3cafe2a85b01007d1c8b572 577 ros-hacks_1.0.11.dsc
- 29aa69402f584d2380bfedaff0c43ca6adc73634e481ef8a5d2c45da684d2c2f 2615352 ros-hacks_1.0.11.tar.xz
- e681d8b18b4522522b442eaf5a15310d94e2b311ebb9224fe1d6a7286afddb0b 15202 ros-hacks_1.0.11_all.deb
- edb2d6c819c5fa486a7aab8201352c0f4abc150435d257dcb515bfff7a22d822 5679 ros-hacks_1.0.11_amd64.buildinfo
+ 0854ab0b3262cce6bfcf33d904598dc39dd22ebc8d4503de29b4985419ed77ba 577 ros-hacks_1.0.11.dsc
+ ddde2e1c32212c797139a141dfb708fc42a5aa23e7f994cdc640039b4b09500c 6896524 ros-hacks_1.0.11.tar.xz
+ d4a04a904ce2b12d3f146800919f593a082131d1997ebacce61e32f559b35998 13946 ros-hacks_1.0.11_all.deb
+ de4e44abc7f90168881bcd132b3dc6a2b0a8e422f75e1ae167b3574247be5068 5679 ros-hacks_1.0.11_amd64.buildinfo
 Files:
- 160f9fd1fa39bb8a0d3081278f5a64e4 577 utils optional ros-hacks_1.0.11.dsc
- 24bbdbe3757f08f8ab1cd5ffe52676e4 2615352 utils optional ros-hacks_1.0.11.tar.xz
- cb3829f95b9c5f2e37a877d76447a500 15202 utils optional ros-hacks_1.0.11_all.deb
- 8ddb3015c6b1d3dd37a783bf68644308 5679 utils optional ros-hacks_1.0.11_amd64.buildinfo
+ 9299efa36daac426a569ec948691b226 577 utils optional ros-hacks_1.0.11.dsc
+ a41e7fa29cee91e40935dc465674212b 6896524 utils optional ros-hacks_1.0.11.tar.xz
+ a9d0717e252b8ff6940374ad1519cd45 13946 utils optional ros-hacks_1.0.11_all.deb
+ 6ba9b49b7ba86726df5074249a907768 5679 utils optional ros-hacks_1.0.11_amd64.buildinfo
