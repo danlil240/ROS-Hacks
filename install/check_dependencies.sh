@@ -39,4 +39,6 @@ function check_dependencies() {
     else
         printf "${GREEN_TXT}✓ fzf is installed${NC}\n"
     fi
+
+    export ROSHACKS_DEPENDENCIES_CHECKED=1
 }

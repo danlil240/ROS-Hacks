@@ -50,11 +50,6 @@ fi
 # Check dependencies if needed
 if [[ -f "${ROSHACKS_DIR}/install/check_dependencies.sh" ]]; then
     source "${ROSHACKS_DIR}/install/check_dependencies.sh"
-    # Verify dependencies on first load
-    if [[ -z "${ROSHACKS_DEPENDENCIES_CHECKED}" ]]; then
-        check_dependencies
-        export ROSHACKS_DEPENDENCIES_CHECKED=1
-    fi
 else
     echo "[ROS-Hacks] Warning: Could not find check_dependencies.sh file."
 fi
@@ -80,5 +75,3 @@ export COLCON_DEFAULTS_FILE=$COLCON_HOME/defaults.yaml
 
 # Mark as loaded to prevent duplicate sourcing
 export ROSHACKS_LOADED=1
-
-echo "[ROS-Hacks] Loaded v${VERSION}"

@@ -202,16 +202,6 @@ function rebuild_curr_ws() {
         return 1
     fi
 
-    # Check if we should clean first
-    read -p "Clean the workspace before building? (y/n): " choice
-    case "$choice" in
-    y | Y)
-        printf "${YELLOW_TXT}Cleaning workspace...${NC}\n"
-        clean_ros2_ws "$curr_ws"
-        ;;
-    *) printf "${BLUE_TXT}Skipping workspace cleaning.${NC}\n" ;;
-    esac
-
     # Change to workspace directory
     cd "$curr_ws" || {
         printf "${RED_TXT}Failed to change to workspace directory.${NC}\n"
