@@ -23,6 +23,9 @@ function setup_apt_repo() {
     gzip -9 -c "${repo_dir}/dists/stable/main/binary-i386/Packages" > "${repo_dir}/dists/stable/main/binary-i386/Packages.gz"
     
     # Create Release file with proper hash entries
+    # Format date as YYYY-MM-DD HH:MM:SS UTC which is always accepted by APT
+    local formatted_date=$(LC_ALL=C TZ=UTC date +"%Y-%m-%d %H:%M:%S UTC")
+    
     cat > "${repo_dir}/dists/stable/Release" << EOF
 Origin: ROS-Hacks
 Label: ROS-Hacks
@@ -32,7 +35,7 @@ Version: 1.0
 Architectures: amd64 i386
 Components: main
 Description: ROS-Hacks APT Repository
-Date: $(LC_ALL=C TZ=UTC date -R)
+Date: ${formatted_date}
 EOF
     
     # Generate hash entries for Release file
@@ -129,8 +132,9 @@ function add_package_to_repo() {
 function update_release_file() {
     local repo_dir=${1:-$(pwd)}
     
-    # Update timestamp
-    sed -i "s/Date: .*/Date: $(LC_ALL=C TZ=UTC date -R)/" "${repo_dir}/dists/stable/Release"
+    # Update timestamp with format YYYY-MM-DD HH:MM:SS UTC
+    local formatted_date=$(LC_ALL=C TZ=UTC date +"%Y-%m-%d %H:%M:%S UTC")
+    sed -i "s/Date: .*/Date: ${formatted_date}/" "${repo_dir}/dists/stable/Release"
     
     # Remove old hash entries
     sed -i '/MD5Sum:/,$d' "${repo_dir}/dists/stable/Release"
