@@ -6,19 +6,19 @@ Version: 1.0
 Architectures: amd64 i386
 Components: main
 Description: ROS-Hacks APT Repository
-Date: Tue, 03 Jun 2025 13:39:38 +0300
+Date: 20250603
 MD5Sum:
- c102e34a28b499553c4d7113a807efc3 1726 ./main/binary-amd64/Packages.gz
+ 68151d558179eb2282ec08d5f4dab79f 1726 ./main/binary-amd64/Packages.gz
  13efd3307875892d60562ad5c5fb6480 8800 ./main/binary-amd64/Packages
- 1e330aa8c228c49cee1be8bff920eeae 29 ./main/binary-i386/Packages.gz
+ 787b22e7fc8573c0a51d9bb8ad4136f9 29 ./main/binary-i386/Packages.gz
  d41d8cd98f00b204e9800998ecf8427e 0 ./main/binary-i386/Packages
 SHA1:
- b0f52b0d831e23f566a70b491f8f948b2eabda8e 1726 ./main/binary-amd64/Packages.gz
+ b89a929cdf756c557c9901d0ced99633a765d1c1 1726 ./main/binary-amd64/Packages.gz
  6e32ca69d05d01a590e277c5cd43dee3661d9ce5 8800 ./main/binary-amd64/Packages
- f49041f6e8486025e62ef1543e28afdb6b3205e2 29 ./main/binary-i386/Packages.gz
+ a05ecea40bc11520c3811d5606df6dd7bf1a93dd 29 ./main/binary-i386/Packages.gz
  da39a3ee5e6b4b0d3255bfef95601890afd80709 0 ./main/binary-i386/Packages
 SHA256:
- 38f853aa5c9cdea1ba387c35e46d8d87a07b6a94713a376fe12e30fbfa3d42ed 1726 ./main/binary-amd64/Packages.gz
+ ef01dc47c2dce42fd96f5e03d91e21422379911a444298bc63a1bd5532560189 1726 ./main/binary-amd64/Packages.gz
  c12de7ef3b7424b7187204993a061af81f0608fa1d361ac8f8080a09b959c770 8800 ./main/binary-amd64/Packages
- 19b7342fee034403f99e336c85225d9556e3b652d8dcbe89680297ecfb899d55 29 ./main/binary-i386/Packages.gz
+ 340f6dd6f7e933a9c227056edc5996ff40d60e2fc6dafe805cfc7f7774a78cee 29 ./main/binary-i386/Packages.gz
  e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 0 ./main/binary-i386/Packages
