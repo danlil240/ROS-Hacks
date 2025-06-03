@@ -13,7 +13,7 @@ mkdir -p "${ROSHACKS_CACHE_DIR}"
 # Ensure required environment variables are set
 WS_FILE=${WS_FILE:-"${ROSHACKS_CACHE_DIR}/current_workspace"}
 ROS_DOMAIN_ID_FILE=${ROS_DOMAIN_ID_FILE:-"${ROSHACKS_CACHE_DIR}/domain_id"}
-QUICK_COMMAND_FILE=${QUICK_COMMAND_FILE:-".quick_command"}
+QUICK_COMMAND_FILE=${QUICK_COMMAND_FILE:-"${ROSHACKS_CACHE_DIR}/.quick_command"}
 ROS2NAME=${ROS2_NAME:-"humble"}
 
 # Backward compatibility - migrate old files if they exist and cache files don't
@@ -596,24 +596,6 @@ function exec-quick-command() {
     return 0
 }
 
-function kill-tmux-quick-command() {
-    ses_name=$(get_current_ws_name)
-    printf "Killing tmux session ${ses_name} and all ROS2 nodes...\n"
-    tmux kill-session -t ${ses_name} >/dev/null 2>&1
-    sleep 0.2
-
-    # Kill all ROS2 nodes
-    ros2 node list | xargs -r -L 1 -I % sh -c 'ros2 lifecycle set % shutdown || true; ros2 service call % shutdown || true' >/dev/null 2>&1
-    pkill -f ros2
-
-    # Kill Gazebo processes
-    pkill -f gz
-    pkill -f gazebo
-
-    printf "All processes terminated.\n"
-    return 0
-}
-
 # ==========================================================
 # System Utility Functions
 # ==========================================================
@@ -646,59 +628,4 @@ function fixJB() {
     else
         printf "${YELLOW_TXT}PyCharm CE not found in ~/.local/share/applications${NC}\n"
     fi
-}
-
-# ==========================================================
-# ROS2 Message Debugging Functions
-# ==========================================================
-
-function ros2_topic_monitor() {
-    topic=${1:-""}
-    if [[ -z "${topic}" ]]; then
-        topic=$(ros2 topic list | fzf --prompt="Select topic: ")
-        if [[ -z "${topic}" ]]; then
-            printf "${RED_TXT}No topic selected.${NC}\n"
-            return 1
-        fi
-    fi
-
-    printf "${GREEN_TXT}Monitoring topic: ${topic}${NC}\n"
-    printf "${YELLOW_TXT}Press Ctrl+C to stop${NC}\n"
-    ros2 topic echo $topic
-}
-
-function ros2_topic_hz() {
-    topic=${1:-""}
-    if [[ -z "${topic}" ]]; then
-        topic=$(ros2 topic list | fzf --prompt="Select topic: ")
-        if [[ -z "${topic}" ]]; then
-            printf "${RED_TXT}No topic selected.${NC}\n"
-            return 1
-        fi
-    fi
-
-    printf "${GREEN_TXT}Checking topic frequency: ${topic}${NC}\n"
-    printf "${YELLOW_TXT}Press Ctrl+C to stop${NC}\n"
-    ros2 topic hz $topic
-}
-
-function ros2_topic_bw() {
-    topic=${1:-""}
-    if [[ -z "${topic}" ]]; then
-        topic=$(ros2 topic list | fzf --prompt="Select topic: ")
-        if [[ -z "${topic}" ]]; then
-            printf "${RED_TXT}No topic selected.${NC}\n"
-            return 1
-        fi
-    fi
-
-    printf "${GREEN_TXT}Checking topic bandwidth: ${topic}${NC}\n"
-    printf "${YELLOW_TXT}Press Ctrl+C to stop${NC}\n"
-    ros2 topic bw $topic
-}
-
-function ros2_pkg_list() {
-    find "$curr_ws/install" -mindepth 1 -maxdepth 1 -type d -not -path "*/\.*" \
-        -not -name "include" -not -name "lib" -not -name "share" \
-        -not -name "bin" -not -name "etc" -exec basename {} \;
 }

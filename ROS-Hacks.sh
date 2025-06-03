@@ -28,18 +28,6 @@ else
     return 1
 fi
 
-if [[ -f "${ROSHACKS_DIR}/ws_aliases.sh" ]]; then
-    source "${ROSHACKS_DIR}/ws_aliases.sh"
-else
-    echo "[ROS-Hacks] Warning: Could not find ws_aliases.sh file."
-fi
-
-if [[ -f "${ROSHACKS_DIR}/ws_memory.sh" ]]; then
-    source "${ROSHACKS_DIR}/ws_memory.sh"
-else
-    echo "[ROS-Hacks] Warning: Could not find ws_memory.sh file."
-fi
-
 if [[ -f "${ROSHACKS_DIR}/check_dependencies.sh" ]]; then
     source "${ROSHACKS_DIR}/check_dependencies.sh"
     # Verify dependencies on first load
