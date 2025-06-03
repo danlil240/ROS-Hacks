@@ -22,7 +22,22 @@ sudo apt install ros-hacks
 
 ## Publishing Instructions
 
-1. Build the package:
+### Local Development
+
+1. Build the package using the script (recommended):
+```bash
+cd ros-hacks
+./scripts/setup-apt-repo.sh build
+```
+
+This will automatically:
+- Create a source package with `debuild -S`
+- Build in a clean environment with `pbuilder`
+- Add the package to your local repository
+
+### Manual Build Process
+
+1. Build the package manually:
 ```bash
 cd ros-hacks
 # Create source package
@@ -30,6 +45,10 @@ debuild -S -us -uc -i
 # Build in a clean environment with pbuilder
 sudo pbuilder build --buildresult build ../*.dsc
 ```
+
+### GitHub Actions
+
+The GitHub workflow uses direct package building with `dpkg-buildpackage` instead of pbuilder, as pbuilder has mount permission restrictions in the GitHub Actions environment.
 
 2. Add the built package to the repository:
 ```bash

@@ -21,18 +21,16 @@ jobs:
       - name: Install dependencies
         run: |
           for i in $(seq 1 5); do apt-get update && break || sleep 5; done
-          for i in $(seq 1 5); do apt-get install -y pbuilder devscripts && break || sleep 5; done
-          # Initialize pbuilder with Ubuntu Jammy
-          pbuilder create --distribution jammy --mirror http://archive.ubuntu.com/ubuntu --components "main universe"
+          for i in $(seq 1 5); do apt-get install -y devscripts debhelper build-essential fakeroot lintian && break || sleep 5; done
 
       - name: Build package
         run: |
           # Create build directory
           mkdir -p build
-          # Create source package
-          debuild -S -us -uc -i
-          # Build with pbuilder
-          pbuilder build --buildresult build ../*.dsc
+          # Build package directly
+          DEB_BUILD_OPTIONS=nocheck LINTIAN=0 dpkg-buildpackage -us -uc -b
+          # Move build artifacts to build directory
+          cp ../*.deb build/
 
       - name: Prepare artifacts
         run: |
