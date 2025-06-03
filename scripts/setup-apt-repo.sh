@@ -262,20 +262,20 @@ build_package() {
         sudo apt-get update
         sudo apt-get install -y debhelper debhelper-compat build-essential dh-make
     fi
-    
+
     # Create build directory
     BUILD_DIR="${SOURCE_DIR}/build"
     mkdir -p "$BUILD_DIR"
-    
+
     cd "$SOURCE_DIR"
     dpkg-buildpackage -us -uc -b -d
     if [ $? -eq 0 ]; then
         echo -e "${GREEN}Package built successfully${NC}"
-        
+
         # Move .deb files from home directory to build directory
         echo -e "${BLUE}Moving .deb files to build directory...${NC}"
         find "$HOME" -maxdepth 1 -name "ros-hacks_*.deb" -type f -exec mv {} "$BUILD_DIR/" \;
-        
+
         # Find the most recent .deb file in build directory
         DEB_FILE=$(find "$BUILD_DIR" -maxdepth 1 -name "ros-hacks_*.deb" -type f -printf "%T@ %p\n" | sort -n | tail -1 | cut -d' ' -f2-)
         if [ -n "$DEB_FILE" ]; then
@@ -377,6 +377,51 @@ show_instructions() {
     echo -e "${YELLOW}3. It may take a few minutes for the pages to be published${NC}"
 }
 
+# Install package locally without adding to repo or pushing to git
+install_local() {
+    local PACKAGE=$1
+
+    if [ ! -f "$PACKAGE" ]; then
+        echo -e "${RED}Package file not found: $PACKAGE${NC}"
+        return 1
+    fi
+
+    echo -e "${BLUE}Installing package locally: $(basename $PACKAGE)${NC}"
+
+    # Check if the package is already installed
+    PACKAGE_NAME=$(dpkg-deb -f "$PACKAGE" Package)
+    CURRENT_VERSION=$(dpkg-query -W -f='${Version}' "$PACKAGE_NAME" 2>/dev/null || echo "not installed")
+
+    if [ "$CURRENT_VERSION" != "not installed" ]; then
+        echo -e "${YELLOW}Package $PACKAGE_NAME is already installed (version $CURRENT_VERSION)${NC}"
+        echo -e "${YELLOW}Reinstalling...${NC}"
+    else
+        echo -e "${GREEN}Installing new package: $PACKAGE_NAME${NC}"
+    fi
+
+    # Install the package
+    sudo dpkg -i "$PACKAGE"
+    INSTALL_STATUS=$?
+
+    # Handle potential dependency issues
+    if [ $INSTALL_STATUS -ne 0 ]; then
+        echo -e "${YELLOW}Fixing dependencies and retrying...${NC}"
+        sudo apt-get install -f -y
+        sudo dpkg -i "$PACKAGE"
+        INSTALL_STATUS=$?
+    fi
+
+    if [ $INSTALL_STATUS -eq 0 ]; then
+        echo -e "${GREEN}Package installed successfully${NC}"
+        # Show version of installed package
+        NEW_VERSION=$(dpkg-query -W -f='${Version}' "$PACKAGE_NAME")
+        echo -e "${GREEN}Installed version: $NEW_VERSION${NC}"
+    else
+        echo -e "${RED}Failed to install package${NC}"
+        return 1
+    fi
+}
+
 # Main logic
 if [ "$1" = "add" ] && [ -n "$2" ]; then
     add_package "$2"
@@ -398,15 +443,44 @@ elif [ "$1" = "github" ]; then
     show_instructions "$GITHUB_USER"
 elif [ "$1" = "build" ]; then
     build_package
+elif [ "$1" = "install-local" ] && [ -n "$2" ]; then
+    install_local "$2"
+elif [ "$1" = "build-install" ]; then
+    # Build the package and install it locally in one step
+    build_package
+    # Find the most recent .deb file in build directory
+    DEB_FILE=$(find "$BUILD_DIR" -maxdepth 1 -name "ros-hacks_*.deb" -type f -printf "%T@ %p\n" | sort -n | tail -1 | cut -d' ' -f2-)
+    if [ -n "$DEB_FILE" ]; then
+        echo -e "${GREEN}Found package: $DEB_FILE${NC}"
+        install_local "$DEB_FILE"
+    else
+        echo -e "${RED}Could not find built .deb package${NC}"
+        exit 1
+    fi
 else
-    echo -e "${BLUE}Initial repository setup...${NC}"
-    update_repo
-    create_instructions
+    echo -e "${BLUE}ROS-Hacks APT Repository Setup Tool${NC}"
+    echo -e "${YELLOW}Usage:${NC}"
+    echo -e "  $(basename $0)                   - Initial repository setup"
+    echo -e "  $(basename $0) build             - Build the package"
+    echo -e "  $(basename $0) add <deb-file>    - Add a .deb package to the repository"
+    echo -e "  $(basename $0) update            - Update repository metadata"
+    echo -e "  $(basename $0) github            - Push to GitHub and show installation instructions"
+    echo -e "  $(basename $0) all               - Do all steps: build, add to repo, push to GitHub"
+    echo -e "  $(basename $0) install-local <deb-file> - Install a .deb package locally without adding to repo"
+    echo -e "  $(basename $0) build-install     - Build the package and install it locally"
 
-    echo -e "${GREEN}Repository setup complete!${NC}"
-    echo -e "${YELLOW}Next steps:${NC}"
-    echo -e "1. Run '$(basename $0) build' to build the package"
-    echo -e "2. Run '$(basename $0) github' to setup and push to GitHub"
-    echo -e "   OR"
-    echo -e "3. Run '$(basename $0) all' to do everything in one step"
+    if [ -z "$1" ]; then
+        echo -e "\n${BLUE}Running initial repository setup...${NC}"
+        update_repo
+        create_instructions
+
+        echo -e "${GREEN}Repository setup complete!${NC}"
+        echo -e "${YELLOW}Next steps:${NC}"
+        echo -e "1. Run '$(basename $0) build' to build the package"
+        echo -e "2. Run '$(basename $0) github' to setup and push to GitHub"
+        echo -e "   OR"
+        echo -e "3. Run '$(basename $0) all' to do everything in one step"
+        echo -e "   OR"
+        echo -e "4. Run '$(basename $0) build-install' to build and install locally without publishing"
+    fi
 fi
