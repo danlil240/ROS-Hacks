@@ -4,14 +4,16 @@ This is a personal APT repository for the ROS-Hacks package.
 
 ## Adding this repository to your system
 
-1. Add the GPG key:
+1. Download the GPG key and set up the keyring:
 ```bash
-wget -qO - https://danlil240.github.io/ros-hacks-repo/ros-hacks.key | sudo apt-key add -
+wget -O /tmp/ros-hacks.key https://danlil240.github.io/ROS-Hacks/ros-hacks.key
+sudo mkdir -p /etc/apt/keyrings
+cat /tmp/ros-hacks.key | sudo gpg --dearmor -o /etc/apt/keyrings/ros-hacks.gpg
 ```
 
-2. Add the repository to your sources:
+2. Add the repository to your sources (using the modern signed-by approach):
 ```bash
-echo "deb https://danlil240.github.io/ros-hacks-repo stable main" | sudo tee /etc/apt/sources.list.d/ros-hacks.list
+echo "deb [signed-by=/etc/apt/keyrings/ros-hacks.gpg] https://danlil240.github.io/ROS-Hacks stable main" | sudo tee /etc/apt/sources.list.d/ros-hacks.list
 ```
 
 3. Update and install:
@@ -24,7 +26,7 @@ sudo apt install ros-hacks
 
 1. Build the package:
 ```bash
-cd ros-hacks
+cd ROS-Hacks
 dpkg-buildpackage -us -uc -b
 ```
 
@@ -35,8 +37,10 @@ scripts/setup-apt-repo.sh add ../ros-hacks_*.deb
 
 3. Push the repository to GitHub:
 ```bash
-cd ~/ros-hacks-repo
+cd ~/ROS-Hacks
 git add .
 git commit -m "Update repository"
 git push
 ```
+
+4. Ensure GitHub Pages is configured in your repository settings to serve from the main branch.
