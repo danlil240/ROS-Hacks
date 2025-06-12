@@ -134,8 +134,8 @@ create_initial_configs() {
     printf "${BLUE_TXT}Creating initial configuration files...${NC}\n"
 
     # Create domain ID file if it doesn't exist
-    if [[ ! -f "$HOME/.ros_domain_id" ]]; then
-        echo "0" >"$HOME/.ros_domain_id"
+    if [[ ! -f "$HOME/.cache/ros-hacks/ros_domain_id" ]]; then
+        echo "0" >"$HOME/.cache/ros-hacks/ros_domain_id"
         printf "${GREEN_TXT}Created ROS domain ID file with default value (0)${NC}\n"
     fi
 

@@ -84,7 +84,7 @@ function check_workspace() {
 
 # Check ROS domain ID
 function check_domain_id() {
-    local domain_file="$HOME/.ros_domain_id"
+    local domain_file="$HOME/.cache/ros-hacks/ros_domain_id"
 
     printf "${BLUE_TXT}Checking ROS domain ID configuration...${NC}\n"
     if [[ -f "$domain_file" ]]; then
@@ -150,9 +150,9 @@ EOF
     fi
 
     # Create domain ID file if needed
-    if [[ ! -f "$HOME/.ros_domain_id" ]]; then
+    if [[ ! -f "$HOME/.cache/ros-hacks/ros_domain_id" ]]; then
         printf "  ${BLUE_TXT}Creating default domain ID file...${NC} "
-        echo "0" >"$HOME/.ros_domain_id"
+        echo "0" >"$HOME/.cache/ros-hacks/ros_domain_id"
         printf "${GREEN_TXT}Done${NC}\n"
     fi
 
