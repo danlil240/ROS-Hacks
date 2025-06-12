@@ -36,9 +36,9 @@ BOLDMAGENTA="\033[1m\033[35m" # Bold Magenta
 BOLDCYAN="\033[1m\033[36m"    # Bold Cyan
 BOLDWHITE="\033[1m\033[37m"   # Bold White
 
-WS_FILE=$HOME/.ros_ws_selected
-ROS_DOMAIN_ID_FILE=$HOME/.ros_domain_id
-QUICK_COMMAND_FILE=.quick_command
+WS_FILE=$HOME/.cache/ros-hacks/ros_ws_selected
+ROS_DOMAIN_ID_FILE=$HOME/.cache/ros-hacks/ros_domain_id
+QUICK_COMMAND_FILE=$HOME/.cache/ros-hacks/quick_command
 
 alias pR='printenv | grep -i -e ROS -e CMAKE -e RMW -e AMENT -e COLCON'
 alias sw='source_ws $(cat $WS_FILE)'

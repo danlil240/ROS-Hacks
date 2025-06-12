@@ -62,7 +62,7 @@ function check_dir() {
 
 # Check ROS workspace
 function check_workspace() {
-    local ws_file="$HOME/.ros_ws_selected"
+    local ws_file="$HOME/.cache/ros-hacks/ros_ws_selected"
 
     printf "${BLUE_TXT}Checking ROS workspace configuration...${NC}\n"
     if [[ -f "$ws_file" ]]; then

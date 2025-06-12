@@ -28,7 +28,7 @@
 "\e[20;5~": "rebuild_curr_ws "--cmake-force-configure"\n"  # Ctrl+F9 - Force CMake reconfigure and rebuild
 
 # Package building shortcuts
-"\e[19~": "\e[Hpushd `cat ~/.ros_ws_selected` > /dev/null; colcon build --symlink-install --packages-select \e[F ; popd > /dev/null\n"  # F8 - Build specific package in current workspace
+"\e[19~": "\e[Hpushd `cat ~/.cache/ros-hacks/ros_ws_selected` > /dev/null; colcon build --symlink-install --packages-select \e[F ; popd > /dev/null\n"  # F8 - Build specific package in current workspace
 
 # Installation shortcuts
 "\e\C-i": "sudo apt install -y "         # Alt+Ctrl+i - Start apt install command

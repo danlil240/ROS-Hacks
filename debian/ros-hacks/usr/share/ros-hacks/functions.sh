@@ -6,10 +6,11 @@
 # ==========================================================
 
 # Ensure required environment variables are set
-WS_FILE=${WS_FILE:-"$HOME/.ros_ws_selected"}
-ROS_DOMAIN_ID_FILE=${ROS_DOMAIN_ID_FILE:-"$HOME/.ros_domain_id"}
-QUICK_COMMAND_FILE=${QUICK_COMMAND_FILE:-".quick_command"}
+WS_FILE=${WS_FILE:-"$HOME/.cache/ros-hacks/ros_ws_selected"}
+ROS_DOMAIN_ID_FILE=${ROS_DOMAIN_ID_FILE:-"$HOME/.cache/ros-hacks/ros_domain_id"}
+QUICK_COMMAND_FILE=${QUICK_COMMAND_FILE:-"$HOME/.cache/ros-hacks/quick_command"}
 ROS2NAME=${ROS2_NAME:-"humble"}
+WS_SEARCH_PATHS_FILE=${WS_SEARCH_PATHS_FILE:-"$HOME/.cache/ros-hacks/ws_paths"}
 
 # Prompts the user to create a new ROS2 workspace
 # Usage: prompt_new_ws
@@ -465,8 +466,30 @@ function print_ws() {
 }
 
 function find_ws() {
-    ws=$(find ~/ -maxdepth 1 -type d -name \*ws\* | sort)
-    arrIN=(${ws// / })
+    local paths_file="${WS_SEARCH_PATHS_FILE}"
+
+    # Ensure the paths file exists and contains at least the HOME directory
+    if [[ ! -f "${paths_file}" ]]; then
+        mkdir -p "$(dirname "${paths_file}")"
+        echo "$HOME" >"${paths_file}"
+    fi
+
+    local ws_dirs=()
+
+    # Read search paths line by line
+    while IFS= read -r search_path || [[ -n "$search_path" ]]; do
+        # Skip empty lines and comments
+        [[ -z "${search_path}" || "${search_path}" =~ ^# ]] && continue
+        if [[ -d "${search_path}" ]]; then
+            # Find workspace-like directories directly under the search path
+            while IFS= read -r d; do
+                ws_dirs+=("$d")
+            done < <(find "${search_path}" -maxdepth 1 -type d -name "*ws*" 2>/dev/null)
+        fi
+    done <"${paths_file}"
+
+    # Remove duplicates, sort, and populate global array arrIN
+    mapfile -t arrIN < <(printf "%s\n" "${ws_dirs[@]}" | sort -u)
     # print_ws
 }
 
@@ -494,6 +517,35 @@ function ask_for_num() {
     esac
 
     return 0
+}
+
+# Adds a new directory to the workspace search paths
+# Usage: add_ws_path <path>
+function add_ws_path() {
+    local new_path="${1:-""}"
+
+    if [[ -z "${new_path}" ]]; then
+        printf "${RED_TXT}No path specified.${NC}\n"
+        return 1
+    fi
+
+    if [[ ! -d "${new_path}" ]]; then
+        printf "${RED_TXT}Path '${new_path}' does not exist.${NC}\n"
+        return 1
+    fi
+
+    mkdir -p "$(dirname "${WS_SEARCH_PATHS_FILE}")"
+    # Create the file if it does not exist
+    touch "${WS_SEARCH_PATHS_FILE}"
+
+    # Check if the path is already in the file
+    if grep -Fxq "${new_path}" "${WS_SEARCH_PATHS_FILE}"; then
+        printf "${YELLOW_TXT}Path already exists in search list.${NC}\n"
+        return 0
+    fi
+
+    echo "${new_path}" >>"${WS_SEARCH_PATHS_FILE}"
+    printf "${GREEN_TXT}Added '${new_path}' to workspace search paths.${NC}\n"
 }
 
 # ==========================================================
