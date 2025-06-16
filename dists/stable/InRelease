@@ -1,0 +1,38 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+Origin: ROS-Hacks Repository
+Label: ROS-Hacks
+Suite: stable
+Codename: stable
+Architectures: amd64 i386
+Components: main
+Description: ROS-Hacks APT Repository
+Date: Mon, 16 Jun 2025 13:46:52 +0000
+SHA256:
+ e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 0 main/binary-amd64/Packages
+ 8cdd4093ffcfe329b5106d71b875c2bedf6826ee1157e1f0db75a2d1aabf73b5 29 main/binary-amd64/Packages.gz
+ e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 0 main/binary-i386/Packages
+ 8cdd4093ffcfe329b5106d71b875c2bedf6826ee1157e1f0db75a2d1aabf73b5 29 main/binary-i386/Packages.gz
+MD5Sum:
+ d41d8cd98f00b204e9800998ecf8427e 0 main/binary-amd64/Packages
+ c467fc1822f5f7e4df0af4459de3d248 29 main/binary-amd64/Packages.gz
+ d41d8cd98f00b204e9800998ecf8427e 0 main/binary-i386/Packages
+ c467fc1822f5f7e4df0af4459de3d248 29 main/binary-i386/Packages.gz
+-----BEGIN PGP SIGNATURE-----
+
+iQJLBAEBCgA1FiEET/RpKGcRegP0aFzaJ1QT/Nxa0FsFAmhQIEwXHHlvdXItZW1h
+aWxAZXhhbXBsZS5jb20ACgkQJ1QT/Nxa0FsMVA/9FNXUriY/FmhKQE5l/quAQqzW
+BzI0lLuI+Y1yCOgembJBivHKy/oW3u9qbQF0XTNng0YViGbEqHKFav1DKMdHregf
+nDqecWHlyzCF8aV79Bigoa4Z1CKd9ApK99NHN62OLCw4CDTWYGLqbXhu4QpUH8cj
+HfbZae1EIphMeTsbFBA+gZ/GsrzcQNwx+snS72xbbeS5qjHNVbKnRgy/E49T0dFD
+U1HHmpFv52wowRP9UN8Qxid1yDcNl862HT0XNJvzWZj1Y8HbAJ+FrU10rNkOy9e8
+z7lGU+dMb5En7V32MGLFc2IJvcZSDokFS+3jz5z/kDHSQ1SjNCCY2Hl4RS2U2+Gh
+bUKjeBOte2b+R5nIKAy5Y6pSyXWcOgMrgV+3tTEUHr8rLk1mINb1RgHpeyVPPVVZ
+JCIJ2bj0OBA3cKElSd0wI3o0BnlEid8G7BKOglp0BfoTB52+70umTuLOUtu+SLFX
+hsiP58pcQSj/j5EBBGcA7/ebgDSDzA44n3+5khcgcIoO1bQDce9tNgxAm3SpIZy3
+ByWRhVtr87kWI4EyPl6nlYnrwq+X59sGvpixR7Q78OMpWBY0qI4qYzGjNLC1EVL+
+Bd+Vas9KRn0xHrC7jeoDXjRVAosUch9LxJuhQXAM7DJT/ViVxSxn7SM9lSgUgeNf
+mZQ8I+MXGLUY0ZBg9uk=
+=+2SA
+-----END PGP SIGNATURE-----
