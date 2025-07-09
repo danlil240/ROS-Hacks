@@ -133,6 +133,9 @@ configure_inputrc() {
 create_initial_configs() {
     printf "${BLUE_TXT}Creating initial configuration files...${NC}\n"
 
+    # Ensure the cache directory exists
+    mkdir -p "$HOME/.cache/ros-hacks"
+
     # Create domain ID file if it doesn't exist
     if [[ ! -f "$HOME/.cache/ros-hacks/ros_domain_id" ]]; then
         echo "0" >"$HOME/.cache/ros-hacks/ros_domain_id"
