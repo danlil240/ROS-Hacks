@@ -8,7 +8,7 @@ Homepage: https://github.com/danlil240/ROS-Hacks
 
 Package: ros-hacks
 Architecture: all
-Depends: ${misc:Depends}, tmux
+Depends: ${misc:Depends}, tmux, python3-colcon-common-extensions
 Description: Utilities to make ROS development easier
   ROS-Hacks provides useful aliases, functions, and keyboard shortcuts
   to enhance the ROS development experience. It includes workspace

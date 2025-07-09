@@ -74,6 +74,20 @@ check_dependencies() {
     else
         printf "${GREEN_TXT}✓ fzf is installed${NC}\n"
     fi
+    
+    # Check for colcon
+    if ! command -v colcon &>/dev/null; then
+        printf "${YELLOW_TXT}colcon is not installed. It's required for ROS 2 workspace management.${NC}\n"
+        read -p "Do you want to install colcon? (y/n): " choice
+        if [[ "$choice" == "y" || "$choice" == "Y" ]]; then
+            sudo apt update && sudo apt install -y python3-colcon-common-extensions
+            printf "${GREEN_TXT}colcon installed successfully.${NC}\n"
+        else
+            printf "${YELLOW_TXT}Continuing without colcon. ROS 2 workspace functionality will be limited.${NC}\n"
+        fi
+    else
+        printf "${GREEN_TXT}✓ colcon is installed${NC}\n"
+    fi
 }
 
 # Configure .bashrc

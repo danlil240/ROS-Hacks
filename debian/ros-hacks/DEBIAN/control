@@ -1,9 +1,9 @@
 Package: ros-hacks
-Version: 1.0.11-1
+Version: 1.0.12-1
 Architecture: all
 Maintainer: Daniel <danlil240@gmail.com>
 Installed-Size: 60
-Depends: tmux
+Depends: tmux, python3-colcon-common-extensions
 Section: utils
 Priority: optional
 Homepage: https://github.com/danlil240/ROS-Hacks
