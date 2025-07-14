@@ -4,14 +4,16 @@ This is a personal APT repository for the ROS-Hacks package.
 
 ## Adding this repository to your system
 
-1. Add the GPG key:
+1. Download and add the GPG key:
 ```bash
-wget -qO - https://your-github-username.github.io/ros-hacks-repo/ros-hacks.key | sudo apt-key add -
+wget -qO /tmp/ros-hacks.key https://your-github-username.github.io/ROS-Hacks/ros-hacks.key
+sudo mkdir -p /etc/apt/keyrings
+cat /tmp/ros-hacks.key | sudo gpg --dearmor -o /etc/apt/keyrings/ros-hacks.gpg
 ```
 
 2. Add the repository to your sources:
 ```bash
-echo "deb https://your-github-username.github.io/ros-hacks-repo stable main" | sudo tee /etc/apt/sources.list.d/ros-hacks.list
+echo "deb [signed-by=/etc/apt/keyrings/ros-hacks.gpg] https://your-github-username.github.io/ROS-Hacks stable main" | sudo tee /etc/apt/sources.list.d/ros-hacks.list
 ```
 
 3. Update and install:
@@ -35,7 +37,7 @@ scripts/setup-apt-repo.sh add ../ros-hacks_*.deb
 
 3. Push the repository to GitHub:
 ```bash
-cd ~/ros-hacks-repo
+cd ~/ROS-Hacks
 git add .
 git commit -m "Update repository"
 git push

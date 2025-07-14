@@ -200,14 +200,16 @@ This is a personal APT repository for the ROS-Hacks package.
 
 ## Adding this repository to your system
 
-1. Add the GPG key:
+1. Download and add the GPG key:
 \`\`\`bash
-wget -qO - https://your-github-username.github.io/ros-hacks-repo/ros-hacks.key | sudo apt-key add -
+wget -qO /tmp/ros-hacks.key https://your-github-username.github.io/ROS-Hacks/ros-hacks.key
+sudo mkdir -p /etc/apt/keyrings
+cat /tmp/ros-hacks.key | sudo gpg --dearmor -o /etc/apt/keyrings/ros-hacks.gpg
 \`\`\`
 
 2. Add the repository to your sources:
 \`\`\`bash
-echo "deb https://your-github-username.github.io/ros-hacks-repo stable main" | sudo tee /etc/apt/sources.list.d/ros-hacks.list
+echo "deb [signed-by=/etc/apt/keyrings/ros-hacks.gpg] https://your-github-username.github.io/ROS-Hacks stable main" | sudo tee /etc/apt/sources.list.d/ros-hacks.list
 \`\`\`
 
 3. Update and install:
@@ -231,7 +233,7 @@ scripts/setup-apt-repo.sh add ../ros-hacks_*.deb
 
 3. Push the repository to GitHub:
 \`\`\`bash
-cd ~/ros-hacks-repo
+cd ~/ROS-Hacks
 git add .
 git commit -m "Update repository"
 git push
@@ -332,13 +334,14 @@ setup_github() {
     PUSH_NOW="y"
 
     if [ "$PUSH_NOW" = "y" ] || [ "$PUSH_NOW" = "Y" ]; then
-        echo -e "${BLUE}Pushing to GitHub...${NC}"
+        echo -e "${YELLOW}3. Ensure GitHub Pages is correctly configured:${NC}"
         git push -u origin $BRANCH_NAME
         if [ $? -eq 0 ]; then
             echo -e "${GREEN}Successfully pushed to GitHub${NC}"
             echo -e "${YELLOW}Remember to enable GitHub Pages in repository settings:${NC}"
             echo -e "${YELLOW}1. Go to https://github.com/$GITHUB_USER/ROS-Hacks/settings/pages${NC}"
             echo -e "${YELLOW}2. Set source to 'main' branch and '/' folder${NC}"
+            echo -e "${YELLOW}3. It may take a few minutes for the pages to be published${NC}"
             echo -e "${YELLOW}3. Click Save${NC}"
         else
             echo -e "${RED}Failed to push to GitHub. You can push manually:${NC}"
