@@ -193,60 +193,111 @@ add_package() {
 
 # Create instructions file
 create_instructions() {
-    cat >"$REPO_DIR/README.md" <<EOF
-# ROS-Hacks APT Repository
+    # We need to use a different heredoc delimiter to avoid issues with Markdown
+    # 'EOT' is common for this purpose, and we'll use the '-EOT' form which prevents
+    # tab expansion to preserve the exact formatting
+    cat >"$REPO_DIR/README.md" <<-'MDCONTENT'
+# ROS-Hacks
 
-This is a personal APT repository for the ROS-Hacks package.
+This is a repository for the ROS-Hacks package, a productivity toolkit that enhances the ROS2 development experience with workspace management tools, convenient aliases, keyboard shortcuts, and utility functions.
 
 ## Adding this repository to your system
 
 1. Download and add the GPG key:
-\`\`\`bash
-wget -qO /tmp/ros-hacks.key https://your-github-username.github.io/ROS-Hacks/ros-hacks.key
+```bash
+wget -qO /tmp/ros-hacks.key https://danlil240.github.io/ROS-Hacks/ros-hacks.key
 sudo mkdir -p /etc/apt/keyrings
 cat /tmp/ros-hacks.key | sudo gpg --dearmor -o /etc/apt/keyrings/ros-hacks.gpg
-\`\`\`
+```
 
 2. Add the repository to your sources:
-\`\`\`bash
-echo "deb [signed-by=/etc/apt/keyrings/ros-hacks.gpg] https://your-github-username.github.io/ROS-Hacks stable main" | sudo tee /etc/apt/sources.list.d/ros-hacks.list
-\`\`\`
+```bash
+echo "deb [signed-by=/etc/apt/keyrings/ros-hacks.gpg] https://danlil240.github.io/ROS-Hacks stable main" | sudo tee /etc/apt/sources.list.d/ros-hacks.list
+```
 
 3. Update and install:
-\`\`\`bash
+```bash
 sudo apt update
 sudo apt install ros-hacks
-\`\`\`
-
+```
 
 4. After installation, run the setup script:
-\`\`\`bash
+```bash
 ros-hacks-setup
-\`\`\`
+```
 
+## Features and Usage
 
-## Publishing Instructions
+### ROS2 Workspace Management
 
-1. Build the package:
-\`\`\`bash
-cd ros-hacks
-dpkg-buildpackage -us -uc -b
-\`\`\`
+- **Select workspace**: Press `F3` or run `select_ws`
+- **Create new workspace**: Press `Shift+F3` or run `prompt_new_ws`
+- **Rebuild current workspace**: Press `F9` or run `rebuild_curr_ws`
+- **Force CMake reconfigure**: Press `Ctrl+F9` or run `rebuild_curr_ws --cmake-force-configure`
+- **Build specific package**: Press `F8`, then enter the package name
 
-2. Add the built package to the repository:
-\`\`\`bash
-scripts/setup-apt-repo.sh add ../ros-hacks_*.deb
-\`\`\`
+### ROS2 Command Shortcuts
 
-3. Push the repository to GitHub:
-\`\`\`bash
-cd ~/ROS-Hacks
-git add .
-git commit -m "Update repository"
-git push
-\`\`\`
-EOF
+- **List topics**: `rtl` or `ros2 topic list` or press `Alt+Ctrl+t`
+- **Echo topic**: `rte <topic>` or `ros2 topic echo <topic>`
+- **List nodes**: `rnl` or `ros2 node list` or press `Alt+Ctrl+n`
+- **List services**: `rsl` or `ros2 service list`
+- **List parameters**: `rpl` or `ros2 param list`
+- **List actions**: `ral` or `ros2 action list`
 
+### Workspace Navigation
+
+- **Go to workspace root**: `cw`
+- **Go to workspace src directory**: `cs`
+- **Go to a package directory**: `ros2cd <package_name>`
+
+### Build Commands
+
+- **Build workspace**: `cob` or `colcon build --symlink-install`
+- **Build in Debug mode**: `cobd` 
+- **Build in Release mode**: `cobr`
+- **Build specific package**: `cobp <package_name>`
+- **Build up to package**: `cobput <package_name>`
+- **Clean workspace**: `coc`
+
+### ROS_DOMAIN_ID Management
+
+- **Set domain ID**: `set_ros_domain_id <id>`
+- **Get current domain ID**: `print_ros_domain_id`
+- **Change domain ID**: Available in the `select_ws` menu
+
+### Utility Functions
+
+- **Show ROS environment variables**: `pR`
+- **Source ROS2 setup**: `sr`
+- **Clean ROS2 environment**: `csr`
+- **Source current workspace**: `sw`
+- **Show colcon build errors**: `se` or `show_colcon_errors`
+- **Monitor topic**: `ros2_topic_monitor <topic>`
+- **Check topic frequency**: `ros2_topic_hz <topic>`
+- **Check topic bandwidth**: `ros2_topic_bw <topic>`
+
+### Keyboard Shortcuts (via inputrc)
+
+- `F5`: Reload bash configuration
+- `Shift+F9`: Rebuild workspace and exit terminal
+- `Ctrl+g`: Add grep filter to command
+- `Alt+Ctrl+i`: Start apt install command
+- `Alt+Ctrl+p`: Start pip install command
+- `Shift+F2`: Install ROS2 package
+
+### Quick Commands
+
+- **Set a quick command**: `set-quick-command "your command here"`
+- **Execute saved command**: `exec-quick-command`
+- **View saved command**: `print-quick-command`
+
+The prompt shows the current workspace name and ROS_DOMAIN_ID for easy reference.
+MDCONTENT
+
+    # Replace the GitHub username placeholder with the actual username
+    sed -i "s/your-github-username/danlil240/g" "$REPO_DIR/README.md"
+    
     echo -e "${GREEN}Instructions created in $REPO_DIR/README.md${NC}"
 }
 
