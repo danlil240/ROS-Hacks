@@ -8,31 +8,31 @@ Codename: stable
 Architectures: amd64 i386
 Components: main
 Description: ROS-Hacks APT Repository
-Date: Wed, 16 Jul 2025 03:38:31 +0000
+Date: Wed, 16 Jul 2025 03:43:00 +0000
 SHA256:
- 518eff10d6638a085043a710aa8fca8fb0028bf5b32a2bdd18c3b47011c0e87f 11224 main/binary-amd64/Packages
- b0caea18eea77fc2a63740c74d77e9a6e7268e2fdfc212396a28a5012d0a07f0 2093 main/binary-amd64/Packages.gz
+ 38f0a9aded8bcb94dd23bce77ab861bd575af490ec26e98eae3e24381b6099fc 11224 main/binary-amd64/Packages
+ d010aa3bc134bf635be879a2c02bf448c60aa2934fe0af1aaccc07912c89c459 2096 main/binary-amd64/Packages.gz
  e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 0 main/binary-i386/Packages
- 9588d520c913f852d017bf95353d5758f8030fd7ea138ab073567cd0f18a71ea 29 main/binary-i386/Packages.gz
+ 81ffaee97072afc46a3142a8315b4d0fef72d7c8b2d1b4dcbe34a59cfc8ac2b1 29 main/binary-i386/Packages.gz
 MD5Sum:
- 609e8179b45c8af0b16cbaea26cf4d94 11224 main/binary-amd64/Packages
- b808791778b28009230c9f523ecea933 2093 main/binary-amd64/Packages.gz
+ 01d480ad41405ab912779afd48c29e58 11224 main/binary-amd64/Packages
+ fd86bbd1a4ee3ca86bc5cc83288441d0 2096 main/binary-amd64/Packages.gz
  d41d8cd98f00b204e9800998ecf8427e 0 main/binary-i386/Packages
- eff65d603aee3831fa21566b90034bab 29 main/binary-i386/Packages.gz
+ b01d35211ebc8439096cc974d91f5354 29 main/binary-i386/Packages.gz
 -----BEGIN PGP SIGNATURE-----
 
-iQJLBAEBCgA1FiEEJPbwOa3R56Gf5hF2Fy3Hh7tjpp8FAmh3HrcXHHlvdXItZW1h
-aWxAZXhhbXBsZS5jb20ACgkQFy3Hh7tjpp+jnQ//YgpsBY3VKVgBRUjoGzppLsFB
-KzfOmQejxaYN9Oz5Lu2uOzlcaVpo36jBZhZoAzp/UFsVsWJSCNtWCGVHBMxCKJMU
-giRTR6dww+tmH5LnCM3rhzp3GcF9C1ejGJgJpnGRWUtHB+0nyrKp16jYJp+1LCqZ
-diBa9qOMoxncEXdHH6m2nhwxlWybVs2+pePDJAiTfkShaaUD5+g3nLujdHm7cdCd
-tuobHVyJicZncxEuq1d1VPKvvMgCQPjy9tduvs+0aVbvJImnNCEznT8buc5eiiuo
-Mg2YF7U0dfc3iV5iHx85lMiP7oLTYjq1N95Apz+PK6l56AhHaKY3e+XWIF7HCSf8
-r9NiVrjgOMMe2dh8vCAnpkzl55gdSS5fYh2SJrPIUV5LEJwmRiO24Gfh6d4GdOhr
-PiZ8Vq65l4YJGDHvqXqxPpqANa5WBIfgv6799dKwLpD7zHGP0ji7MxSBM5x/Y0WD
-Z7h/fSUoGR2VpWI3QzF0YPra9oZ/mATLkCdSciCn8cmRurBpJyLqZZBAmeFYtxgX
-UMdICOMYIFF8vgyEf5yanyg3SoPPQfRa7YaGb0hMw3PGK55FResDt+D9JrTb+/JE
-/9RAONx3quqkPr6z5+2+2iknkLfiUDQdnKaxSBuSxy/Aec2rBrtt48is+mBACsRs
-a0kHMH7Ilk2zEYY4LAU=
-=S3Ew
+iQJLBAEBCgA1FiEEJPbwOa3R56Gf5hF2Fy3Hh7tjpp8FAmh3H8QXHHlvdXItZW1h
+aWxAZXhhbXBsZS5jb20ACgkQFy3Hh7tjpp8mJhAAjsn6DqnkbDhMs/7vF8vpF4uo
+NsqDDjhBN0NCsBexRPpJLRkyQt78BjbrZhWG3y2I9Ywix7ghgsULCbThg0FJdvad
+h+0EtuRWfs8LhTQxIzS3ULPHfEPzNjWC7cpb9so6nnRu+N7UB6vIRKLWD5qIFmCO
+q6Dnd919So4aYL5GYA11fYjo2EFqy6Wa4DvBUN0/QUyeBUPjtO0Q1duGy/+c3vsj
+anpMLCOz1hqiP9pSn6NeSrZnQtSHXo6X0tR/bsIa0SBIJ3LMG6LM9ydRQvFJY0qd
+cLPh1DfKMQaZ+wACRTvaKvSypfAnDYRlDvAayYxQqVn0fgWTz4aL5qsscF/hFBbJ
+cOBYQmeCuiKxkAKv1O+jNjPF2vpKT0HXCPka0rjViCTiLE6wKKfljb2XBdaUBRFP
+Mx5WsODM+OI8sunObesy3hdn4JSNSL3/rDEoupm5QGuuw0afvZyA2YA5dB8gYq73
+8eWUJdpUKZ6eeFlxL5pkSGAPLGCw3f+eT7R1Tajcae+oDnWofNP+70Nzgv/FHIX+
+phCW9MLFnnOXeWGt0rnTYbrHzh6ttOqGFDfaEioc8Us1ErZ6piRZuH4nfblJu8Qb
+y2OEzbXIsYgDjqsaB4tqU3BauOQ1M88++c2bFAn2wJ8ax2M1dOJNqQYX+Q9Neaa4
+mJ+VkgS5wXjBSYoa5ec=
+=Ypqg
 -----END PGP SIGNATURE-----

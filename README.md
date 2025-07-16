@@ -22,6 +22,13 @@ sudo apt update
 sudo apt install ros-hacks
 ```
 
+
+4. After installation, run the setup script:
+```bash
+ros-hacks-setup
+```
+
+
 ## Publishing Instructions
 
 1. Build the package:
