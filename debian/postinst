@@ -3,25 +3,18 @@ set -e
 
 case "$1" in
     configure)
-        # Create symbolic link for easy access
+        echo "Creating symbolic link: /usr/bin/ros-hacks-setup -> /usr/share/ros-hacks/setup.sh"
         ln -sf /usr/share/ros-hacks/setup.sh /usr/bin/ros-hacks-setup
-        
-        echo "ROS-Hacks has been installed!"
-        if [ -z "$CI" ]; then
-            echo "Running setup..."
-            /usr/bin/ros-hacks-setup
-        else
-            echo "Skipping setup in CI environment."
-        fi
-    ;;
-
+        ;;
+    
     abort-upgrade|abort-remove|abort-deconfigure)
-    ;;
+        # No special action needed
+        ;;
 
     *)
-        echo "postinst called with unknown argument \`$1'" >&2
+        echo "postinst called with unknown argument '$1'" >&2
         exit 1
-    ;;
+        ;;
 esac
 
 exit 0
