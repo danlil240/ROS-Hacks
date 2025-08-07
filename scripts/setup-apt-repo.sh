@@ -83,8 +83,8 @@ fi
 # Setup repository directory
 REPO_DIR="$HOME/ros-hacks"
 KEY_NAME="ros-hacks-key"
-REPO_DIR="$HOME/ros-hacks"
 SOURCE_DIR="$(dirname "$(dirname "$(readlink -f "$0")")")"
+REPO_DIR="$SOURCE_DIR"
 echo -e "${BLUE}Source directory: $SOURCE_DIR${NC}"
 echo -e "${BLUE}Repository directory: $REPO_DIR${NC}"
 
