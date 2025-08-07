@@ -1,10 +1,10 @@
-ed0ada719c86f68e6f644e77604586af  usr/share/doc/ros-hacks/changelog.Debian.gz
+15d09dc02c8356125a4ddfae25e05087  usr/share/doc/ros-hacks/changelog.Debian.gz
 a3fde7aa4f380930904137b2ec9de284  usr/share/ros-hacks/README.md
 a2cc8a86cef32e8051fb119a6898e446  usr/share/ros-hacks/ROS-Hacks.sh
-3c44a00c8bf4533e504048bc7e82daf9  usr/share/ros-hacks/VERSION
+8a30f99122e87bb6054a74760e223b62  usr/share/ros-hacks/VERSION
 ca8e8df8099b938b0dc67d2d051ede63  usr/share/ros-hacks/aliases.sh
 1011469a8d0a7f7da4f39ccbef024615  usr/share/ros-hacks/defaults.yaml
 58ee5c11eb93899460ecd47f053a43b6  usr/share/ros-hacks/diagnostic.sh
-8f1dac9116ab30b315fb78cbcbef1f48  usr/share/ros-hacks/functions.sh
+b36815669ce5a676d93b0b66632912ff  usr/share/ros-hacks/functions.sh
 14258740dbab295c7e16373827def7b5  usr/share/ros-hacks/inputrc
 c39afb61f2f977f3898758c5dd0335ab  usr/share/ros-hacks/setup.sh

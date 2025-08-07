@@ -5,6 +5,16 @@
 # Version: 1.0.0
 # ==========================================================
 
+# Color definitions for terminal output
+NC='\033[0m'
+GREEN_TXT='\e[0;32m'
+RED_TXT='\e[31m'
+YELLOW_TXT='\e[93m'
+BLUE_TXT='\e[34m'
+LIGHT_BLUE_TXT='\e[96m'
+WHITE_TXT='\e[1;37m'
+DIM_BLUE_TXT='\e[2;34m'
+
 # Ensure required environment variables are set
 WS_FILE=${WS_FILE:-"$HOME/.cache/ros-hacks/ros_ws_selected"}
 ROS_DOMAIN_ID_FILE=${ROS_DOMAIN_ID_FILE:-"$HOME/.cache/ros-hacks/ros_domain_id"}
@@ -82,8 +92,6 @@ function createWS() {
 function unROS() {
     # Get all variables containing 'ROS'
     vars=$(env | egrep -i ROS | column -t -s '=' | sed -E 's/ .*//g')
-    echo "${BLUE_TXT}Unsetting ROS environment variables...${NC}"
-
     # For everyone do:
     for v in $vars; do
         # Get the value
