@@ -82,6 +82,7 @@ function createWS() {
 function unROS() {
     # Get all variables containing 'ROS'
     vars=$(env | egrep -i ROS | column -t -s '=' | sed -E 's/ .*//g')
+    echo "${BLUE_TXT}Unsetting ROS environment variables...${NC}"
 
     # For everyone do:
     for v in $vars; do
