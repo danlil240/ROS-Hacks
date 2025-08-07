@@ -62,6 +62,9 @@ function createWS() {
         return 1
     }
 
+    # Clean up current ROS environment before setting new workspace
+    unROS
+
     # Initialize as ROS2 workspace
     printf "${BLUE_TXT}Initializing ROS2 workspace...${NC}\n"
     source /opt/ros/${ROS2_NAME}/setup.bash

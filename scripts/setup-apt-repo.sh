@@ -83,7 +83,10 @@ fi
 # Setup repository directory
 REPO_DIR="$HOME/ros-hacks"
 KEY_NAME="ros-hacks-key"
-SOURCE_DIR="$HOME/ros-hacks"
+REPO_DIR="$HOME/ros-hacks"
+SOURCE_DIR="$(dirname "$(dirname "$(readlink -f "$0")")")"
+echo -e "${BLUE}Source directory: $SOURCE_DIR${NC}"
+echo -e "${BLUE}Repository directory: $REPO_DIR${NC}"
 
 echo -e "${BLUE}Setting up APT repository in $REPO_DIR${NC}"
 # Clean up any existing directory that should be a file
