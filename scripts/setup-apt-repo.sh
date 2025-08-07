@@ -335,9 +335,11 @@ build_package() {
     if [ $? -eq 0 ]; then
         echo -e "${GREEN}Package built successfully${NC}"
 
-        # Move .deb files from home directory to build directory
+        # Move .deb files from parent directory to build directory
         echo -e "${BLUE}Moving .deb files to build directory...${NC}"
-        find "$HOME" -maxdepth 1 -name "ros-hacks_*.deb" -type f -exec mv {} "$BUILD_DIR/" \;
+        PARENT_DIR="$(dirname "$SOURCE_DIR")"
+        echo -e "${BLUE}Looking for .deb files in: $PARENT_DIR${NC}"
+        find "$PARENT_DIR" -maxdepth 1 -name "ros-hacks_*.deb" -type f -exec mv {} "$BUILD_DIR/" \;
 
         # Find the most recent .deb file in build directory
         DEB_FILE=$(find "$BUILD_DIR" -maxdepth 1 -name "ros-hacks_*.deb" -type f -printf "%T@ %p\n" | sort -n | tail -1 | cut -d' ' -f2-)
