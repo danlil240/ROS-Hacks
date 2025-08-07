@@ -99,7 +99,7 @@ fi
 mkdir -p "$REPO_DIR"/{pool/main,dists/stable/main/binary-amd64}
 
 # Generate GPG key if needed
-if ! gpg --list-keys | grep -q "$KEY_NAME"; then
+if ! gpg --list-keys | grep -q "ROS-Hacks APT Repository"; then
     echo -e "${BLUE}Generating GPG key for signing packages...${NC}"
 
     # Create key configuration file
