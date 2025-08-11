@@ -171,10 +171,20 @@ EOF
         echo " $(echo $f | sed 's|^dists/stable/||')"
     done >>dists/stable/Release
 
-    # Sign Release file
+    # Sign Release file with a deterministic key and export the matching public key
     rm -f dists/stable/Release.gpg dists/stable/InRelease
-    gpg --default-key "ROS-Hacks APT Repository" -abs -o dists/stable/Release.gpg dists/stable/Release
-    gpg --default-key "ROS-Hacks APT Repository" --clearsign -o dists/stable/InRelease dists/stable/Release
+    # Prefer explicit fingerprint via APT_SIGNING_KEY_FPR, else first secret key for the UID
+    SIGNING_KEY="${APT_SIGNING_KEY_FPR:-}"
+    if [ -z "$SIGNING_KEY" ]; then
+        SIGNING_KEY=$(gpg --list-secret-keys --with-colons 'ROS-Hacks APT Repository' 2>/dev/null | awk -F: '/^fpr:/ {print $10; exit}')
+    fi
+    if [ -z "$SIGNING_KEY" ]; then
+        SIGNING_KEY="ROS-Hacks APT Repository"
+    fi
+    gpg --batch --yes --default-key "$SIGNING_KEY" -abs -o dists/stable/Release.gpg dists/stable/Release
+    gpg --batch --yes --default-key "$SIGNING_KEY" --clearsign -o dists/stable/InRelease dists/stable/Release
+    # Export public key used for signing so clients fetch the correct key
+    gpg --armor --export "$SIGNING_KEY" > "$REPO_DIR/ros-hacks.key"
 
     echo -e "${GREEN}Repository index updated and signed${NC}"
 }
