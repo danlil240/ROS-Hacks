@@ -345,21 +345,38 @@ build_package() {
     if [ $? -eq 0 ]; then
         echo -e "${GREEN}Package built successfully${NC}"
 
-        # Move .deb files from parent directory to build directory
-        echo -e "${BLUE}Moving .deb files to build directory...${NC}"
+        # Collect the built .deb into our build directory (handle different dpkg-buildpackage outputs)
+        echo -e "${BLUE}Collecting .deb into build directory...${NC}"
         PARENT_DIR="$(dirname "$SOURCE_DIR")"
-        echo -e "${BLUE}Looking for .deb files in: $PARENT_DIR${NC}"
-        find "$PARENT_DIR" -maxdepth 1 -name "ros-hacks_*.deb" -type f -exec mv {} "$BUILD_DIR/" \;
-
-        # Find the most recent .deb file in build directory
-        DEB_FILE=$(find "$BUILD_DIR" -maxdepth 1 -name "ros-hacks_*.deb" -type f -printf "%T@ %p\n" | sort -n | tail -1 | cut -d' ' -f2-)
-        if [ -n "$DEB_FILE" ]; then
-            echo -e "${GREEN}Found package: $DEB_FILE${NC}"
-            add_package "$DEB_FILE"
-        else
-            echo -e "${RED}Could not find built .deb package${NC}"
+        CANDIDATES=()
+        
+        # Search in parent directory first (most common location)
+        shopt -s nullglob  # Make globs return empty when no matches
+        for p in "$PARENT_DIR"/ros-hacks_*.deb; do
+            CANDIDATES+=("$p")
+        done
+        
+        # Search in source directory as fallback
+        for p in "$SOURCE_DIR"/ros-hacks_*.deb; do
+            CANDIDATES+=("$p")
+        done
+        shopt -u nullglob  # Restore default behavior
+        
+        if [ ${#CANDIDATES[@]} -eq 0 ]; then
+            echo -e "${RED}No .deb candidates found. Searched in:${NC}"
+            echo -e "${RED}  - $PARENT_DIR/${NC}"
+            echo -e "${RED}  - $SOURCE_DIR/${NC}"
+            echo -e "${BLUE}Available files in parent dir:${NC}"
+            ls -la "$PARENT_DIR"/*.deb 2>/dev/null || echo -e "${YELLOW}No .deb files found${NC}"
             exit 1
         fi
+        # Pick most recent by mtime
+        DEB_SRC=$(ls -t "${CANDIDATES[@]}" | head -n1)
+        mkdir -p "$BUILD_DIR"
+        cp -f "$DEB_SRC" "$BUILD_DIR/"
+        DEB_FILE="$BUILD_DIR/$(basename "$DEB_SRC")"
+        echo -e "${GREEN}Found package: $DEB_FILE${NC}"
+        add_package "$DEB_FILE"
     else
         echo -e "${RED}Package build failed${NC}"
         exit 1
