@@ -3,7 +3,16 @@
 	dh $@
 
 override_dh_install:
+	# Core files
 	mkdir -p debian/ros-hacks/usr/share/ros-hacks
 	cp -r *.sh *.yaml inputrc VERSION README.md debian/ros-hacks/usr/share/ros-hacks/
+	# Auxiliary directories used by helpers
+	cp -r scripts debian/ros-hacks/usr/share/ros-hacks/
+	cp -r lib debian/ros-hacks/usr/share/ros-hacks/
+	# Ensure scripts are executable
+	chmod 0755 debian/ros-hacks/usr/share/ros-hacks/*.sh || true
+	chmod 0755 debian/ros-hacks/usr/share/ros-hacks/scripts/*.sh || true
+	# Binaries/symlinks
 	mkdir -p debian/ros-hacks/usr/bin
 	ln -sf /usr/share/ros-hacks/setup.sh debian/ros-hacks/usr/bin/ros-hacks-setup
+	ln -sf /usr/share/ros-hacks/scripts/run-in-ros.sh debian/ros-hacks/usr/bin/run-in-ros
