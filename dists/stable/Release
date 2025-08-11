@@ -1,0 +1,18 @@
+Origin: ROS-Hacks Repository
+Label: ROS-Hacks
+Suite: stable
+Codename: stable
+Architectures: amd64 i386
+Components: main
+Description: ROS-Hacks APT Repository
+Date: Mon, 11 Aug 2025 11:04:59 +0000
+SHA256:
+ bb7465111097577062c7b6e077aa5f52a42926c62a99669dd697cebffcbd4241 805 main/binary-amd64/Packages
+ d65cb51700930040d80a5fd4954fd28e0b6a4275fd2a06dbb459b9d6a834275f 557 main/binary-amd64/Packages.gz
+ e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 0 main/binary-i386/Packages
+ 7d7f9b76e5d95ad4add92b5b5ecef2dc629de5daf54a3c8fc5c62703d31714b7 29 main/binary-i386/Packages.gz
+MD5Sum:
+ 462cb3a8f868fb78d2465d1286993589 805 main/binary-amd64/Packages
+ 06fb07e16f3ceb1669f45dd69d9bcebe 557 main/binary-amd64/Packages.gz
+ d41d8cd98f00b204e9800998ecf8427e 0 main/binary-i386/Packages
+ 157195a3f251e29cf63ca9d8de478849 29 main/binary-i386/Packages.gz
