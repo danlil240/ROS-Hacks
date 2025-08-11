@@ -5,14 +5,14 @@ Codename: stable
 Architectures: amd64 i386
 Components: main
 Description: ROS-Hacks APT Repository
-Date: Mon, 11 Aug 2025 10:54:02 +0000
+Date: Mon, 11 Aug 2025 11:03:38 +0000
 SHA256:
- 852c019ef36d5746a7b61cb168ea44784d0c9de907e89c8ff597d86ec0d42e40 16098 main/binary-amd64/Packages
- ce1b8f64b2a896b82cac1de2129e388b10b1a5d4b2030570c084beaef66efe85 2769 main/binary-amd64/Packages.gz
+ b16afd3f63d47960163a61909d2d6cd46675c419a668f1aa0b1e1f02dd0967e9 16903 main/binary-amd64/Packages
+ 0bbc5db38ff3d38fc82928080b6ee83be53d65fb16d1e9779095b61d364c0f20 2877 main/binary-amd64/Packages.gz
  e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 0 main/binary-i386/Packages
- 1391a13c5d49dfda14c4c5fcdaa192a4104a7c483873bc1a0ff7e1768947bb36 29 main/binary-i386/Packages.gz
+ 33abf5d03dda546f7258ab2d001a5ec9199b7bdfd1a4bd3b4c26c550eba4abf0 29 main/binary-i386/Packages.gz
 MD5Sum:
- 4e4122bd008ca79caa41a3e82e1f725a 16098 main/binary-amd64/Packages
- 95549b8022bc0c319dee7ec11ee2f667 2769 main/binary-amd64/Packages.gz
+ 33934d84ea6639de7c8def42c7330f4b 16903 main/binary-amd64/Packages
+ b08faa05f97a5d00e3439bcbf6946f57 2877 main/binary-amd64/Packages.gz
  d41d8cd98f00b204e9800998ecf8427e 0 main/binary-i386/Packages
- e23c05c7e1ae8d50fdbf273211fa6826 29 main/binary-i386/Packages.gz
+ 03c361d16f0bcd91c77e759c4719fe52 29 main/binary-i386/Packages.gz

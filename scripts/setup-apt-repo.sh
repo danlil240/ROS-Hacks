@@ -340,6 +340,10 @@ build_package() {
     BUILD_DIR="${SOURCE_DIR}/build"
     mkdir -p "$BUILD_DIR"
 
+    # Get absolute paths before changing directories
+    SOURCE_DIR_ABS="$(cd "$SOURCE_DIR" && pwd)"
+    PARENT_DIR_ABS="$(dirname "$SOURCE_DIR_ABS")"
+
     cd "$SOURCE_DIR"
     dpkg-buildpackage -us -uc -b -d
     if [ $? -eq 0 ]; then
@@ -347,27 +351,26 @@ build_package() {
 
         # Collect the built .deb into our build directory (handle different dpkg-buildpackage outputs)
         echo -e "${BLUE}Collecting .deb into build directory...${NC}"
-        PARENT_DIR="$(dirname "$SOURCE_DIR")"
         CANDIDATES=()
         
         # Search in parent directory first (most common location)
         shopt -s nullglob  # Make globs return empty when no matches
-        for p in "$PARENT_DIR"/ros-hacks_*.deb; do
+        for p in "$PARENT_DIR_ABS"/ros-hacks_*.deb; do
             CANDIDATES+=("$p")
         done
         
         # Search in source directory as fallback
-        for p in "$SOURCE_DIR"/ros-hacks_*.deb; do
+        for p in "$SOURCE_DIR_ABS"/ros-hacks_*.deb; do
             CANDIDATES+=("$p")
         done
         shopt -u nullglob  # Restore default behavior
         
         if [ ${#CANDIDATES[@]} -eq 0 ]; then
             echo -e "${RED}No .deb candidates found. Searched in:${NC}"
-            echo -e "${RED}  - $PARENT_DIR/${NC}"
-            echo -e "${RED}  - $SOURCE_DIR/${NC}"
+            echo -e "${RED}  - $PARENT_DIR_ABS/${NC}"
+            echo -e "${RED}  - $SOURCE_DIR_ABS/${NC}"
             echo -e "${BLUE}Available files in parent dir:${NC}"
-            ls -la "$PARENT_DIR"/*.deb 2>/dev/null || echo -e "${YELLOW}No .deb files found${NC}"
+            ls -la "$PARENT_DIR_ABS"/*.deb 2>/dev/null || echo -e "${YELLOW}No .deb files found${NC}"
             exit 1
         fi
         # Pick most recent by mtime
