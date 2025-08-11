@@ -45,8 +45,8 @@ function createWS() {
     fi
 
     # Check if workspace already exists
-    if [[ -d "~/${name}_ws" ]]; then
-        printf "${YELLOW_TXT}Workspace ~/${name}_ws already exists.${NC}\n"
+    if [[ -d "${HOME}/${name}_ws" ]]; then
+        printf "${YELLOW_TXT}Workspace ${HOME}/${name}_ws already exists.${NC}\n"
         read -p "Do you want to use it anyway? (y/n): " choice
         case "$choice" in
         y | Y) printf "${YELLOW_TXT}Using existing workspace.${NC}\n" ;;
@@ -595,160 +595,14 @@ function ros2cd() {
 # ==========================================================
 # Quick Command Functions
 # ==========================================================
-
-function set-quick-command() {
-    currline=$(fc -ln | tail -n2 | head -n1)
-    if [[ -z "${currline}" ]]; then
-        echo "No command available for saving"
-        return 1
-    fi
-
-    quick_file=$curr_ws/${QUICK_COMMAND_FILE}
-    echo "# Auto-saved at $(date +'%Y-%m-%d %H:%M:%S')" >${quick_file}
-    echo "${currline}" >>${quick_file}
-    echo "Command saved!"
-}
-
-function get-quick-command() {
-    quick_file=$curr_ws/${QUICK_COMMAND_FILE}
-    if [ ! -f ${quick_file} ]; then
-        echo "No quick command exists in this workspace"
-        return 1
-    fi
-
-    cat ${quick_file} | tail -n1
-    return 0
-}
-
-function print-quick-command() {
-    quick_file=$curr_ws/${QUICK_COMMAND_FILE}
-    if [ ! -f ${quick_file} ]; then
-        echo "No quick command exists in this workspace"
-        return 1
-    fi
-
-    echo "Quick command in $curr_ws workspace:"
-    cat ${quick_file}
-    return 0
-}
-
-function exec-quick-command() {
-    quick_file=$curr_ws/${QUICK_COMMAND_FILE}
-    if [ ! -f ${quick_file} ]; then
-        echo "No quick command exists in this workspace"
-        return 1
-    fi
-
-    cmd_line=$(cat ${quick_file} | tail -n1)
-    ses_name=$(get_current_ws_name)
-    printf "Executing in tmux session ${ses_name}: '${cmd_line}'\n"
-    tmux new-session -d -s ${ses_name} "cd ${curr_ws} && source install/setup.bash && ${cmd_line}; read"
-    return 0
-}
-
-function kill-tmux-quick-command() {
-    ses_name=$(get_current_ws_name)
-    printf "Killing tmux session ${ses_name} and all ROS2 nodes...\n"
-    tmux kill-session -t ${ses_name} >/dev/null 2>&1
-    sleep 0.2
-
-    # Kill all ROS2 nodes
-    ros2 node list | xargs -r -L 1 -I % sh -c 'ros2 lifecycle set % shutdown || true; ros2 service call % shutdown || true' >/dev/null 2>&1
-    pkill -f ros2
-
-    # Kill Gazebo processes
-    pkill -f gz
-    pkill -f gazebo
-
-    printf "All processes terminated.\n"
-    return 0
-}
+ # Moved to lib/quickcmd.sh
 
 # ==========================================================
 # System Utility Functions
 # ==========================================================
-
-function fixJB() {
-    CLION_FILE=~/.local/share/applications/jetbrains-clion.desktop
-    PYCHARM_FILE=~/.local/share/applications/jetbrains-pycharm.desktop
-    PYCHARM_CE_FILE=~/.local/share/applications/jetbrains-pycharm-ce.desktop
-
-    if [ -f "$CLION_FILE" ]; then
-        printf "${GREEN_TXT}Patching CLion shortcut for ROS2 compatibility.${NC}\n"
-        sed -i -e 's/Exec="/Exec=bash -i -c "/g' $CLION_FILE
-        sed -i -e 's/Name=CLion/Name=ROS2 CLion/g' $CLION_FILE
-    else
-        printf "${YELLOW_TXT}CLion not found in ~/.local/share/applications${NC}\n"
-    fi
-
-    if [ -f "$PYCHARM_FILE" ]; then
-        printf "${GREEN_TXT}Patching PyCharm Professional shortcut for ROS2 compatibility.${NC}\n"
-        sed -i -e 's/Exec="/Exec=bash -i -c "/g' $PYCHARM_FILE
-        sed -i -e 's/Name=PyCharm Professional/Name=ROS2 PyCharm Professional/g' $PYCHARM_FILE
-    else
-        printf "${YELLOW_TXT}PyCharm Professional not found in ~/.local/share/applications${NC}\n"
-    fi
-
-    if [ -f "$PYCHARM_CE_FILE" ]; then
-        printf "${GREEN_TXT}Patching PyCharm CE shortcut for ROS2 compatibility.${NC}\n"
-        sed -i -e 's/Exec="/Exec=bash -i -c "/g' $PYCHARM_CE_FILE
-        sed -i -e 's/Name=PyCharm /Name=ROS2 PyCharm /g' $PYCHARM_CE_FILE
-    else
-        printf "${YELLOW_TXT}PyCharm CE not found in ~/.local/share/applications${NC}\n"
-    fi
-}
+# Moved to lib/system.sh
 
 # ==========================================================
 # ROS2 Message Debugging Functions
 # ==========================================================
-
-function ros2_topic_monitor() {
-    topic=${1:-""}
-    if [[ -z "${topic}" ]]; then
-        topic=$(ros2 topic list | fzf --prompt="Select topic: ")
-        if [[ -z "${topic}" ]]; then
-            printf "${RED_TXT}No topic selected.${NC}\n"
-            return 1
-        fi
-    fi
-
-    printf "${GREEN_TXT}Monitoring topic: ${topic}${NC}\n"
-    printf "${YELLOW_TXT}Press Ctrl+C to stop${NC}\n"
-    ros2 topic echo $topic
-}
-
-function ros2_topic_hz() {
-    topic=${1:-""}
-    if [[ -z "${topic}" ]]; then
-        topic=$(ros2 topic list | fzf --prompt="Select topic: ")
-        if [[ -z "${topic}" ]]; then
-            printf "${RED_TXT}No topic selected.${NC}\n"
-            return 1
-        fi
-    fi
-
-    printf "${GREEN_TXT}Checking topic frequency: ${topic}${NC}\n"
-    printf "${YELLOW_TXT}Press Ctrl+C to stop${NC}\n"
-    ros2 topic hz $topic
-}
-
-function ros2_topic_bw() {
-    topic=${1:-""}
-    if [[ -z "${topic}" ]]; then
-        topic=$(ros2 topic list | fzf --prompt="Select topic: ")
-        if [[ -z "${topic}" ]]; then
-            printf "${RED_TXT}No topic selected.${NC}\n"
-            return 1
-        fi
-    fi
-
-    printf "${GREEN_TXT}Checking topic bandwidth: ${topic}${NC}\n"
-    printf "${YELLOW_TXT}Press Ctrl+C to stop${NC}\n"
-    ros2 topic bw $topic
-}
-
-function ros2_pkg_list() {
-    find "$curr_ws/install" -mindepth 1 -maxdepth 1 -type d -not -path "*/\.*" \
-        -not -name "include" -not -name "lib" -not -name "share" \
-        -not -name "bin" -not -name "etc" -exec basename {} \;
-}
+# Moved to lib/topic_tools.sh

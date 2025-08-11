@@ -1,9 +1,10 @@
 Package: ros-hacks
-Version: 1.0.17-1
+Version: 1.0.18-1
 Architecture: all
 Maintainer: Daniel <danlil240@gmail.com>
-Installed-Size: 63
+Installed-Size: 59
 Depends: tmux, python3-colcon-common-extensions, ninja-build, git, gcc-12, g++-12
+Recommends: fzf
 Section: utils
 Priority: optional
 Homepage: https://github.com/danlil240/ROS-Hacks

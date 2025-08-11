@@ -8,7 +8,6 @@
 # Watch the typed command
 "\e[15;5~": "\e[Hwatch -n 0.1 \"\e[F\" \n"              # Ctrl+F5 - Watch current command with refresh every 0.1s
 "\e[15;3~": "\e[Hwatch -n 0.1 \"\e[F\" \n"              # Alt+F5 - Watch current command with refresh every 0.1s
-"\e[15;5~": "\e[Hwhile date; do time \e[F\ ; done\n"              # Ctrl+F5 - Loop current command with timing
 # Run a command in tmux detached session
 "\e[15;2~": "\e[Htmux new -d \"\e[F\" \n"              # Shift+F5 - Run current command in detached tmux session
 

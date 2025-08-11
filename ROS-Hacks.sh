@@ -6,6 +6,8 @@
 
 # Define script directory
 ROSHACKS_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
+ROSHACKS_LIB_DIR="${ROSHACKS_DIR}/lib"
+ROSHACKS_COMPLETIONS_DIR="${ROSHACKS_DIR}/completions"
 
 # Read version from VERSION file
 if [[ -f "${ROSHACKS_DIR}/VERSION" ]]; then
@@ -26,6 +28,31 @@ if [[ -f "${ROSHACKS_DIR}/functions.sh" ]]; then
 else
     echo "[ROS-Hacks] Error: Could not find functions.sh file."
     return 1
+fi
+
+# Source optional modules if present
+if [[ -d "${ROSHACKS_LIB_DIR}" ]]; then
+    for _rh_mod in "${ROSHACKS_LIB_DIR}"/*.sh; do
+        [[ -f "${_rh_mod}" ]] && source "${_rh_mod}"
+    done
+    unset _rh_mod
+fi
+
+# Load completions when interactive bash and completions exist
+if [[ $- == *i* ]] && [[ -n "${BASH_VERSION:-}" ]] && [[ -d "${ROSHACKS_COMPLETIONS_DIR}" ]]; then
+    if [[ -f "${ROSHACKS_COMPLETIONS_DIR}/ros-hacks-completions.bash" ]]; then
+        source "${ROSHACKS_COMPLETIONS_DIR}/ros-hacks-completions.bash"
+    fi
+fi
+
+# Ensure __git_ps1 is available; if not, try to source it or noop
+if ! type -t __git_ps1 >/dev/null 2>&1; then
+    if [[ -f "/usr/lib/git-core/git-sh-prompt" ]]; then
+        source "/usr/lib/git-core/git-sh-prompt"
+    else
+        # define a noop to avoid prompt errors
+        __git_ps1() { :; }
+    fi
 fi
 
 # Update prompt with ROS2 workspace and domain info

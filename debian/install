@@ -5,3 +5,8 @@ VERSION usr/share/ros-hacks/
 README.md usr/share/ros-hacks/
 defaults.yaml usr/share/ros-hacks/
 
+# New modules and assets
+lib/*.sh usr/share/ros-hacks/lib/
+completions/* usr/share/ros-hacks/completions/
+scripts/*.sh usr/share/ros-hacks/scripts/
+

@@ -9,7 +9,7 @@ if [[ $(lsb_release -cs) == 'focal' ]]; then
 elif [[ $(lsb_release -cs) == 'jammy' ]]; then
     ROS2_NAME='humble'
 elif [[ $(lsb_release -cs) == 'noble' ]]; then
-    ROS2_NAME='iron'
+    ROS2_NAME='jazzy'
 else
     # Default to latest stable release if version can't be determined
     ROS2_NAME='humble'
@@ -78,7 +78,8 @@ alias rl='ros2 launch'
 
 # Utility aliases
 alias whgit='git config --get remote.origin.url'
-alias show_colcon_errors='for pkg in $curr_ws/log/latest_build/*/; do   pkg_name=$(basename "$pkg");   log_file="$pkg/stdout_stderr.log";   if grep -qiw "error" "$log_file"; then     echo -e "\n===== 🔴 Error in $pkg_name =====";     grep -A 20 -B 5 "error" "$log_file";   fi; done'
+# ensure any previous alias is cleared so the function is used
+unalias show_colcon_errors 2>/dev/null || true
 alias se='show_colcon_errors'
 
 # Shell options
