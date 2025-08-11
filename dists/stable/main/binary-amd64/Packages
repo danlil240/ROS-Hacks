@@ -199,6 +199,27 @@ Description: Utilities to make ROS development easier
   functions for both ROS1 and ROS2 development.
 
 Package: ros-hacks
+Version: 1.0.18-1
+Architecture: all
+Maintainer: Daniel <danlil240@gmail.com>
+Installed-Size: 59
+Depends: tmux, python3-colcon-common-extensions, ninja-build, git, gcc-12, g++-12
+Recommends: fzf
+Filename: pool/main/ros-hacks_1.0.18-1_all.deb
+Size: 12962
+MD5sum: df5991b45e25443c0eb53c0f03d82251
+SHA1: 96556180b36df20db4bb86139f00aa8f45492295
+SHA256: de8c7d411cab0ca9984b69a0acfa14b0472b5bb36a0e01ef12e08b55275cf407
+Section: utils
+Priority: optional
+Homepage: https://github.com/danlil240/ROS-Hacks
+Description: Utilities to make ROS development easier
+  ROS-Hacks provides useful aliases, functions, and keyboard shortcuts
+  to enhance the ROS development experience. It includes workspace
+  management, quick command execution, and various convenience
+  functions for both ROS1 and ROS2 development.
+
+Package: ros-hacks
 Version: 1.0.2-1
 Architecture: all
 Maintainer: Daniel <danlil240@gmail.com>
