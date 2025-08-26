@@ -302,17 +302,13 @@ function source_cached_aliases() {
         [[ -z "${alias_file}" ]] && continue
         
         if [[ -f "${alias_file}" ]]; then
-            printf "${DIM_BLUE_TXT}Sourcing alias file: ${alias_file}${NC}\n"
+            printf "Sourcing alias file:${BOLDWHITE} ${alias_file}${NC}\n"
             source "${alias_file}"
             alias_count=$((alias_count + 1))
         else
             printf "${YELLOW_TXT}Alias file not found (skipping): ${alias_file}${NC}\n"
         fi
     done < "${WS_ALIASES_FILE}"
-    
-    if [[ $alias_count -gt 0 ]]; then
-        printf "${GREEN_TXT}Sourced ${alias_count} alias file(s).${NC}\n"
-    fi
 }
 
 function source_ws() {
