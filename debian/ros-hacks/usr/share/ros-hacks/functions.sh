@@ -271,9 +271,11 @@ function cache_ws_aliases() {
     # Search for files ending with 'aliases' in the workspace
     printf "${BLUE_TXT}Searching for alias files in workspace...${NC}\n"
     local alias_files=()
+    # Remove trailing slash to avoid double slashes in path
+    local clean_ws_path="${ws_path%/}"
     while IFS= read -r -d '' file; do
         alias_files+=("$file")
-    done < <(find "${ws_path}/src" -type f -name "*aliases" -print0 2>/dev/null)
+    done < <(find "${clean_ws_path}/src" -type f -name "*aliases" -print0 2>/dev/null)
     
     # Clear the cache file and write new alias file paths
     > "${WS_ALIASES_FILE}"
