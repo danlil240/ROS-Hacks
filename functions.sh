@@ -21,6 +21,7 @@ ROS_DOMAIN_ID_FILE=${ROS_DOMAIN_ID_FILE:-"$HOME/.cache/ros-hacks/ros_domain_id"}
 QUICK_COMMAND_FILE=${QUICK_COMMAND_FILE:-"$HOME/.cache/ros-hacks/quick_command"}
 ROS2NAME=${ROS2_NAME:-"humble"}
 WS_SEARCH_PATHS_FILE=${WS_SEARCH_PATHS_FILE:-"$HOME/.cache/ros-hacks/ws_paths"}
+WS_ALIASES_FILE=${WS_ALIASES_FILE:-"$HOME/.cache/ros-hacks/ws_aliases"}
 
 # Prompts the user to create a new ROS2 workspace
 # Usage: prompt_new_ws
@@ -45,8 +46,8 @@ function createWS() {
     fi
 
     # Check if workspace already exists
-    if [[ -d "${HOME}/${name}_ws" ]]; then
-        printf "${YELLOW_TXT}Workspace ${HOME}/${name}_ws already exists.${NC}\n"
+    if [[ -d "~/${name}_ws" ]]; then
+        printf "${YELLOW_TXT}Workspace ~/${name}_ws already exists.${NC}\n"
         read -p "Do you want to use it anyway? (y/n): " choice
         case "$choice" in
         y | Y) printf "${YELLOW_TXT}Using existing workspace.${NC}\n" ;;
@@ -147,7 +148,8 @@ function select_ws() {
         c=$(($c + 1))
         if [[ $c == $num ]]; then
             set_current_ws $i
-            source_ws $i
+            # Force cache refresh when selecting new workspace
+            source_ws $i true
             return 0
         fi
     done
@@ -249,8 +251,73 @@ function determine_ws_ros_version() {
     fi
 }
 
+# Searches for files ending with 'aliases' in the workspace and caches their paths
+# Usage: cache_ws_aliases <workspace_path>
+function cache_ws_aliases() {
+    local ws_path=${1:-""}
+    if [[ -z "${ws_path}" ]]; then
+        printf "${RED_TXT}Workspace path not specified for alias caching.${NC}\n"
+        return 1
+    fi
+
+    if [[ ! -d "${ws_path}" ]]; then
+        printf "${RED_TXT}Workspace directory does not exist: ${ws_path}${NC}\n"
+        return 1
+    fi
+
+    # Ensure cache directory exists
+    mkdir -p "$(dirname "${WS_ALIASES_FILE}")"
+    
+    # Search for files ending with 'aliases' in the workspace
+    printf "${BLUE_TXT}Searching for alias files in workspace...${NC}\n"
+    local alias_files=()
+    while IFS= read -r -d '' file; do
+        alias_files+=("$file")
+    done < <(find "${ws_path}/src" -type f -name "*aliases" -print0 2>/dev/null)
+    
+    # Clear the cache file and write new alias file paths
+    > "${WS_ALIASES_FILE}"
+    if [[ ${#alias_files[@]} -gt 0 ]]; then
+        printf "${GREEN_TXT}Found ${#alias_files[@]} alias file(s):${NC}\n"
+        for alias_file in "${alias_files[@]}"; do
+            echo "${alias_file}" >> "${WS_ALIASES_FILE}"
+            printf "  ${WHITE_TXT}${alias_file}${NC}\n"
+        done
+    else
+        printf "${YELLOW_TXT}No alias files found in workspace.${NC}\n"
+    fi
+    
+}
+
+# Sources all cached alias files
+# Usage: source_cached_aliases
+function source_cached_aliases() {
+    if [[ ! -f "${WS_ALIASES_FILE}" ]]; then
+        return 0  # No alias cache file, nothing to source
+    fi
+    
+    local alias_count=0
+    while IFS= read -r alias_file || [[ -n "$alias_file" ]]; do
+        # Skip empty lines
+        [[ -z "${alias_file}" ]] && continue
+        
+        if [[ -f "${alias_file}" ]]; then
+            printf "${DIM_BLUE_TXT}Sourcing alias file: ${alias_file}${NC}\n"
+            source "${alias_file}"
+            alias_count=$((alias_count + 1))
+        else
+            printf "${YELLOW_TXT}Alias file not found (skipping): ${alias_file}${NC}\n"
+        fi
+    done < "${WS_ALIASES_FILE}"
+    
+    if [[ $alias_count -gt 0 ]]; then
+        printf "${GREEN_TXT}Sourced ${alias_count} alias file(s).${NC}\n"
+    fi
+}
+
 function source_ws() {
     ws_name=${1:-""}
+    force_cache=${2:-false}
     if [[ -z "${ws_name}" ]]; then
         printf "${RED_TXT}ROS workspace path not specified.${NC}\n"
     else
@@ -262,6 +329,14 @@ function source_ws() {
             if [ -f $ws_name/post_source.bash ]; then
                 source $ws_name/post_source.bash
             fi
+            
+            # Only cache when forced (workspace switch) or no cache exists
+            if [[ "$force_cache" == "true" ]] || [[ ! -f "${WS_ALIASES_FILE}" ]]; then
+                cache_ws_aliases "$ws_name"
+            fi
+            
+            # Always source cached aliases (fast operation)
+            source_cached_aliases
         else
             printf "${RED_TXT}ERROR in ROS WS $ws_name - Sourcing aborted.${NC}\n"
         fi

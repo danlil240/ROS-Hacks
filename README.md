@@ -87,6 +87,26 @@ ros-hacks-setup
 - `Alt+Ctrl+p`: Start pip install command
 - `Shift+F2`: Install ROS2 package
 
+### Workspace Alias Management
+
+ROS-Hacks automatically discovers and sources alias files in your workspace:
+
+- **Automatic discovery**: When sourcing a workspace, ROS-Hacks searches for files ending with "aliases"
+- **Smart caching**: Alias files are cached for fast terminal startup - only searches when switching workspaces
+- **Manual refresh**: Run `cache_ws_aliases` to manually refresh the alias cache for current workspace
+- **Workspace-specific**: Each workspace can have its own set of alias files anywhere in the directory tree
+
+**How it works:**
+1. When you select a new workspace (`F3` or `select_ws`), ROS-Hacks searches for all files ending with "aliases"
+2. Found alias files are cached and automatically sourced
+3. On subsequent terminal sessions, cached aliases are sourced instantly without searching
+4. Cache refreshes automatically when switching to a different workspace
+
+**Example alias file locations:**
+- `~/my_ws/src/my_package/scripts/.my_aliases`
+- `~/my_ws/src/custom_aliases`  
+- `~/my_ws/src/tools/robot_aliases`
+
 ### Quick Commands
 
 - **Set a quick command**: `set-quick-command "your command here"`
