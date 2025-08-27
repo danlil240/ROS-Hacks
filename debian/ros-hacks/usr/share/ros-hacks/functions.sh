@@ -251,17 +251,26 @@ function determine_ws_ros_version() {
     fi
 }
 
-# Searches for files ending with 'aliases' in the workspace and caches their paths
-# Usage: cache_ws_aliases <workspace_path>
+# Searches for files ending with 'aliases' in the current workspace and caches their paths
+# Usage: cache_ws_aliases
 function cache_ws_aliases() {
-    local ws_path=${1:-""}
+    get_current_ws
+    local ws_path="${curr_ws}"
     if [[ -z "${ws_path}" ]]; then
-        printf "${RED_TXT}Workspace path not specified for alias caching.${NC}\n"
+        printf "${RED_TXT}No current workspace set for alias caching.${NC}\n"
         return 1
     fi
 
     if [[ ! -d "${ws_path}" ]]; then
         printf "${RED_TXT}Workspace directory does not exist: ${ws_path}${NC}\n"
+        return 1
+    fi
+
+    # Convert to absolute path to ensure consistency
+    local abs_ws_path
+    abs_ws_path=$(realpath "${ws_path}")
+    if [[ $? -ne 0 ]]; then
+        printf "${RED_TXT}Failed to resolve absolute path for: ${ws_path}${NC}\n"
         return 1
     fi
 
@@ -271,11 +280,15 @@ function cache_ws_aliases() {
     # Search for files ending with 'aliases' in the workspace
     printf "${BLUE_TXT}Searching for alias files in workspace...${NC}\n"
     local alias_files=()
-    # Remove trailing slash to avoid double slashes in path
-    local clean_ws_path="${ws_path%/}"
+    
     while IFS= read -r -d '' file; do
-        alias_files+=("$file")
-    done < <(find "${clean_ws_path}/src" -type f -name "*aliases" -print0 2>/dev/null)
+        # Convert each found file to absolute path
+        local abs_file
+        abs_file=$(realpath "${file}")
+        if [[ $? -eq 0 ]]; then
+            alias_files+=("${abs_file}")
+        fi
+    done < <(find "${abs_ws_path}/src" -type f -name "*aliases" -print0 2>/dev/null)
     
     # Clear the cache file and write new alias file paths
     > "${WS_ALIASES_FILE}"
@@ -419,6 +432,8 @@ function rebuild_curr_ws() {
 
     colcon build --symlink-install "$@"
     build_status=$?
+
+    cache_ws_aliases
 
     # Source the workspace
     source_ws "$curr_ws"
@@ -679,3 +694,88 @@ function ros2cd() {
 # ROS2 Message Debugging Functions
 # ==========================================================
 # Moved to lib/topic_tools.sh
+
+# ==========================================================
+# Launch File Selection Functions
+# ==========================================================
+
+# Interactive launch file selector using fzf
+# Usage: launch_select
+function launch_select() {
+    get_current_ws
+    if [[ -z "${curr_ws}" ]]; then
+        printf "${RED_TXT}No current workspace set.${NC}\n"
+        return 1
+    fi
+    
+    if [[ ! -d "${curr_ws}/src" ]]; then
+        printf "${RED_TXT}No src directory found in workspace: ${curr_ws}${NC}\n"
+        return 1
+    fi
+    
+    # Check if fzf is available
+    if ! command -v fzf &> /dev/null; then
+        printf "${RED_TXT}fzf is not installed. Please install fzf to use this feature.${NC}\n"
+        return 1
+    fi
+    
+    # Find all launch files in the workspace
+    local launch_files=()
+    local display_entries=()
+    
+    printf "${BLUE_TXT}Searching for launch files...${NC}\n"
+    
+    while IFS= read -r -d '' launch_file; do
+        # Get relative path from src directory
+        local rel_path="${launch_file#${curr_ws}/src/}"
+        
+        # Extract package name (first directory after src/)
+        local package_name=$(echo "$rel_path" | cut -d'/' -f1)
+        
+        # Get just the launch file name
+        local launch_name=$(basename "$launch_file")
+        
+        # Store both full path and display format
+        launch_files+=("$launch_file")
+        display_entries+=("${package_name}/${launch_name}")
+        
+    done < <(find "${curr_ws}/src" -type f \( -name "*.launch.py" -o -name "*.launch" \) -print0 2>/dev/null)
+    
+    if [[ ${#launch_files[@]} -eq 0 ]]; then
+        printf "${YELLOW_TXT}No launch files found in workspace.${NC}\n"
+        return 0
+    fi
+    
+    printf "${GREEN_TXT}Found ${#launch_files[@]} launch file(s)${NC}\n"
+    
+    # Use fzf to select launch file
+    local selected_index
+    selected_index=$(printf '%s\n' "${display_entries[@]}" | \
+        fzf --prompt="Select launch file: " \
+            --height=40% \
+            --border \
+            --preview-window=right:50% \
+            --preview='echo "Package: {1}" && echo "Launch file: {2}"' \
+            --with-nth=1,2 \
+            --delimiter='/' | \
+        grep -n . | cut -d: -f1)
+    
+    if [[ -z "$selected_index" ]]; then
+        printf "${YELLOW_TXT}No launch file selected.${NC}\n"
+        return 0
+    fi
+    
+    # Get the selected launch file (fzf returns 1-based index, arrays are 0-based)
+    local array_index=$((selected_index - 1))
+    local selected_launch="${launch_files[$array_index]}"
+    local selected_display="${display_entries[$array_index]}"
+    
+    # Extract package name and launch file name
+    local package_name=$(echo "$selected_display" | cut -d'/' -f1)
+    local launch_name=$(echo "$selected_display" | cut -d'/' -f2)
+    
+    printf "${GREEN_TXT}Launching: ${WHITE_TXT}ros2 launch ${package_name} ${launch_name}${NC}\n"
+    
+    # Execute the launch command
+    ros2 launch "$package_name" "$launch_name"
+}

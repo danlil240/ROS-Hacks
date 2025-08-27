@@ -1,11 +1,11 @@
-d932fdd5b1a9a5e097e804721ee45533  usr/share/doc/ros-hacks/changelog.Debian.gz
+9e4d0ab705992e59dbf28956fc9e5170  usr/share/doc/ros-hacks/changelog.Debian.gz
 f069caced6e4de46abab8ba581434f61  usr/share/ros-hacks/README.md
 98a0b40ca3b6e50c7044cf75592359bf  usr/share/ros-hacks/ROS-Hacks.sh
-32ce050473a7ecc6a7d1beb9c152d530  usr/share/ros-hacks/VERSION
-cd8b8d45c4453124a9f882c538788bb4  usr/share/ros-hacks/aliases.sh
+a739630bce7db4b6be61f78d314e5d3f  usr/share/ros-hacks/VERSION
+d74ef498b7e3d004c19c760eef4fe1bd  usr/share/ros-hacks/aliases.sh
 1011469a8d0a7f7da4f39ccbef024615  usr/share/ros-hacks/defaults.yaml
 58ee5c11eb93899460ecd47f053a43b6  usr/share/ros-hacks/diagnostic.sh
-2fab82ebceb8d0072fb2b2300554636d  usr/share/ros-hacks/functions.sh
+2c14cd7be8b2b9b780b0feb64d4ae1e4  usr/share/ros-hacks/functions.sh
 1e00ae6a16b534217d3fa42bd9ac8f8c  usr/share/ros-hacks/inputrc
 25f97493255d49fe3b67758c10c17929  usr/share/ros-hacks/lib/build.sh
 18df519d9f38b93fe6d95b5644e40d4b  usr/share/ros-hacks/lib/devtools.sh

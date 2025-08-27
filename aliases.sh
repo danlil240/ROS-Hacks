@@ -97,3 +97,20 @@ export HISTIGNORE='t:f:l:ls:bg:fg:history:h:select_ws:kill-tmux-gz:rt:rtl:rte:rt
 export HISTTIMEFORMAT='%F %T '
 
 # PS1=' \[\e[1;32m\]\u\[\033[00m\] \[\e[32m\]$(get_current_ws_name):$ROS_DOMAIN_ID\[\033[00m\] \[\033[03;94m\]\w\[\033[00m\]\[\033[38;5;51m\]$(__git_ps1)\[\033[00m\]:\n\$ '
+
+# ==========================================================
+# Launch File Selection
+# ==========================================================
+
+# Launch command that triggers fzf selection
+alias launch='launch_select'
+
+# Bash completion for launch command
+_launch_complete() {
+    # Always trigger the interactive selector when tab is pressed
+    COMPREPLY=()
+    return 0
+}
+
+# Register the completion function
+complete -F _launch_complete launch
