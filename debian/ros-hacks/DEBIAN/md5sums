@@ -1,7 +1,7 @@
-de2a6d895519ad9c022c5d877c976fbe  usr/share/doc/ros-hacks/changelog.Debian.gz
+e0c92fe6a0e0093f3ef6365a310b3bf1  usr/share/doc/ros-hacks/changelog.Debian.gz
 f069caced6e4de46abab8ba581434f61  usr/share/ros-hacks/README.md
 98a0b40ca3b6e50c7044cf75592359bf  usr/share/ros-hacks/ROS-Hacks.sh
-71716d39efe6718bf27ee0827822e2a4  usr/share/ros-hacks/VERSION
+5774b63ff11b8044c20140924000af12  usr/share/ros-hacks/VERSION
 d74ef498b7e3d004c19c760eef4fe1bd  usr/share/ros-hacks/aliases.sh
 1011469a8d0a7f7da4f39ccbef024615  usr/share/ros-hacks/defaults.yaml
 58ee5c11eb93899460ecd47f053a43b6  usr/share/ros-hacks/diagnostic.sh
@@ -17,5 +17,5 @@ e45b6a9688ac650dde0e6f2cf4923ae5  usr/share/ros-hacks/scripts/gen-vscode-config-
 7ca39f0e9ac8d872cb41e20a02a232ab  usr/share/ros-hacks/scripts/gen-vscode-config.sh
 c7e637be029244adc292274d811238f4  usr/share/ros-hacks/scripts/install-apt.sh
 3dbaa29396078aeb7b7140458e250ffe  usr/share/ros-hacks/scripts/run-in-ros.sh
-f3d33fb386f8e0bc2bd78f700567765d  usr/share/ros-hacks/scripts/setup-apt-repo.sh
+1bf567ad1ac5685a4b2d288a8a275475  usr/share/ros-hacks/scripts/setup-apt-repo.sh
 c39afb61f2f977f3898758c5dd0335ab  usr/share/ros-hacks/setup.sh

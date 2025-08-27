@@ -173,14 +173,33 @@ EOF
 
     # Sign Release file with a deterministic key and export the matching public key
     rm -f dists/stable/Release.gpg dists/stable/InRelease
-    # Prefer explicit fingerprint via APT_SIGNING_KEY_FPR, else first secret key for the UID
-    SIGNING_KEY="${APT_SIGNING_KEY_FPR:-}"
-    if [ -z "$SIGNING_KEY" ]; then
+    
+    # Always use the same key by storing/reading the fingerprint
+    KEY_FPR_FILE="$REPO_DIR/.signing_key_fpr"
+    
+    if [ -f "$KEY_FPR_FILE" ]; then
+        # Use existing key fingerprint
+        SIGNING_KEY=$(cat "$KEY_FPR_FILE")
+        echo -e "${BLUE}Using existing signing key: $SIGNING_KEY${NC}"
+    else
+        # Get the first (and should be only) key for ROS-Hacks APT Repository
         SIGNING_KEY=$(gpg --list-secret-keys --with-colons 'ROS-Hacks APT Repository' 2>/dev/null | awk -F: '/^fpr:/ {print $10; exit}')
+        if [ -z "$SIGNING_KEY" ]; then
+            echo -e "${RED}No GPG key found for 'ROS-Hacks APT Repository'${NC}"
+            exit 1
+        fi
+        # Save the fingerprint for future use
+        echo "$SIGNING_KEY" > "$KEY_FPR_FILE"
+        echo -e "${GREEN}Saved signing key fingerprint: $SIGNING_KEY${NC}"
     fi
-    if [ -z "$SIGNING_KEY" ]; then
-        SIGNING_KEY="ROS-Hacks APT Repository"
+    
+    # Verify the key still exists
+    if ! gpg --list-secret-keys "$SIGNING_KEY" >/dev/null 2>&1; then
+        echo -e "${RED}Signing key $SIGNING_KEY not found! Removing cached fingerprint.${NC}"
+        rm -f "$KEY_FPR_FILE"
+        exit 1
     fi
+    
     gpg --batch --yes --default-key "$SIGNING_KEY" -abs -o dists/stable/Release.gpg dists/stable/Release
     gpg --batch --yes --default-key "$SIGNING_KEY" --clearsign -o dists/stable/InRelease dists/stable/Release
     # Export public key used for signing so clients fetch the correct key
