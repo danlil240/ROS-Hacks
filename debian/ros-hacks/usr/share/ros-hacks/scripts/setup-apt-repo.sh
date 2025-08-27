@@ -81,12 +81,27 @@ if ! command -v dpkg-scanpackages &>/dev/null; then
 fi
 
 # Setup repository directory
-REPO_DIR="$HOME/ros-hacks"
-KEY_NAME="ros-hacks-key"
 SOURCE_DIR="$(dirname "$(dirname "$(readlink -f "$0")")")"
-REPO_DIR="$SOURCE_DIR"
+APT_REPO_DIR="$HOME/ros-hacks-apt"
+KEY_NAME="ros-hacks-key"
+
 echo -e "${BLUE}Source directory: $SOURCE_DIR${NC}"
-echo -e "${BLUE}Repository directory: $REPO_DIR${NC}"
+echo -e "${BLUE}APT Repository directory: $APT_REPO_DIR${NC}"
+
+# Create and initialize APT repository if it doesn't exist
+if [ ! -d "$APT_REPO_DIR" ]; then
+    echo -e "${BLUE}Creating APT repository directory...${NC}"
+    mkdir -p "$APT_REPO_DIR"
+    cd "$APT_REPO_DIR"
+    git init
+    echo "# ROS-Hacks APT Repository" > README.md
+    echo "This repository contains the APT repository files for ROS-Hacks package distribution." >> README.md
+    git add README.md
+    git commit -m "Initial APT repository setup"
+    git remote add origin "https://github.com/danlil240/ros-hacks-apt.git"
+fi
+
+REPO_DIR="$APT_REPO_DIR"
 
 echo -e "${BLUE}Setting up APT repository in $REPO_DIR${NC}"
 # Clean up any existing directory that should be a file
@@ -439,26 +454,28 @@ setup_github() {
     # Update README with correct GitHub username
     sed -i "s/your-github-username/$GITHUB_USER/g" "$REPO_DIR/README.md"
 
-    # Initialize git repo if needed
+    # Work in the APT repository directory
     cd "$REPO_DIR"
-    if [ ! -d ".git" ]; then
-        git init
-        git add .
-        git commit -m "Initial repository setup"
-        echo -e "${GREEN}Local git repository initialized${NC}"
+    
+    # Add all APT repository files
+    git add .
+    
+    # Check if there are changes to commit
+    if git diff --staged --quiet; then
+        echo -e "${YELLOW}No changes to commit in APT repository${NC}"
     else
-        git add .
-        git commit -m "Update repository"
+        git commit -m "Update APT repository - $(date '+%Y-%m-%d %H:%M:%S')"
+        echo -e "${GREEN}APT repository changes committed${NC}"
     fi
 
-    # Check if remote exists
+    # Check if remote exists and set to ros-hacks-apt
     if git remote | grep -q "origin"; then
-        git remote set-url origin "https://github.com/$GITHUB_USER/ROS-Hacks.git"
+        git remote set-url origin "https://github.com/$GITHUB_USER/ros-hacks-apt.git"
     else
-        git remote add origin "https://github.com/$GITHUB_USER/ROS-Hacks.git"
+        git remote add origin "https://github.com/$GITHUB_USER/ros-hacks-apt.git"
     fi
 
-    echo -e "${YELLOW}Remote 'origin' configured to: https://github.com/$GITHUB_USER/ROS-Hacks.git${NC}"
+    echo -e "${YELLOW}Remote 'origin' configured to: https://github.com/$GITHUB_USER/ros-hacks-apt.git${NC}"
 
     # Get the current branch name
     BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
@@ -471,10 +488,10 @@ setup_github() {
         if [ $? -eq 0 ]; then
             echo -e "${GREEN}Successfully pushed to GitHub${NC}"
             echo -e "${YELLOW}Remember to enable GitHub Pages in repository settings:${NC}"
-            echo -e "${YELLOW}1. Go to https://github.com/$GITHUB_USER/ROS-Hacks/settings/pages${NC}"
+            echo -e "${YELLOW}1. Go to https://github.com/$GITHUB_USER/ros-hacks-apt/settings/pages${NC}"
             echo -e "${YELLOW}2. Set source to 'main' branch and '/' folder${NC}"
             echo -e "${YELLOW}3. It may take a few minutes for the pages to be published${NC}"
-            echo -e "${YELLOW}3. Click Save${NC}"
+            echo -e "${YELLOW}4. Click Save${NC}"
         else
             echo -e "${RED}Failed to push to GitHub. You can push manually:${NC}"
             echo -e "cd $REPO_DIR"
@@ -499,15 +516,15 @@ show_instructions() {
     echo -e "\n${GREEN}=== INSTALLATION INSTRUCTIONS FOR TARGET MACHINE ===${NC}"
     echo -e "${BLUE}Run these commands on the target machine:${NC}"
     echo -e "# Download the key file first, then process it"
-    echo -e "wget -O /tmp/ros-hacks.key https://$GITHUB_USER.github.io/ROS-Hacks/ros-hacks.key"
+    echo -e "wget -O /tmp/ros-hacks.key https://$GITHUB_USER.github.io/ros-hacks-apt/ros-hacks.key"
     echo -e "sudo mkdir -p /etc/apt/keyrings"
     echo -e "cat /tmp/ros-hacks.key | sudo gpg --dearmor -o /etc/apt/keyrings/ros-hacks.gpg"
-    echo -e "echo \"deb [signed-by=/etc/apt/keyrings/ros-hacks.gpg] https://$GITHUB_USER.github.io/ROS-Hacks stable main\" | sudo tee /etc/apt/sources.list.d/ros-hacks.list"
+    echo -e "echo \"deb [signed-by=/etc/apt/keyrings/ros-hacks.gpg] https://$GITHUB_USER.github.io/ros-hacks-apt stable main\" | sudo tee /etc/apt/sources.list.d/ros-hacks.list"
     echo -e "sudo apt update"
     echo -e "sudo apt install ros-hacks"
 
     echo -e "\n${YELLOW}Note: Make sure GitHub Pages is enabled in your repository settings:${NC}"
-    echo -e "${YELLOW}1. Go to https://github.com/$GITHUB_USER/ROS-Hacks/settings/pages${NC}"
+    echo -e "${YELLOW}1. Go to https://github.com/$GITHUB_USER/ros-hacks-apt/settings/pages${NC}"
     echo -e "${YELLOW}2. Set source to 'main' branch and '/' folder${NC}"
     echo -e "${YELLOW}3. It may take a few minutes for the pages to be published${NC}"
 }

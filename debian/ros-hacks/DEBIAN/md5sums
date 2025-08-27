@@ -17,5 +17,5 @@ e45b6a9688ac650dde0e6f2cf4923ae5  usr/share/ros-hacks/scripts/gen-vscode-config-
 7ca39f0e9ac8d872cb41e20a02a232ab  usr/share/ros-hacks/scripts/gen-vscode-config.sh
 c7e637be029244adc292274d811238f4  usr/share/ros-hacks/scripts/install-apt.sh
 3dbaa29396078aeb7b7140458e250ffe  usr/share/ros-hacks/scripts/run-in-ros.sh
-1bf567ad1ac5685a4b2d288a8a275475  usr/share/ros-hacks/scripts/setup-apt-repo.sh
+e29061d04f968555c082c01b88b7f35a  usr/share/ros-hacks/scripts/setup-apt-repo.sh
 c39afb61f2f977f3898758c5dd0335ab  usr/share/ros-hacks/setup.sh

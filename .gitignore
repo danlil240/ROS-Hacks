@@ -1,0 +1,32 @@
+# APT Repository files (moved to separate ros-hacks-apt repo)
+pool/
+dists/
+*.key
+.signing_key_fpr
+*.deb
+*.buildinfo
+*.changes
+
+# Build artifacts
+build/
+debian/ros-hacks/
+debian/.debhelper/
+debian/debhelper-build-stamp
+debian/files
+debian/*.substvars
+debian/*.log
+
+# Temporary files
+*.tmp
+*.bak
+*~
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
