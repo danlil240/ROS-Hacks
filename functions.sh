@@ -749,33 +749,41 @@ function launch_select() {
     printf "${GREEN_TXT}Found ${#launch_files[@]} launch file(s)${NC}\n"
     
     # Use fzf to select launch file
-    local selected_index
-    selected_index=$(printf '%s\n' "${display_entries[@]}" | \
+    local selected_display
+    selected_display=$(printf '%s\n' "${display_entries[@]}" | \
         fzf --prompt="Select launch file: " \
             --height=40% \
             --border \
             --preview-window=right:50% \
-            --preview='echo "Package: {1}" && echo "Launch file: {2}"' \
+            --preview='echo "Package: $(dirname {})"; echo "Launch file: $(basename {})"' \
             --with-nth=1,2 \
-            --delimiter='/' | \
-        grep -n . | cut -d: -f1)
+            --delimiter='/')
     
-    if [[ -z "$selected_index" ]]; then
+    if [[ -z "$selected_display" ]]; then
         printf "${YELLOW_TXT}No launch file selected.${NC}\n"
         return 0
     fi
     
-    # Get the selected launch file (fzf returns 1-based index, arrays are 0-based)
-    local array_index=$((selected_index - 1))
-    local selected_launch="${launch_files[$array_index]}"
-    local selected_display="${display_entries[$array_index]}"
+    declare -A launch_map
+    for i in "${!launch_files[@]}"; do
+        launch_map["${display_entries[$i]}"]="${launch_files[$i]}"
+    done
+    selected_launch="${launch_map[$selected_display]}" 
     
     # Extract package name and launch file name
     local package_name=$(echo "$selected_display" | cut -d'/' -f1)
     local launch_name=$(echo "$selected_display" | cut -d'/' -f2)
     
-    printf "${GREEN_TXT}Launching: ${WHITE_TXT}ros2 launch ${package_name} ${launch_name}${NC}\n"
+    local launch_cmd="ros2 launch ${package_name} ${launch_name}"
     
-    # Execute the launch command
-    ros2 launch "$package_name" "$launch_name"
+    printf "${GREEN_TXT}Selected: ${WHITE_TXT}${package_name}/${launch_name}${NC}\n"
+    
+    # Use read with readline editing to pre-populate the command
+    # printf "\n"
+    read -e -i "$launch_cmd" -p "$ " user_command
+    
+    # Execute the command (which might be modified by the user)
+    if [[ -n "$user_command" ]]; then
+        eval "$user_command"
+    fi
 }
