@@ -1,107 +1,26 @@
-name: Build and Publish APT Repo
+# DISABLED: APT repository moved to separate ros-hacks-apt repository
+# This workflow has been moved to the ros-hacks-apt repository
+# 
+# Original workflow published APT repository to GitHub Pages
+# Now handled by: https://github.com/danlil240/ros-hacks-apt
 
-on:
-  workflow_dispatch: {}
-  push:
-    branches: [ main ]
-    paths:
-      - 'debian/**'
-      - 'scripts/**'
-      - 'lib/**'
-      - 'aliases.sh'
-      - 'functions.sh'
-      - 'ROS-Hacks.sh'
-
-permissions:
-  contents: write
+name: Disabled APT Workflow
+on: 
+  workflow_dispatch:
+    inputs:
+      note:
+        description: 'APT publishing moved to ros-hacks-apt repository'
+        required: false
+        default: 'This workflow is disabled'
 
 jobs:
-  build-and-publish:
+  disabled:
     runs-on: ubuntu-latest
-    env:
-      REPO_DIR: repo
-      GPG_KEY_NAME: ${{ secrets.APT_GPG_KEY_NAME }}
-      GPG_PRIVATE_KEY: ${{ secrets.APT_GPG_PRIVATE_KEY }}
-      GPG_PASSPHRASE: ${{ secrets.APT_GPG_PASSPHRASE }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Install dependencies
+      - name: Workflow Disabled
         run: |
-          sudo apt-get update
-          sudo apt-get install -y dpkg-dev debhelper build-essential gnupg fakeroot
-
-      - name: Import GPG key
-        if: env.GPG_PRIVATE_KEY != ''
-        run: |
-          echo "$GPG_PRIVATE_KEY" | gpg --batch --yes --pinentry-mode loopback --passphrase "$GPG_PASSPHRASE" --import
-          gpg --list-keys
-
-      - name: Build .deb
-        run: |
-          dpkg-buildpackage -us -uc -b -d
-
-      - name: Collect artifacts
-        run: |
-          mkdir -p "$REPO_DIR"/pool/main "$REPO_DIR"/dists/stable/main/binary-amd64
-          mv ../ros-hacks_*.deb "$REPO_DIR"/pool/main/
-
-      - name: Generate Packages index
-        run: |
-          cd "$REPO_DIR"
-          dpkg-scanpackages --multiversion pool/ > dists/stable/main/binary-amd64/Packages
-          gzip -kf dists/stable/main/binary-amd64/Packages
-          mkdir -p dists/stable/main/binary-i386
-          : > dists/stable/main/binary-i386/Packages
-          gzip -kf dists/stable/main/binary-i386/Packages
-
-      - name: Create Release file
-        run: |
-          cd "$REPO_DIR"
-          cat > dists/stable/Release <<EOF
-          Origin: ROS-Hacks Repository
-          Label: ROS-Hacks
-          Suite: stable
-          Codename: stable
-          Architectures: amd64 i386
-          Components: main
-          Description: ROS-Hacks APT Repository
-          Date: $(date -R -u)
-          EOF
-          echo "SHA256:" >> dists/stable/Release
-          for f in dists/stable/main/binary-*/Packages*; do
-            printf " %s %s %s\n" \
-              $(sha256sum "$f" | cut -d" " -f1) \
-              $(stat -c%s "$f") \
-              $(echo "$f" | sed 's|^dists/stable/||') >> dists/stable/Release
-          done
-          echo "MD5Sum:" >> dists/stable/Release
-          for f in dists/stable/main/binary-*/Packages*; do
-            printf " %s %s %s\n" \
-              $(md5sum "$f" | cut -d" " -f1) \
-              $(stat -c%s "$f") \
-              $(echo "$f" | sed 's|^dists/stable/||') >> dists/stable/Release
-          done
-
-      - name: Sign Release
-        if: env.GPG_KEY_NAME != ''
-        run: |
-          cd "$REPO_DIR"
-          rm -f dists/stable/Release.gpg dists/stable/InRelease
-          gpg --batch --yes --pinentry-mode loopback --passphrase "$GPG_PASSPHRASE" \
-            --default-key "$GPG_KEY_NAME" -abs -o dists/stable/Release.gpg dists/stable/Release
-          gpg --batch --yes --pinentry-mode loopback --passphrase "$GPG_PASSPHRASE" \
-            --default-key "$GPG_KEY_NAME" --clearsign -o dists/stable/InRelease dists/stable/Release
-          # Export public key for clients
-          gpg --armor --export "$GPG_KEY_NAME" > ros-hacks.key
-
-      - name: Publish to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ${{ env.REPO_DIR }}
-          publish_branch: gh-pages
-          force_orphan: true
+          echo "This workflow has been disabled."
+          echo "APT repository publishing has been moved to:"
+          echo "https://github.com/danlil240/ros-hacks-apt"
+          echo ""
+          echo "The ros-hacks repository now only contains source code."
