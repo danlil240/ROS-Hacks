@@ -6,14 +6,14 @@ This is a repository for the ROS-Hacks package, a productivity toolkit that enha
 
 1. Download and add the GPG key:
 ```bash
-wget -qO /tmp/ros-hacks.key https://danlil240.github.io/ROS-Hacks/ros-hacks.key
+wget -qO /tmp/ros-hacks.key https://danlil240.github.io/ros-hacks-apt/ros-hacks.key
 sudo mkdir -p /etc/apt/keyrings
 cat /tmp/ros-hacks.key | sudo gpg --dearmor -o /etc/apt/keyrings/ros-hacks.gpg
 ```
 
 2. Add the repository to your sources:
 ```bash
-echo "deb [signed-by=/etc/apt/keyrings/ros-hacks.gpg] https://danlil240.github.io/ROS-Hacks stable main" | sudo tee /etc/apt/sources.list.d/ros-hacks.list
+echo "deb [signed-by=/etc/apt/keyrings/ros-hacks.gpg] https://danlil240.github.io/ros-hacks-apt stable main" | sudo tee /etc/apt/sources.list.d/ros-hacks.list
 ```
 
 3. Update and install:

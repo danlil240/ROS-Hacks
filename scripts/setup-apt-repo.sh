@@ -17,8 +17,7 @@ RED='\e[31m'
 increment_version() {
     echo -e "${BLUE}Incrementing version number...${NC}"
 
-    # Read current version from VERSION file
-    SOURCE_DIR="$(dirname "$(dirname "$0")")"
+    # Use the global SOURCE_DIR that was already set
     VERSION_FILE="${SOURCE_DIR}/VERSION"
     CURRENT_VERSION=$(cat "$VERSION_FILE")
 
