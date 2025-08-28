@@ -729,8 +729,24 @@ function launch_select() {
         # Get relative path from src directory
         local rel_path="${launch_file#${curr_ws}/src/}"
         
-        # Extract package name (first directory after src/)
-        local package_name=$(echo "$rel_path" | cut -d'/' -f1)
+        # Find the actual package name by looking for package.xml
+        local package_name=""
+        local current_dir=$(dirname "$launch_file")
+        
+        # Traverse up the directory tree until we find package.xml
+        while [[ "$current_dir" != "${curr_ws}/src" && "$current_dir" != "/" ]]; do
+            if [[ -f "$current_dir/package.xml" ]]; then
+                # Extract package name from package.xml
+                package_name=$(grep -oP '<name>\K[^<]+' "$current_dir/package.xml" 2>/dev/null | head -1)
+                break
+            fi
+            current_dir=$(dirname "$current_dir")
+        done
+        
+        # Fallback to first directory if package.xml not found
+        if [[ -z "$package_name" ]]; then
+            package_name=$(echo "$rel_path" | cut -d'/' -f1)
+        fi
         
         # Get just the launch file name
         local launch_name=$(basename "$launch_file")
