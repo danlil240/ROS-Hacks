@@ -801,5 +801,7 @@ function launch_select() {
     # Execute the command (which might be modified by the user)
     if [[ -n "$user_command" ]]; then
         eval "$user_command"
+        # Add the command to bash history
+        history -s "$user_command"
     fi
 }
