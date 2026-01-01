@@ -49,10 +49,10 @@ _rh_errors_summary() {
     fi
     local lines=()
     local d
-    shopt -s nullglob
-    for d in "$log_root"/*/; do
+    while IFS= read -r d || [[ -n "$d" ]]; do
+        [[ -z "$d" ]] && continue
         _rh_pkg_summary_line "$d"
-    done | awk -F'|' '{printf "%-32s  %-8s  %-8s  %s\n", $1, $2, $3, $4}' | sort -t '|' -k2,2nr -k3,3nr
+    done < <(find "$log_root" -mindepth 1 -maxdepth 1 -type d 2>/dev/null) | awk -F'|' '{printf "%-32s  %-8s  %-8s  %s\n", $1, $2, $3, $4}' | sort -t '|' -k2,2nr -k3,3nr
 }
 
 # Preview a log around the first match of ERROR/WARNING
@@ -136,8 +136,8 @@ show_colcon_errors() {
     echo "Package                               Errors   Warnings"
     echo "--------------------------------------------------------"
     local d
-    shopt -s nullglob
-    for d in "$log_root"/*/; do
+    while IFS= read -r d || [[ -n "$d" ]]; do
+        [[ -z "$d" ]] && continue
         local pkg_name log_file errs warns first
         pkg_name=$(basename "$d")
         log_file="$d/stdout_stderr.log"
@@ -149,7 +149,7 @@ show_colcon_errors() {
         if [[ -n "$first" ]]; then
             echo "  -> $first"
         fi
-    done
+    done < <(find "$log_root" -mindepth 1 -maxdepth 1 -type d 2>/dev/null)
 }
 
 show_colcon_warnings() {

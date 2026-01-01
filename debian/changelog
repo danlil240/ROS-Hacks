@@ -1,8 +1,14 @@
+ros-hacks (1.0.31-1) unstable; urgency=medium
+
+  * Auto-updated version to 1.0.31
+
+ -- Daniel <danlil240@gmail.com>  Thu, 01 Jan 2026 10:29:37 +0200
+
 ros-hacks (1.0.30-1) unstable; urgency=medium
 
   * Auto-updated version to 1.0.30
 
- -- Daniel <danlil240@gmail.com>  Mon, 01 Sep 2025 09:12:34 +0300
+ -- Daniel <danlil240@gmail.com>  Thu, 01 Jan 2026 10:26:11 +0200
 
 ros-hacks (1.0.29-1) unstable; urgency=medium
 

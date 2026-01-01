@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -eu
+set -o pipefail 2>/dev/null || true
+[[ -n ${ZSH_VERSION:-} ]] && setopt pipefail
 
 # Install ROS-Hacks from the GitHub Pages APT repo
 REPO_URL="https://danlil240.github.io/ROS-Hacks"

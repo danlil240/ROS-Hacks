@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-if [[ ${SKIP} == 1 ]]; then
+if [[ ${SKIP:-} == 1 ]]; then
     return 1
 fi
 
@@ -42,8 +42,13 @@ QUICK_COMMAND_FILE=$HOME/.cache/ros-hacks/quick_command
 
 alias pR='printenv | grep -i -e ROS -e CMAKE -e RMW -e AMENT -e COLCON'
 alias sw='source_ws $(cat $WS_FILE)'
-alias sr='source /opt/ros/${ROS2_NAME}/setup.bash'
-alias csr='unROS; source /opt/ros/${ROS2_NAME}/setup.bash'
+if [[ -n ${ZSH_VERSION:-} ]]; then
+    alias sr='source /opt/ros/${ROS2_NAME}/setup.zsh'
+    alias csr='unROS; source /opt/ros/${ROS2_NAME}/setup.zsh'
+else
+    alias sr='source /opt/ros/${ROS2_NAME}/setup.bash'
+    alias csr='unROS; source /opt/ros/${ROS2_NAME}/setup.bash'
+fi
 
 # Build aliases
 alias cob='colcon build --symlink-install'
@@ -82,19 +87,26 @@ alias whgit='git config --get remote.origin.url'
 unalias show_colcon_errors 2>/dev/null || true
 alias se='show_colcon_errors'
 
-# Shell options
-shopt -s direxpand
-shopt -s expand_aliases
-shopt -s histappend
-shopt -s cmdhist
+if [[ -n ${BASH_VERSION:-} ]]; then
+    shopt -s direxpand
+    shopt -s expand_aliases
+    shopt -s histappend
+    shopt -s cmdhist
 
-# History settings
-export PROMPT_COMMAND='history -a'
-export HISTFILESIZE=10000
-export HISTSIZE=10000
-export HISTCONTROL=ignoreboth
-export HISTIGNORE='t:f:l:ls:bg:fg:history:h:select_ws:kill-tmux-gz:rt:rtl:rte:rti:rn:rs:rp:ra:rb'
-export HISTTIMEFORMAT='%F %T '
+    export PROMPT_COMMAND='history -a'
+    export HISTFILESIZE=10000
+    export HISTSIZE=10000
+    export HISTCONTROL=ignoreboth
+    export HISTIGNORE='t:f:l:ls:bg:fg:history:h:select_ws:kill-tmux-gz:rt:rtl:rte:rti:rn:rs:rp:ra:rb'
+    export HISTTIMEFORMAT='%F %T '
+elif [[ -n ${ZSH_VERSION:-} ]]; then
+    setopt APPEND_HISTORY
+    setopt INC_APPEND_HISTORY
+    setopt HIST_IGNORE_SPACE
+    setopt HIST_REDUCE_BLANKS
+    HISTSIZE=10000
+    SAVEHIST=10000
+fi
 
 # PS1=' \[\e[1;32m\]\u\[\033[00m\] \[\e[32m\]$(get_current_ws_name):$ROS_DOMAIN_ID\[\033[00m\] \[\033[03;94m\]\w\[\033[00m\]\[\033[38;5;51m\]$(__git_ps1)\[\033[00m\]:\n\$ '
 
@@ -113,4 +125,6 @@ _launch_complete() {
 }
 
 # Register the completion function
-complete -F _launch_complete launch
+if [[ -n ${BASH_VERSION:-} ]]; then
+    complete -F _launch_complete launch
+fi

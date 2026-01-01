@@ -28,7 +28,8 @@ WS_ALIASES_FILE=${WS_ALIASES_FILE:-"$HOME/.cache/ros-hacks/ws_aliases"}
 function prompt_new_ws() {
     printf "${LIGHT_BLUE_TXT}Creating new ROS2 workspace${NC}\n"
     printf "${LIGHT_BLUE_TXT}Please enter the workspace name, will create ~/####_ws/src:${NC}\n"
-    read -p ":  " name
+    printf ":  "
+    read -r name
     if [[ -z "${name}" ]]; then
         printf "${RED_TXT}No workspace name provided, aborting.${NC}\n"
         return 1
@@ -46,9 +47,10 @@ function createWS() {
     fi
 
     # Check if workspace already exists
-    if [[ -d "~/${name}_ws" ]]; then
+    if [[ -d "${HOME}/${name}_ws" ]]; then
         printf "${YELLOW_TXT}Workspace ~/${name}_ws already exists.${NC}\n"
-        read -p "Do you want to use it anyway? (y/n): " choice
+        printf "Do you want to use it anyway? (y/n): "
+        read -r choice
         case "$choice" in
         y | Y) printf "${YELLOW_TXT}Using existing workspace.${NC}\n" ;;
         *)
@@ -58,7 +60,7 @@ function createWS() {
         esac
     else
         # Create workspace directory structure
-        mkdir -p ~/${name}_ws/src
+        mkdir -p "${HOME}/${name}_ws/src"
         if [[ $? -ne 0 ]]; then
             printf "${RED_TXT}Failed to create workspace directory.${NC}\n"
             return 1
@@ -78,7 +80,11 @@ function createWS() {
 
     # Initialize as ROS2 workspace
     printf "${BLUE_TXT}Initializing ROS2 workspace...${NC}\n"
-    source /opt/ros/${ROS2_NAME}/setup.bash
+    local ros_setup="/opt/ros/${ROS2_NAME}/setup.bash"
+    if [[ -n ${ZSH_VERSION:-} && -f "/opt/ros/${ROS2_NAME}/setup.zsh" ]]; then
+        ros_setup="/opt/ros/${ROS2_NAME}/setup.zsh"
+    fi
+    source "${ros_setup}"
     colcon build --symlink-install
     local build_status=$?
     source_ws "${curr_ws}"
@@ -92,21 +98,29 @@ function createWS() {
 
 function unROS() {
     # Get all variables containing 'ROS'
-    vars=$(env | egrep -i ROS | column -t -s '=' | sed -E 's/ .*//g')
+    vars=$(env | egrep -i ROS | cut -d= -f1 | sort -u)
     # For everyone do:
-    for v in $vars; do
+    while IFS= read -r v || [[ -n "$v" ]]; do
+        if [[ ! "$v" =~ ^[A-Za-z_][A-Za-z0-9_]*$ ]]; then
+            continue
+        fi
         # Get the value
         if [[ $v == *"PWD"* ]]; then
             continue
         fi
-        str=$(printenv $v)
+        str=$(printenv "$v")
         # Divide into array separated by colon
-        arrIN=(${str//:/ })
+        if [[ -n ${ZSH_VERSION:-} ]]; then
+            IFS=':' read -rA arrIN <<< "$str"
+        else
+            IFS=':' read -r -a arrIN <<< "$str"
+        fi
         # If variable name contains 'ROS' unset it
         if [[ $v == *"ROS"* ]]; then
-            unset $v
+            unset "$v"
             continue
         else # Otherwise evaluate the fields
+            local new_str=""
             # For every field check:
             for i in "${arrIN[@]}"; do
                 # If contains 'ros' or '_ws/' - skip the field
@@ -116,22 +130,24 @@ function unROS() {
                 if [[ $i =~ "_ws/" ]]; then
                     continue
                 fi
-                # Save the current state of temporary variable
-                old=$(printenv ${v}_tmp)
-                if [ -z "$old" ]; then # If it is empty: add current field
-                    export ${v}_tmp=${i}
-                else # If it is not empty - append the field
-                    export ${v}_tmp=$(printenv ${v}_tmp):${i}
+                if [[ -z "$new_str" ]]; then
+                    new_str="$i"
+                else
+                    new_str="${new_str}:$i"
                 fi
             done
             # After all fields are processed - move the temp var to the original
-            export ${v}=$(printenv ${v}_tmp)
-            unset ${v}_tmp # Just to be sure, maybe not required
-            if [[ -z "$(printenv ${v})" ]]; then
-                unset $v
+            if [[ -z "$new_str" ]]; then
+                unset "$v"
+            else
+                if [[ -n ${ZSH_VERSION:-} ]]; then
+                    typeset -gx "${v}=${new_str}"
+                else
+                    export "${v}=${new_str}"
+                fi
             fi
         fi
-    done
+    done < <(printf "%s\n" "$vars")
 
     # Unset paths that are setup from sourcing ROS
     unset CMAKE_PREFIX_PATH
@@ -176,8 +192,7 @@ function get_current_ws_name() {
         echo "none"
         return
     fi
-    local myarray=(${curr_ws//\// })
-    echo "${myarray[-1]}"
+    basename "$curr_ws"
 }
 
 # Sets the current ROS2 workspace
@@ -254,8 +269,11 @@ function determine_ws_ros_version() {
 # Searches for files ending with 'aliases' in the current workspace and caches their paths
 # Usage: cache_ws_aliases
 function cache_ws_aliases() {
-    get_current_ws
-    local ws_path="${curr_ws}"
+    local ws_path="${1:-""}"
+    if [[ -z "${ws_path}" ]]; then
+        get_current_ws
+        ws_path="${curr_ws}"
+    fi
     if [[ -z "${ws_path}" ]]; then
         printf "${RED_TXT}No current workspace set for alias caching.${NC}\n"
         return 1
@@ -266,12 +284,20 @@ function cache_ws_aliases() {
         return 1
     fi
 
-    # Convert to absolute path to ensure consistency
-    local abs_ws_path
-    abs_ws_path=$(realpath "${ws_path}")
-    if [[ $? -ne 0 ]]; then
-        printf "${RED_TXT}Failed to resolve absolute path for: ${ws_path}${NC}\n"
-        return 1
+    local src_path="${ws_path}/src"
+    if [[ ! -d "${src_path}" ]]; then
+        printf "${YELLOW_TXT}Workspace has no src directory (skipping alias cache): ${src_path}${NC}\n"
+        return 0
+    fi
+
+    local maxdepth="${ROSHACKS_ALIAS_FIND_MAXDEPTH:-8}"
+    if [[ ! "${maxdepth}" =~ ^[0-9]+$ ]]; then
+        maxdepth=8
+    fi
+
+    local timeout_sec="${ROSHACKS_ALIAS_FIND_TIMEOUT:-3}"
+    if [[ ! "${timeout_sec}" =~ ^[0-9]+$ ]]; then
+        timeout_sec=3
     fi
 
     # Ensure cache directory exists
@@ -280,18 +306,54 @@ function cache_ws_aliases() {
     # Search for files ending with 'aliases' in the workspace
     printf "${BLUE_TXT}Searching for alias files in workspace...${NC}\n"
     local alias_files=()
+
+    # local candidates_file
+    # candidates_file=$(mktemp 2>/dev/null || echo "")
+    # if [[ -z "${candidates_file}" ]]; then
+    #     printf "${YELLOW_TXT}Failed to create temp file for alias search (skipping).${NC}\n"
+    #     return 0
+    # fi
+
+    # if command -v timeout >/dev/null 2>&1; then
+    #     local find_rc=0
+    #     timeout -k 1 "${timeout_sec}" find "${src_path}" \
+    #         -maxdepth "${maxdepth}" \
+    #         -type d \( \
+    #             -name .git -o -name build -o -name install -o -name log \
+    #             -o -name node_modules -o -name .venv -o -name venv -o -name .cache \
+    #         \) -prune -o \
+    #         -type f \( -name "*aliases" -o -name ".*aliases" \) -print \
+    #         >"${candidates_file}" 2>/dev/null
+    #     find_rc=$?
+    #     if [[ ${find_rc} -eq 124 ]]; then
+    #         printf "${YELLOW_TXT}Alias search timed out after ${timeout_sec}s (keeping existing cache).${NC}\n"
+    #         rm -f "${candidates_file}"
+    #         return 0
+    #     fi
+    # else
+    #     fdfind "${src_path}" \
+    #         -maxdepth "${maxdepth}" \
+    #         -type d \( \
+    #             -name .git -o -name build -o -name install -o -name log \
+    #             -o -name node_modules -o -name .venv -o -name venv -o -name .cache \
+    #         \) -prune -o \
+    #         -type f \( -name "*aliases" -o -name ".*aliases" \) -print \
+    #         >"${candidates_file}" 2>/dev/null
+    # fi
     
-    while IFS= read -r -d '' file; do
-        # Convert each found file to absolute path
-        local abs_file
-        abs_file=$(realpath "${file}")
-        if [[ $? -eq 0 ]]; then
-            alias_files+=("${abs_file}")
-        fi
-    done < <(find "${abs_ws_path}/src" -type f -name "*aliases" -print0 2>/dev/null)
+    while IFS= read -r -d '' file
+    do
+        alias_files+=("${file}")
+    done < <(fd -H -t f -g "*aliases" -0 "${src_path}" 2>/dev/null) \
+    > "${WS_ALIASES_FILE}"
+
+    # while IFS= read -r file; do
+    #     [[ -z "$file" ]] && continue
+    #     alias_files+=("${file}")
+    # done <"${candidates_file}"
+    # rm -f "${candidates_file}"
     
     # Clear the cache file and write new alias file paths
-    > "${WS_ALIASES_FILE}"
     if [[ ${#alias_files[@]} -gt 0 ]]; then
         printf "${GREEN_TXT}Found ${#alias_files[@]} alias file(s):${NC}\n"
         for alias_file in "${alias_files[@]}"; do
@@ -312,7 +374,7 @@ function source_cached_aliases() {
     fi
     
     local alias_count=0
-    while IFS= read -r alias_file || [[ -n "$alias_file" ]]; do
+    while IFS= read -r alias_file; do
         # Skip empty lines
         [[ -z "${alias_file}" ]] && continue
         
@@ -336,8 +398,14 @@ function source_ws() {
         if [[ $ros_type == "ROS2" ]]; then # Catkin found in ws
             unROS
             printf "Sourcing ${WHITE_TXT}$ws_name ${NC}\n"
-            source $ws_name/install/setup.bash
-            if [ -f $ws_name/post_source.bash ]; then
+            local ws_setup="$ws_name/install/setup.bash"
+            if [[ -n ${ZSH_VERSION:-} && -f "$ws_name/install/setup.zsh" ]]; then
+                ws_setup="$ws_name/install/setup.zsh"
+            fi
+            source "$ws_setup"
+            if [[ -n ${ZSH_VERSION:-} && -f "$ws_name/post_source.zsh" ]]; then
+                source "$ws_name/post_source.zsh"
+            elif [ -f $ws_name/post_source.bash ]; then
                 source $ws_name/post_source.bash
             fi
             
@@ -365,8 +433,8 @@ function ask_for_ws_and_domain() {
 
     # Create an array for fzf
     local options=("Change ROS_DOMAIN_ID")
-    for ((i = 0; i < ${#arrIN[@]}; i++)); do
-        options+=("${arrIN[$i]}")
+    for i in "${arrIN[@]}"; do
+        options+=("${i}")
     done
 
     local selection=$(printf "%s\n" "${options[@]}" | fzf --no-multi --height=50% --border --prompt="Select workspace or option: " \
@@ -390,10 +458,10 @@ function ask_for_ws_and_domain() {
         fi
         return 0
     else
-        # Find the index in arrIN
-        for i in "${!arrIN[@]}"; do
-            if [[ "${arrIN[$i]}" = "$selection" ]]; then
-                num=$((i + 1))
+        num=0
+        for i in "${arrIN[@]}"; do
+            num=$((num + 1))
+            if [[ "${i}" = "$selection" ]]; then
                 echo "Sourcing WS: $selection"
                 break
             fi
@@ -433,7 +501,9 @@ function rebuild_curr_ws() {
     colcon build --symlink-install "$@"
     build_status=$?
 
-    cache_ws_aliases
+    if [[ "${ROSHACKS_REBUILD_RECACHE_ALIASES:-0}" == "1" ]] || [[ ! -f "${WS_ALIASES_FILE}" ]]; then
+        cache_ws_aliases "$curr_ws"
+    fi
 
     # Source the workspace
     source_ws "$curr_ws"
@@ -528,146 +598,6 @@ function build_release() {
     fi
 }
 
-function print_ws() {
-    # Search for longest ws name
-    max_l=0
-    for i in "${arrIN[@]}"; do
-        l=$(expr length "$i")
-        if [[ $(($l)) -gt $(($max_l)) ]]; then
-            max_l=$(($l))
-        fi
-    done
-
-    ws_count=0
-    pad=""
-    c=$(($max_l + 2))
-    while [[ $c > 0 ]]; do
-        pad="$pad─"
-        c=$((c - 1))
-    done
-    printf "${GREEN_TXT}ROS2 Workspaces in ~${NC}\n"
-    printf "┌%-5s┬%-$(echo $max_l)s┐\n" "─────" "$pad"
-    printf "│ %-3s │ %-$(echo $max_l)s │\n" "NUM" "LOCATION"
-    printf "├%-5s┼%-$(echo $max_l)s┤\n" "─────" "$pad"
-    for i in "${arrIN[@]}"; do
-        if [[ $i == $curr_ws ]]; then
-            sourced_color=${WHITE_TXT}
-        else
-            sourced_color=${NC}
-        fi
-
-        ws_count=$(($ws_count + 1))
-        l=$(expr length "$i")
-
-        printf "│ ${NC}%-3s${NC} │ ${sourced_color}%-$(echo $max_l)s${NC} │\n" "$ws_count" "$i"
-    done
-
-    printf "└%-5s┴%-$(echo $max_l)s┘\n" "─────" "$pad"
-}
-
-function find_ws() {
-    local paths_file="${WS_SEARCH_PATHS_FILE}"
-
-    # Ensure the paths file exists and contains at least the HOME directory
-    if [[ ! -f "${paths_file}" ]]; then
-        mkdir -p "$(dirname "${paths_file}")"
-        echo "$HOME" >"${paths_file}"
-    fi
-
-    local ws_dirs=()
-
-    # Read search paths line by line
-    while IFS= read -r search_path || [[ -n "$search_path" ]]; do
-        # Skip empty lines and comments
-        [[ -z "${search_path}" || "${search_path}" =~ ^# ]] && continue
-        if [[ -d "${search_path}" ]]; then
-            # Find workspace-like directories directly under the search path
-            while IFS= read -r d; do
-                ws_dirs+=("$d")
-            done < <(find "${search_path}" -maxdepth 1 -type d -name "*ws*" 2>/dev/null)
-        fi
-    done <"${paths_file}"
-
-    # Remove duplicates, sort, and populate global array arrIN
-    mapfile -t arrIN < <(printf "%s\n" "${ws_dirs[@]}" | sort -u)
-    # print_ws
-}
-
-function print_domain_info() {
-    get_ros_domain_id
-    # printf "${BLUE_TXT}ROS_DOMAIN_ID${NC}: ${LIGHT_BLUE_TXT}$domain_id${NC}\n"
-}
-
-function ask_for_num() {
-    max=${1:-"1"}
-    if [[ $(($max)) -lt 10 ]]; then
-        read -n 1 -p "Select a number [1-$max] or cancel : " num
-    else
-        read -n 2 -p "Select a number [1-$max] or cancel : " num
-    fi
-    case $num in
-    [123456789]*)
-        echo ""
-        ;;
-    *)
-        echo ""
-        echo "Cancelling."
-        return 1
-        ;;
-    esac
-
-    return 0
-}
-
-# Adds a new directory to the workspace search paths
-# Usage: add_ws_path <path>
-function add_ws_path() {
-    local new_path="${1:-""}"
-
-    if [[ -z "${new_path}" ]]; then
-        printf "${RED_TXT}No path specified.${NC}\n"
-        return 1
-    fi
-
-    if [[ ! -d "${new_path}" ]]; then
-        printf "${RED_TXT}Path '${new_path}' does not exist.${NC}\n"
-        return 1
-    fi
-
-    mkdir -p "$(dirname "${WS_SEARCH_PATHS_FILE}")"
-    # Create the file if it does not exist
-    touch "${WS_SEARCH_PATHS_FILE}"
-
-    # Check if the path is already in the file
-    if grep -Fxq "${new_path}" "${WS_SEARCH_PATHS_FILE}"; then
-        printf "${YELLOW_TXT}Path already exists in search list.${NC}\n"
-        return 0
-    fi
-
-    echo "${new_path}" >>"${WS_SEARCH_PATHS_FILE}"
-    printf "${GREEN_TXT}Added '${new_path}' to workspace search paths.${NC}\n"
-}
-
-# ==========================================================
-# ROS2 Utility Functions
-# ==========================================================
-
-function clean_ros2_ws() {
-    ws=${1:-""}
-    if [[ -z "${ws}" ]]; then
-        printf "${RED_TXT}ROS2 workspace path not specified.${NC}\n"
-        return 1
-    fi
-
-    printf "${YELLOW_TXT}Clearing the workspace: ${ws} ${NC}\n"
-    find ${ws}/log -mindepth 1 -maxdepth 1 -type d -print0 | xargs -0 rm -R >/dev/null 2>&1
-    find ${ws}/install -mindepth 1 -maxdepth 1 -type d -print0 | xargs -0 rm -R >/dev/null 2>&1
-    find ${ws}/build -mindepth 1 -maxdepth 1 -type d -print0 | xargs -0 rm -R >/dev/null 2>&1
-    printf "${GREEN_TXT}Workspace cleaned successfully.${NC}\n"
-
-    return 0
-}
-
 function ros2cd() {
     pkgname=${1:-""}
     if [[ -z "${pkgname}" ]]; then
@@ -725,7 +655,8 @@ function launch_select() {
     
     printf "${BLUE_TXT}Searching for launch files...${NC}\n"
     
-    while IFS= read -r -d '' launch_file; do
+    while IFS= read -r launch_file || [[ -n "$launch_file" ]]; do
+        [[ -z "$launch_file" ]] && continue
         # Get relative path from src directory
         local rel_path="${launch_file#${curr_ws}/src/}"
         
@@ -753,9 +684,9 @@ function launch_select() {
         
         # Store both full path and display format
         launch_files+=("$launch_file")
-        display_entries+=("${package_name}/${launch_name}")
+        display_entries+=("${package_name}/${launch_name}"$'\t'"${launch_file}")
         
-    done < <(find "${curr_ws}/src" -type f \( -name "*.launch.py" -o -name "*.launch" \) -print0 2>/dev/null)
+    done < <(find "${curr_ws}/src" -type f \( -name "*.launch.py" -o -name "*.launch" \) 2>/dev/null)
     
     if [[ ${#launch_files[@]} -eq 0 ]]; then
         printf "${YELLOW_TXT}No launch files found in workspace.${NC}\n"
@@ -771,20 +702,17 @@ function launch_select() {
             --height=40% \
             --border \
             --preview-window=right:50% \
-            --preview='echo "Package: $(dirname {})"; echo "Launch file: $(basename {})"' \
-            --with-nth=1,2 \
-            --delimiter='/')
+            --preview='p=$(printf "%s" {} | cut -f2); echo "Launch file: $(basename "$p")"; echo "Path: $p"' \
+            --with-nth=1 \
+            --delimiter='\t')
     
     if [[ -z "$selected_display" ]]; then
         printf "${YELLOW_TXT}No launch file selected.${NC}\n"
         return 0
     fi
     
-    declare -A launch_map
-    for i in "${!launch_files[@]}"; do
-        launch_map["${display_entries[$i]}"]="${launch_files[$i]}"
-    done
-    selected_launch="${launch_map[$selected_display]}" 
+    selected_launch=$(printf '%s' "$selected_display" | cut -f2)
+    selected_display=$(printf '%s' "$selected_display" | cut -f1)
     
     # Extract package name and launch file name
     local package_name=$(echo "$selected_display" | cut -d'/' -f1)
@@ -794,9 +722,12 @@ function launch_select() {
     
     printf "${GREEN_TXT}Selected: ${WHITE_TXT}${package_name}/${launch_name}${NC}\n"
     
-    # Use read with readline editing to pre-populate the command
-    # printf "\n"
-    read -e -i "$launch_cmd" -p "$ " user_command
+    user_command="$launch_cmd"
+    if [[ -n ${ZSH_VERSION:-} ]]; then
+        vared -p "$ " user_command
+    else
+        read -e -i "$launch_cmd" -p "$ " user_command
+    fi
     
     # Execute the command (which might be modified by the user)
     if [[ -n "$user_command" ]]; then
@@ -804,4 +735,121 @@ function launch_select() {
         # Add the command to bash history
         history -s "$user_command"
     fi
+}
+
+# ==========================================================
+# ROS2 Utility Functions
+# ==========================================================
+
+function clean_ros2_ws() {
+    ws=${1:-""}
+    if [[ -z "${ws}" ]]; then
+        printf "${RED_TXT}ROS2 workspace path not specified.${NC}\n"
+        return 1
+    fi
+
+    printf "${YELLOW_TXT}Clearing the workspace: ${ws} ${NC}\n"
+    find ${ws}/log -mindepth 1 -maxdepth 1 -type d -print0 | xargs -0 rm -R >/dev/null 2>&1
+    find ${ws}/install -mindepth 1 -maxdepth 1 -type d -print0 | xargs -0 rm -R >/dev/null 2>&1
+    find ${ws}/build -mindepth 1 -maxdepth 1 -type d -print0 | xargs -0 rm -R >/dev/null 2>&1
+    printf "${GREEN_TXT}Workspace cleaned successfully.${NC}\n"
+
+    return 0
+}
+
+function find_ws() {
+    local paths_file="${WS_SEARCH_PATHS_FILE}"
+
+    # Ensure the paths file exists and contains at least the HOME directory
+    if [[ ! -f "${paths_file}" ]]; then
+        mkdir -p "$(dirname "${paths_file}")"
+        echo "$HOME" >"${paths_file}"
+    fi
+
+    local ws_dirs=()
+
+    # Read search paths line by line
+    while IFS= read -r search_path || [[ -n "$search_path" ]]; do
+        # Skip empty lines and comments
+        [[ -z "${search_path}" || "${search_path}" =~ ^# ]] && continue
+        if [[ -d "${search_path}" ]]; then
+            # Find workspace-like directories directly under the search path
+            while IFS= read -r d; do
+                ws_dirs+=("$d")
+            done < <(find "${search_path}" -maxdepth 1 -type d -name "*ws*" 2>/dev/null)
+        fi
+    done <"${paths_file}"
+
+    # Remove duplicates, sort, and populate global array arrIN
+    arrIN=()
+    while IFS= read -r d || [[ -n "$d" ]]; do
+        [[ -z "$d" ]] && continue
+        arrIN+=("$d")
+    done < <(printf "%s\n" "${ws_dirs[@]}" | sort -u)
+    # print_ws
+}
+
+function print_domain_info() {
+    get_ros_domain_id
+    # printf "${BLUE_TXT}ROS_DOMAIN_ID${NC}: ${LIGHT_BLUE_TXT}$domain_id${NC}\n"
+}
+
+function ask_for_num() {
+    max=${1:-"1"}
+    printf "Select a number [1-$max] or cancel : "
+    if [[ -n ${ZSH_VERSION:-} ]]; then
+        if (( max < 10 )); then
+            read -r -k 1 num
+        else
+            read -r -k 2 num
+        fi
+    else
+        if (( max < 10 )); then
+            read -r -n 1 num
+        else
+            read -r -n 2 num
+        fi
+    fi
+    echo ""
+    case $num in
+    [123456789]*)
+        echo ""
+        ;;
+    *)
+        echo ""
+        echo "Cancelling."
+        return 1
+        ;;
+    esac
+
+    return 0
+}
+
+# Adds a new directory to the workspace search paths
+# Usage: add_ws_path <path>
+function add_ws_path() {
+    local new_path="${1:-""}"
+
+    if [[ -z "${new_path}" ]]; then
+        printf "${RED_TXT}No path specified.${NC}\n"
+        return 1
+    fi
+
+    if [[ ! -d "${new_path}" ]]; then
+        printf "${RED_TXT}Path '${new_path}' does not exist.${NC}\n"
+        return 1
+    fi
+
+    mkdir -p "$(dirname "${WS_SEARCH_PATHS_FILE}")"
+    # Create the file if it does not exist
+    touch "${WS_SEARCH_PATHS_FILE}"
+
+    # Check if the path is already in the file
+    if grep -Fxq "${new_path}" "${WS_SEARCH_PATHS_FILE}"; then
+        printf "${YELLOW_TXT}Path already exists in search list.${NC}\n"
+        return 0
+    fi
+
+    echo "${new_path}" >>"${WS_SEARCH_PATHS_FILE}"
+    printf "${GREEN_TXT}Added '${new_path}' to workspace search paths.${NC}\n"
 }
