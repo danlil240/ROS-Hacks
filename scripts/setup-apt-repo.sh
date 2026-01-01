@@ -112,6 +112,18 @@ if [ -d "$REPO_DIR/dists/stable/InRelease" ]; then
 fi
 mkdir -p "$REPO_DIR"/{pool/main,dists/stable/main/binary-amd64}
 
+# GPG key backup location (stored in the APT repo, NOT in git for security)
+GPG_BACKUP_DIR="$REPO_DIR/.gpg-backup"
+GPG_PRIVATE_KEY="$GPG_BACKUP_DIR/private.key"
+GPG_PUBLIC_KEY="$GPG_BACKUP_DIR/public.key"
+
+# Check if we have a backed-up key to restore
+if [ -f "$GPG_PRIVATE_KEY" ] && ! gpg --list-keys | grep -q "ROS-Hacks APT Repository"; then
+    echo -e "${BLUE}Restoring GPG key from backup...${NC}"
+    gpg --batch --import "$GPG_PRIVATE_KEY"
+    echo -e "${GREEN}GPG key restored from backup${NC}"
+fi
+
 # Generate GPG key if needed
 if ! gpg --list-keys | grep -q "ROS-Hacks APT Repository"; then
     echo -e "${BLUE}Generating GPG key for signing packages...${NC}"
@@ -131,9 +143,24 @@ EOF
     gpg --batch --gen-key /tmp/gpg-key-gen.conf
     rm /tmp/gpg-key-gen.conf
 
-    # Export public key
-    gpg --armor --export "ROS-Hacks APT Repository" >"$REPO_DIR/ros-hacks.key"
-    echo -e "${GREEN}GPG key generated and exported to $REPO_DIR/ros-hacks.key${NC}"
+    # Backup the key immediately after generation
+    mkdir -p "$GPG_BACKUP_DIR"
+    gpg --armor --export-secret-keys "ROS-Hacks APT Repository" > "$GPG_PRIVATE_KEY"
+    gpg --armor --export "ROS-Hacks APT Repository" > "$GPG_PUBLIC_KEY"
+    
+    # Export public key to repo root for distribution
+    cp "$GPG_PUBLIC_KEY" "$REPO_DIR/ros-hacks.key"
+    
+    echo -e "${GREEN}GPG key generated and backed up to $GPG_BACKUP_DIR${NC}"
+    echo -e "${YELLOW}IMPORTANT: Keep $GPG_BACKUP_DIR secure and backed up!${NC}"
+elif [ ! -f "$GPG_PRIVATE_KEY" ]; then
+    # Key exists in keyring but not backed up - back it up now
+    echo -e "${BLUE}Backing up existing GPG key...${NC}"
+    mkdir -p "$GPG_BACKUP_DIR"
+    gpg --armor --export-secret-keys "ROS-Hacks APT Repository" > "$GPG_PRIVATE_KEY"
+    gpg --armor --export "ROS-Hacks APT Repository" > "$GPG_PUBLIC_KEY"
+    cp "$GPG_PUBLIC_KEY" "$REPO_DIR/ros-hacks.key"
+    echo -e "${GREEN}GPG key backed up to $GPG_BACKUP_DIR${NC}"
 fi
 
 # Function to update the repository
@@ -214,10 +241,28 @@ EOF
         exit 1
     fi
     
+    # Always use the backed-up public key to ensure consistency
+    if [ -f "$GPG_PUBLIC_KEY" ]; then
+        cp "$GPG_PUBLIC_KEY" "$REPO_DIR/ros-hacks.key"
+        echo -e "${GREEN}Using backed-up public key for consistency${NC}"
+    else
+        # Fallback: export and backup if backup doesn't exist
+        echo -e "${YELLOW}Public key backup not found, creating it now...${NC}"
+        mkdir -p "$GPG_BACKUP_DIR"
+        gpg --armor --export "$SIGNING_KEY" > "$GPG_PUBLIC_KEY"
+        cp "$GPG_PUBLIC_KEY" "$REPO_DIR/ros-hacks.key"
+    fi
+    
+    # Verify the exported key matches the signing key
+    EXPORTED_KEY_ID=$(gpg --with-colons --import-options show-only --import < "$REPO_DIR/ros-hacks.key" 2>/dev/null | awk -F: '/^fpr:/ {print $10; exit}')
+    if [ "$EXPORTED_KEY_ID" != "$SIGNING_KEY" ]; then
+        echo -e "${RED}ERROR: Exported key fingerprint ($EXPORTED_KEY_ID) doesn't match signing key ($SIGNING_KEY)${NC}"
+        exit 1
+    fi
+    echo -e "${GREEN}Verified public key matches signing key: $SIGNING_KEY${NC}"
+    
     gpg --batch --yes --default-key "$SIGNING_KEY" -abs -o dists/stable/Release.gpg dists/stable/Release
     gpg --batch --yes --default-key "$SIGNING_KEY" --clearsign -o dists/stable/InRelease dists/stable/Release
-    # Export public key used for signing so clients fetch the correct key
-    gpg --armor --export "$SIGNING_KEY" > "$REPO_DIR/ros-hacks.key"
 
     echo -e "${GREEN}Repository index updated and signed${NC}"
 }
@@ -271,6 +316,22 @@ sudo apt install ros-hacks
 ```bash
 ros-hacks-setup
 ```
+
+## Troubleshooting
+
+### GPG Signature Verification Error
+
+If you see an error like `NO_PUBKEY` or signature verification failures after a repository update:
+
+```bash
+# Re-download and update the GPG key
+wget -qO /tmp/ros-hacks.key https://danlil240.github.io/ros-hacks-apt/ros-hacks.key
+sudo rm -f /etc/apt/keyrings/ros-hacks.gpg
+cat /tmp/ros-hacks.key | sudo gpg --dearmor -o /etc/apt/keyrings/ros-hacks.gpg
+sudo apt update
+```
+
+This refreshes the public key used to verify package signatures.
 
 ## Features and Usage
 
@@ -524,6 +585,13 @@ show_instructions() {
     echo -e "echo \"deb [signed-by=/etc/apt/keyrings/ros-hacks.gpg] https://$GITHUB_USER.github.io/ros-hacks-apt stable main\" | sudo tee /etc/apt/sources.list.d/ros-hacks.list"
     echo -e "sudo apt update"
     echo -e "sudo apt install ros-hacks"
+
+    echo -e "\n${YELLOW}=== IF YOU GET GPG SIGNATURE ERRORS ===${NC}"
+    echo -e "${BLUE}If you see 'NO_PUBKEY' or signature verification errors, refresh the key:${NC}"
+    echo -e "wget -qO /tmp/ros-hacks.key https://$GITHUB_USER.github.io/ros-hacks-apt/ros-hacks.key"
+    echo -e "sudo rm -f /etc/apt/keyrings/ros-hacks.gpg"
+    echo -e "cat /tmp/ros-hacks.key | sudo gpg --dearmor -o /etc/apt/keyrings/ros-hacks.gpg"
+    echo -e "sudo apt update"
 
     echo -e "\n${YELLOW}Note: Make sure GitHub Pages is enabled in your repository settings:${NC}"
     echo -e "${YELLOW}1. Go to https://github.com/$GITHUB_USER/ros-hacks-apt/settings/pages${NC}"
