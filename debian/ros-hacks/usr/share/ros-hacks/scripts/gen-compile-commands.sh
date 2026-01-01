@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -eu
+set -o pipefail 2>/dev/null || true
+[[ -n ${ZSH_VERSION:-} ]] && setopt pipefail
 
 # Generate a unified compile_commands.json at the workspace root by merging
 # all package-specific compile_commands.json files under build/.

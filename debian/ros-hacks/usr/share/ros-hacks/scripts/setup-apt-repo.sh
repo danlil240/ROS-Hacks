@@ -373,7 +373,12 @@ build_package() {
 
     # Increment version before building
     if [[ -z "$1" ]]; then
-        read -p "Increment version? (y/N): " -n 1 -r
+        printf "Increment version? (y/N): "
+        if [[ -n ${ZSH_VERSION:-} ]]; then
+            read -r -k 1 REPLY
+        else
+            read -r -n 1 REPLY
+        fi
         echo
         if [[ $REPLY =~ ^[Yy]$ ]]; then
             increment_version
@@ -406,17 +411,15 @@ build_package() {
         echo -e "${BLUE}Collecting .deb into build directory...${NC}"
         CANDIDATES=()
         
-        # Search in parent directory first (most common location)
-        shopt -s nullglob  # Make globs return empty when no matches
-        for p in "$PARENT_DIR_ABS"/ros-hacks_*.deb; do
+        while IFS= read -r p || [[ -n "$p" ]]; do
+            [[ -z "$p" ]] && continue
             CANDIDATES+=("$p")
-        done
-        
-        # Search in source directory as fallback
-        for p in "$SOURCE_DIR_ABS"/ros-hacks_*.deb; do
+        done < <(find "$PARENT_DIR_ABS" -maxdepth 1 -type f -name 'ros-hacks_*.deb' 2>/dev/null)
+
+        while IFS= read -r p || [[ -n "$p" ]]; do
+            [[ -z "$p" ]] && continue
             CANDIDATES+=("$p")
-        done
-        shopt -u nullglob  # Restore default behavior
+        done < <(find "$SOURCE_DIR_ABS" -maxdepth 1 -type f -name 'ros-hacks_*.deb' 2>/dev/null)
         
         if [ ${#CANDIDATES[@]} -eq 0 ]; then
             echo -e "${RED}No .deb candidates found. Searched in:${NC}"

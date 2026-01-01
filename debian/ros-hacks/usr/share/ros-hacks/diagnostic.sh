@@ -5,7 +5,7 @@
 # ==========================================================
 
 # Get script directory
-SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
+SCRIPT_DIR="$(cd -P "$(dirname "$(readlink -f "$0")")" >/dev/null 2>&1 && pwd)"
 
 # Read version from VERSION file
 if [[ -f "${SCRIPT_DIR}/VERSION" ]]; then
@@ -28,6 +28,18 @@ function print_header() {
     printf "\n${LIGHT_BLUE_TXT}===============================${NC}\n"
     printf "${LIGHT_BLUE_TXT}ROS-Hacks Diagnostics Tool${NC}\n"
     printf "${LIGHT_BLUE_TXT}===============================${NC}\n\n"
+}
+
+# Check zsh configuration
+function check_zsh_config() {
+    printf "${BLUE_TXT}Checking zsh configuration...${NC}\n"
+
+    if [[ -f "$HOME/.zshrc" ]] && grep -q "ROS-HACKS entries" "$HOME/.zshrc"; then
+        printf "  ${GREEN_TXT}✓ ROS-Hacks entries found in .zshrc${NC}\n"
+    else
+        printf "  ${YELLOW_TXT}⚠ ROS-Hacks entries not found in .zshrc${NC}\n"
+        printf "    ${YELLOW_TXT}Suggestion: Run setup.sh again or manually add source line${NC}\n"
+    fi
 }
 
 # Check if file exists
@@ -71,7 +83,7 @@ function check_workspace() {
             printf "  ${YELLOW_TXT}⚠ No workspace currently selected${NC}\n"
         elif [[ ! -d "$ws" ]]; then
             printf "  ${RED_TXT}✗ Selected workspace doesn't exist: ${WHITE_TXT}${ws}${NC}\n"
-        elif [[ ! -d "$ws/install" || ! -f "$ws/install/setup.bash" ]]; then
+        elif [[ ! -d "$ws/install" || ( ! -f "$ws/install/setup.bash" && ! -f "$ws/install/setup.zsh" ) ]]; then
             printf "  ${YELLOW_TXT}⚠ Selected workspace may not be properly built${NC}\n"
             printf "    ${BLUE_TXT}Workspace path:${NC} ${ws}\n"
         else
@@ -149,6 +161,22 @@ EOF
         printf "${GREEN_TXT}Done${NC}\n"
     fi
 
+    # Fix .zshrc if needed
+    if [[ -f "$HOME/.zshrc" ]] && ! grep -q "ROS-HACKS entries" "$HOME/.zshrc"; then
+        printf "  ${BLUE_TXT}Adding ROS-Hacks to .zshrc...${NC} "
+        cat <<'EOF' >>"$HOME/.zshrc"
+
+## ROS-HACKS entries ##
+if [[ -f "/usr/share/ros-hacks/ROS-Hacks.zsh" ]]; then
+    source "/usr/share/ros-hacks/ROS-Hacks.zsh"
+elif [[ -f "$HOME/.ROS-Hacks/ROS-Hacks.zsh" ]]; then
+    source "$HOME/.ROS-Hacks/ROS-Hacks.zsh"
+fi
+## ROS-HACKS END ##
+EOF
+        printf "${GREEN_TXT}Done${NC}\n"
+    fi
+
     # Create domain ID file if needed
     if [[ ! -f "$HOME/.cache/ros-hacks/ros_domain_id" ]]; then
         printf "  ${BLUE_TXT}Creating default domain ID file...${NC} "
@@ -159,23 +187,25 @@ EOF
     # Fix keyboard shortcuts if needed
     if [[ ! -L "$HOME/.inputrc" ]]; then
         printf "  ${BLUE_TXT}Fixing keyboard shortcuts...${NC} "
-        SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
+        SCRIPT_DIR="$(cd -P "$(dirname "$(readlink -f "$0")")" >/dev/null 2>&1 && pwd)"
         if [[ -f "$HOME/.inputrc" && ! -L "$HOME/.inputrc" ]]; then
             cp "$HOME/.inputrc" "$HOME/.inputrc.bak"
         fi
         ln -sf "${SCRIPT_DIR}/inputrc" "$HOME/.inputrc"
         printf "${GREEN_TXT}Done${NC}\n"
-        bind -f $HOME/.inputrc
+        if command -v bind >/dev/null 2>&1; then
+            bind -f "$HOME/.inputrc" 2>/dev/null || true
+        fi
     fi
 
-    printf "\n${GREEN_TXT}Fixes applied. Please run 'source ~/.bashrc' to apply changes.${NC}\n"
+    printf "\n${GREEN_TXT}Fixes applied. Please run 'source ~/.bashrc' (and 'source ~/.zshrc' if applicable) to apply changes.${NC}\n"
 }
 
 # Run all checks
 function run_diagnostics() {
     print_header
 
-    local script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
+    local script_dir="$(cd -P "$(dirname "$(readlink -f "$0")")" >/dev/null 2>&1 && pwd)"
 
     # Check core files
     check_file "${script_dir}/ROS-Hacks.sh" "main script"
@@ -189,6 +219,8 @@ function run_diagnostics() {
     check_domain_id
     printf "\n"
     check_bash_config
+    printf "\n"
+    check_zsh_config
     printf "\n"
     check_dependencies
 

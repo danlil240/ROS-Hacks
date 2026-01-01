@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -eu
+set -o pipefail 2>/dev/null || true
+[[ -n ${ZSH_VERSION:-} ]] && setopt pipefail
 
 # Generate VS Code configuration for a ROS 2 workspace.
 # Usage: gen-vscode-config.sh [<workspace_root>]

@@ -6,18 +6,9 @@
 
 # Get script directory - handle symlinks properly
 if [ -d "/usr/share/ros-hacks" ]; then
-    # When installed via apt
     SCRIPT_DIR="/usr/share/ros-hacks"
 else
-    # When run from cloned repository
-    # Follow symlinks to get the real script path
-    SOURCE="${BASH_SOURCE[0]}"
-    while [ -h "$SOURCE" ]; do
-        DIR="$(cd -P "$(dirname "$SOURCE")" && pwd)"
-        SOURCE="$(readlink "$SOURCE")"
-        [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
-    done
-    SCRIPT_DIR="$(cd -P "$(dirname "$SOURCE")" && pwd)"
+    SCRIPT_DIR="$(cd -P "$(dirname "$(readlink -f "$0")")" && pwd)"
 fi
 
 # Read version from VERSION file
@@ -46,7 +37,8 @@ check_dependencies() {
     # Check for tmux
     if ! command -v tmux &>/dev/null; then
         printf "${YELLOW_TXT}tmux is not installed. It's recommended for quick commands.${NC}\n"
-        read -p "Do you want to install tmux? (y/n): " choice
+        printf "Do you want to install tmux? (y/n): "
+        read -r choice
         if [[ "$choice" == "y" || "$choice" == "Y" ]]; then
             sudo apt update && sudo apt install -y tmux
             printf "${GREEN_TXT}tmux installed successfully.${NC}\n"
@@ -63,7 +55,8 @@ check_dependencies() {
 
     if [ ! -f "$USER_HOME/.fzf/bin/fzf" ]; then
         printf "${YELLOW_TXT}fzf is not installed. It's recommended for quick commands.${NC}\n"
-        read -p "Do you want to install fzf? (y/n): " choice
+        printf "Do you want to install fzf? (y/n): "
+        read -r choice
         if [[ "$choice" == "y" || "$choice" == "Y" ]]; then
             git clone --depth 1 https://github.com/junegunn/fzf.git "$USER_HOME/.fzf"
             "$USER_HOME"/.fzf/install
@@ -78,7 +71,8 @@ check_dependencies() {
     # Check for colcon
     if ! command -v colcon &>/dev/null; then
         printf "${YELLOW_TXT}colcon is not installed. It's required for ROS 2 workspace management.${NC}\n"
-        read -p "Do you want to install colcon? (y/n): " choice
+        printf "Do you want to install colcon? (y/n): "
+        read -r choice
         if [[ "$choice" == "y" || "$choice" == "Y" ]]; then
             sudo apt update && sudo apt install -y python3-colcon-common-extensions
             printf "${GREEN_TXT}colcon installed successfully.${NC}\n"
@@ -88,6 +82,29 @@ check_dependencies() {
     else
         printf "${GREEN_TXT}✓ colcon is installed${NC}\n"
     fi
+}
+
+# Configure .zshrc
+configure_zshrc() {
+    printf "${BLUE_TXT}Configuring your zsh environment...${NC}\n"
+
+    if grep -q "ROS-HACKS entries" "$HOME/.zshrc" 2>/dev/null; then
+        printf "${YELLOW_TXT}Found existing ROS-Hacks configuration in ~/.zshrc${NC}\n"
+        printf "${BLUE_TXT}Updating configuration...${NC}\n"
+        sed -i '/## ROS-HACKS entries ##/,/## ROS-HACKS END ##/d' "$HOME/.zshrc"
+    fi
+
+    printf "${BLUE_TXT}Adding ROS-Hacks to your ~/.zshrc${NC}\n"
+    cat <<'EOF' >>"$HOME/.zshrc"
+
+## ROS-HACKS entries ##
+if [[ -f "/usr/share/ros-hacks/ROS-Hacks.zsh" ]]; then
+    source "/usr/share/ros-hacks/ROS-Hacks.zsh"
+elif [[ -f "$HOME/.ROS-Hacks/ROS-Hacks.zsh" ]]; then
+    source "$HOME/.ROS-Hacks/ROS-Hacks.zsh"
+fi
+## ROS-HACKS END ##
+EOF
 }
 
 # Configure .bashrc
@@ -181,12 +198,18 @@ main() {
     # Run setup steps
     check_dependencies
     configure_bashrc
+    if command -v zsh >/dev/null 2>&1; then
+        configure_zshrc
+    fi
     configure_inputrc
     create_initial_configs
 
     printf "\n${GREEN_TXT}ROS-Hacks installed successfully!${NC}\n"
     printf "${BLUE_TXT}To complete installation, please run:${NC}\n"
     printf "${WHITE_TXT}    source ~/.bashrc${NC}\n"
+    if command -v zsh >/dev/null 2>&1; then
+        printf "${WHITE_TXT}    source ~/.zshrc${NC}\n"
+    fi
     printf "\n${BLUE_TXT}Keyboard shortcuts and functions are now available.${NC}\n"
     printf "${BLUE_TXT}Use ${WHITE_TXT}F3${BLUE_TXT} to select a ROS workspace.${NC}\n"
     printf "${BLUE_TXT}Use ${WHITE_TXT}Shift+F3${BLUE_TXT} to create a new ROS workspace.${NC}\n"
