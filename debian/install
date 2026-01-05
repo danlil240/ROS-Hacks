@@ -1,14 +1,18 @@
 *.sh usr/share/ros-hacks/
 *.yaml usr/share/ros-hacks/
+*.zsh usr/share/ros-hacks/
 ROS-Hacks.zsh usr/share/ros-hacks/
 zsh-keybindings.zsh usr/share/ros-hacks/
+p10k-integration.zsh usr/share/ros-hacks/
 inputrc usr/share/ros-hacks/
 VERSION usr/share/ros-hacks/
 README.md usr/share/ros-hacks/
 defaults.yaml usr/share/ros-hacks/
 
+
 # New modules and assets
 lib/*.sh usr/share/ros-hacks/lib/
 completions/* usr/share/ros-hacks/completions/
 scripts/*.sh usr/share/ros-hacks/scripts/
+scripts/*.zsh usr/share/ros-hacks/scripts/
 

@@ -4,7 +4,8 @@
 # ROS-Hacks - Main Entry Point
 # ==========================================================
 
-# Define script directory
+
+# Define script directory (bash-specific)
 ROSHACKS_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
 ROSHACKS_LIB_DIR="${ROSHACKS_DIR}/lib"
 ROSHACKS_COMPLETIONS_DIR="${ROSHACKS_DIR}/completions"
@@ -47,13 +48,14 @@ fi
 
 # Ensure __git_ps1 is available; if not, try to source it or noop
 if ! type -t __git_ps1 >/dev/null 2>&1; then
-    if [[ -f "/usr/lib/git-core/git-sh-prompt" ]]; then
+    if [[ -f "/usr/lib/git-core/git-sh-prompt" ]]; thenn
         source "/usr/lib/git-core/git-sh-prompt"
     else
         # define a noop to avoid prompt errors
         __git_ps1() { :; }
     fi
 fi
+
 
 # Update prompt with ROS2 workspace and domain info
 PS1=' \[\e[1;32m\]\u\[\033[00m\] \[\e[32m\]$(get_current_ws_name):$ROS_DOMAIN_ID\[\033[00m\] \[\033[03;94m\]\w\[\033[00m\]\[\033[38;5;51m\]$(__git_ps1)\[\033[00m\]:\n$ '

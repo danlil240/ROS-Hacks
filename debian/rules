@@ -5,7 +5,7 @@
 override_dh_install:
 	# Core files
 	mkdir -p debian/ros-hacks/usr/share/ros-hacks
-	cp -r *.sh *.yaml ROS-Hacks.zsh zsh-keybindings.zsh inputrc VERSION README.md debian/ros-hacks/usr/share/ros-hacks/
+	cp -r *.sh *.yaml *.zsh inputrc VERSION README.md debian/ros-hacks/usr/share/ros-hacks/
 	# Auxiliary directories used by helpers
 	cp -r scripts debian/ros-hacks/usr/share/ros-hacks/
 	cp -r lib debian/ros-hacks/usr/share/ros-hacks/

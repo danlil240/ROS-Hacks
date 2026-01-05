@@ -29,6 +29,30 @@ ros-hacks-setup
 
 ## Features and Usage
 
+### Powerlevel10k Integration
+
+ROS-Hacks now includes integration with Powerlevel10k (p10k) to display your current ROS workspace and domain ID in your prompt:
+
+- **🤖 Workspace**: Shows current ROS workspace name
+- **🌐 Domain**: Shows current ROS_DOMAIN_ID
+- **Auto-refresh**: Prompt updates when switching workspaces or domains
+
+Setup:
+```bash
+# Run the p10k setup script
+ros-hacks-setup-p10k
+
+# Or manually add to your ~/.p10k.zsh:
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(
+  # ... your existing elements ...
+  ros_workspace
+  ros_domain
+  # ... more elements ...
+)
+```
+
+See `docs/P10K-INTEGRATION.md` for detailed configuration options.
+
 ### ROS2 Workspace Management
 
 - **Select workspace**: Press `F3` or run `select_ws`
