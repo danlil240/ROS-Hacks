@@ -56,18 +56,25 @@ function _ros_hacks_refresh_p10k_prompt() {
 }
 
 # Hook into ROS-Hacks functions to refresh prompt
-if typeset -f set_current_ws >/dev/null 2>&1; then
-  # Wrap set_current_ws to refresh prompt
+if typeset -f set_current_ws >/dev/null; then
+  # Rename original function
+  functions[orig_set_current_ws]=$functions[set_current_ws]
+
+  # Define wrapper
   set_current_ws() {
-    command set_current_ws "$@"
+    orig_set_current_ws "$@"
     _ros_hacks_refresh_p10k_prompt
   }
 fi
 
-if typeset -f set_ros_domain_id >/dev/null 2>&1; then
-  # Wrap set_ros_domain_id to refresh prompt  
+
+if typeset -f set_ros_domain_id >/dev/null; then
+  # Rename original function
+  functions[orig_set_ros_domain_id]=$functions[set_ros_domain_id]
+
+  # Define wrapper
   set_ros_domain_id() {
-    command set_ros_domain_id "$@"
+    orig_set_ros_domain_id "$@"
     _ros_hacks_refresh_p10k_prompt
   }
 fi

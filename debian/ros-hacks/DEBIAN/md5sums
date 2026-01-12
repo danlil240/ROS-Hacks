@@ -1,12 +1,13 @@
-267add980f9318562347342f6aa689c4  usr/share/doc/ros-hacks/changelog.Debian.gz
+0cee49415cab5989e148e71213d5c6d2  usr/share/doc/ros-hacks/changelog.Debian.gz
 f6280abe0aabc2e36e20440c8060cfd8  usr/share/ros-hacks/README.md
 52214fe6cd06b6a7c2489ff87d1d105b  usr/share/ros-hacks/ROS-Hacks.sh
 16726e83d08bd42e252a5b961789502e  usr/share/ros-hacks/ROS-Hacks.zsh
-3c954648eb61ff0e6f470ed23ff3fb47  usr/share/ros-hacks/VERSION
+8f7f6fccb3c2304aedb1d2e1b581839d  usr/share/ros-hacks/VERSION
 56803ed5c1a476161684f91adf8c83a7  usr/share/ros-hacks/aliases.sh
 dd6e2fdf942cf012fbf74bca68deefe6  usr/share/ros-hacks/completions/README.md
 392fb501171293f435709f17ef640c3a  usr/share/ros-hacks/completions/ros-hacks-completions.bash
 f666fe06b2f9c621a6f1323ef2582a61  usr/share/ros-hacks/completions/ros-hacks-completions.zsh
+d41d8cd98f00b204e9800998ecf8427e  usr/share/ros-hacks/completions/test-zsh-completions.zsh
 1011469a8d0a7f7da4f39ccbef024615  usr/share/ros-hacks/defaults.yaml
 890c3201b90cc72522e294c88d6fe6c0  usr/share/ros-hacks/diagnostic.sh
 492925122460bd7a5e14138f38756387  usr/share/ros-hacks/functions.sh
@@ -16,7 +17,7 @@ d7dc402019ba89811197901a18a54906  usr/share/ros-hacks/lib/build.sh
 e88e9f8352657fd57744b0e21d45c6fb  usr/share/ros-hacks/lib/quickcmd.sh
 56d39bff8b801d2b6321195482319ee0  usr/share/ros-hacks/lib/system.sh
 b797595e598ab9442b3cc46c641b54fd  usr/share/ros-hacks/lib/topic_tools.sh
-1e010930c9b60ebee5cefd5d53de1e65  usr/share/ros-hacks/p10k-integration.zsh
+0cd63c60a23caacf18a11a7a4aae9f12  usr/share/ros-hacks/p10k-integration.zsh
 7908aaf45176f9133988e6cc360e6d88  usr/share/ros-hacks/scripts/backup-gpg-key.sh
 34f70b5d53361aa451a759b5b22dbfcd  usr/share/ros-hacks/scripts/gen-compile-commands.sh
 f57e246696d599e819e0583e17135b7f  usr/share/ros-hacks/scripts/gen-vscode-config-pkg.sh
