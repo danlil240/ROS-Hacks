@@ -3,7 +3,7 @@
 setopt PROMPT_SUBST
 
 # Define script directory (zsh-specific)
-ROSHACKS_DIR="$(cd -- "$(dirname -- "${(%):-%x}")" >/dev/null 2>&1 && pwd)"
+ROSHACKS_DIR="$(builtin cd -- "$(dirname -- "${(%):-%x}")" >/dev/null 2>&1 && pwd)"
 ROSHACKS_LIB_DIR="${ROSHACKS_DIR}/lib"
 ROSHACKS_COMPLETIONS_DIR="${ROSHACKS_DIR}/completions"
 
@@ -20,13 +20,13 @@ fi
 if [[ -f "${ROSHACKS_DIR}/aliases.sh" ]]; then
     source "${ROSHACKS_DIR}/aliases.sh"
 else
-    echo "[ROS-Hacks] Warning: Could not find aliases.sh file."
+    echo "[ROS-Hacks] Warning: Could not find aliases.sh file in ${ROSHACKS_DIR}."
 fi
 
 if [[ -f "${ROSHACKS_DIR}/functions.sh" ]]; then
     source "${ROSHACKS_DIR}/functions.sh"
 else
-    echo "[ROS-Hacks] Error: Could not find functions.sh file."
+    echo "[ROS-Hacks] Error: Could not find functions.sh file in ${ROSHACKS_DIR}."
     return 1
 fi
 
