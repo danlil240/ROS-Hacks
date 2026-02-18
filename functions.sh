@@ -305,61 +305,17 @@ function cache_ws_aliases() {
     
     # Search for files ending with 'aliases' in the workspace
     printf "${BLUE_TXT}Searching for alias files in workspace...${NC}\n"
-    local alias_files=()
+    # Search and write paths directly to cache file
+    : > "${WS_ALIASES_FILE}"
+    command fd -H -t f -d "${maxdepth}" -g "*aliases" --exclude build --exclude install --exclude log --exclude .git "${src_path}" 2>/dev/null > "${WS_ALIASES_FILE}"
 
-    # local candidates_file
-    # candidates_file=$(mktemp 2>/dev/null || echo "")
-    # if [[ -z "${candidates_file}" ]]; then
-    #     printf "${YELLOW_TXT}Failed to create temp file for alias search (skipping).${NC}\n"
-    #     return 0
-    # fi
-
-    # if command -v timeout >/dev/null 2>&1; then
-    #     local find_rc=0
-    #     timeout -k 1 "${timeout_sec}" find "${src_path}" \
-    #         -maxdepth "${maxdepth}" \
-    #         -type d \( \
-    #             -name .git -o -name build -o -name install -o -name log \
-    #             -o -name node_modules -o -name .venv -o -name venv -o -name .cache \
-    #         \) -prune -o \
-    #         -type f \( -name "*aliases" -o -name ".*aliases" \) -print \
-    #         >"${candidates_file}" 2>/dev/null
-    #     find_rc=$?
-    #     if [[ ${find_rc} -eq 124 ]]; then
-    #         printf "${YELLOW_TXT}Alias search timed out after ${timeout_sec}s (keeping existing cache).${NC}\n"
-    #         rm -f "${candidates_file}"
-    #         return 0
-    #     fi
-    # else
-    #     fdfind "${src_path}" \
-    #         -maxdepth "${maxdepth}" \
-    #         -type d \( \
-    #             -name .git -o -name build -o -name install -o -name log \
-    #             -o -name node_modules -o -name .venv -o -name venv -o -name .cache \
-    #         \) -prune -o \
-    #         -type f \( -name "*aliases" -o -name ".*aliases" \) -print \
-    #         >"${candidates_file}" 2>/dev/null
-    # fi
-    
-    while IFS= read -r -d '' file
-    do
-        alias_files+=("${file}")
-    done < <(fd -H -t f -g "*aliases" -0 "${src_path}" 2>/dev/null) \
-    > "${WS_ALIASES_FILE}"
-
-    # while IFS= read -r file; do
-    #     [[ -z "$file" ]] && continue
-    #     alias_files+=("${file}")
-    # done <"${candidates_file}"
-    # rm -f "${candidates_file}"
-    
-    # Clear the cache file and write new alias file paths
-    if [[ ${#alias_files[@]} -gt 0 ]]; then
-        printf "${GREEN_TXT}Found ${#alias_files[@]} alias file(s):${NC}\n"
-        for alias_file in "${alias_files[@]}"; do
-            echo "${alias_file}" >> "${WS_ALIASES_FILE}"
+    local alias_count
+    alias_count=$(wc -l < "${WS_ALIASES_FILE}" 2>/dev/null || echo 0)
+    if [[ "${alias_count}" -gt 0 ]]; then
+        printf "${GREEN_TXT}Found ${alias_count} alias file(s):${NC}\n"
+        while IFS= read -r alias_file; do
             printf "  ${WHITE_TXT}${alias_file}${NC}\n"
-        done
+        done < "${WS_ALIASES_FILE}"
     else
         printf "${YELLOW_TXT}No alias files found in workspace.${NC}\n"
     fi
