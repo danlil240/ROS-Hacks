@@ -159,6 +159,14 @@ function select_ws() {
 
     ask_for_ws_and_domain
 
+    if [[ "$num" == "-1" ]]; then
+        rm -f "$WS_FILE"
+        unset curr_ws
+        unROS
+        printf "${YELLOW_TXT}Workspace unselected.${NC}\n"
+        return 0
+    fi
+
     c=0
     for i in "${arrIN[@]}"; do
         c=$(($c + 1))
@@ -388,7 +396,7 @@ function ask_for_ws_and_domain() {
     print_domain_info
 
     # Create an array for fzf
-    local options=("Change ROS_DOMAIN_ID")
+    local options=("Change ROS_DOMAIN_ID" "Unselect workspace")
     for i in "${arrIN[@]}"; do
         options+=("${i}")
     done
@@ -402,7 +410,10 @@ function ask_for_ws_and_domain() {
         return 1
     fi
 
-    if [[ "$selection" == "Change ROS_DOMAIN_ID" ]]; then
+    if [[ "$selection" == "Unselect workspace" ]]; then
+        num=-1
+        return 0
+    elif [[ "$selection" == "Change ROS_DOMAIN_ID" ]]; then
         printf "Please enter new ${BLUE_TXT}ROS_DOMAIN_ID${NC} (empty to disable): "
         read new_domain
         if [[ -z "${new_domain}" ]]; then
@@ -732,7 +743,7 @@ function find_ws() {
             # Find workspace-like directories directly under the search path
             while IFS= read -r d; do
                 ws_dirs+=("$d")
-            done < <(find "${search_path}" -maxdepth 1 -type d -name "*ws*" 2>/dev/null)
+            done < <(command find "${search_path}" -maxdepth 1 -type d -name "*ws*" 2>/dev/null)
         fi
     done <"${paths_file}"
 

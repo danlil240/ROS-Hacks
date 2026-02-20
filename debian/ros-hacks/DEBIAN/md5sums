@@ -1,8 +1,8 @@
-a4b9180467b333e8d04aa229ec1402d5  usr/share/doc/ros-hacks/changelog.Debian.gz
+0b5c3b140c18b91f0b084fa334eae4c1  usr/share/doc/ros-hacks/changelog.Debian.gz
 f6280abe0aabc2e36e20440c8060cfd8  usr/share/ros-hacks/README.md
-52214fe6cd06b6a7c2489ff87d1d105b  usr/share/ros-hacks/ROS-Hacks.sh
-16726e83d08bd42e252a5b961789502e  usr/share/ros-hacks/ROS-Hacks.zsh
-d4060ad521a6496b2ca4559e6ad03fba  usr/share/ros-hacks/VERSION
+9dcfa150cc824a14a21a8f7d9b20e10f  usr/share/ros-hacks/ROS-Hacks.sh
+2cc24a614e609129cb88e33de8f54cfc  usr/share/ros-hacks/ROS-Hacks.zsh
+443f27a08f1ad2464c9ac5e2e381ce61  usr/share/ros-hacks/VERSION
 56803ed5c1a476161684f91adf8c83a7  usr/share/ros-hacks/aliases.sh
 dd6e2fdf942cf012fbf74bca68deefe6  usr/share/ros-hacks/completions/README.md
 392fb501171293f435709f17ef640c3a  usr/share/ros-hacks/completions/ros-hacks-completions.bash
@@ -10,7 +10,7 @@ f666fe06b2f9c621a6f1323ef2582a61  usr/share/ros-hacks/completions/ros-hacks-comp
 d41d8cd98f00b204e9800998ecf8427e  usr/share/ros-hacks/completions/test-zsh-completions.zsh
 1011469a8d0a7f7da4f39ccbef024615  usr/share/ros-hacks/defaults.yaml
 890c3201b90cc72522e294c88d6fe6c0  usr/share/ros-hacks/diagnostic.sh
-af867a429c3790bfd056929dfe88773a  usr/share/ros-hacks/functions.sh
+131f402811347a0a9e8acd144cf77448  usr/share/ros-hacks/functions.sh
 1e00ae6a16b534217d3fa42bd9ac8f8c  usr/share/ros-hacks/inputrc
 d7dc402019ba89811197901a18a54906  usr/share/ros-hacks/lib/build.sh
 18df519d9f38b93fe6d95b5644e40d4b  usr/share/ros-hacks/lib/devtools.sh

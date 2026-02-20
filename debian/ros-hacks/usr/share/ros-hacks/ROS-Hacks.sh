@@ -48,7 +48,7 @@ fi
 
 # Ensure __git_ps1 is available; if not, try to source it or noop
 if ! type -t __git_ps1 >/dev/null 2>&1; then
-    if [[ -f "/usr/lib/git-core/git-sh-prompt" ]]; thenn
+    if [[ -f "/usr/lib/git-core/git-sh-prompt" ]]; then
         source "/usr/lib/git-core/git-sh-prompt"
     else
         # define a noop to avoid prompt errors
