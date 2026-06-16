@@ -27,6 +27,7 @@ jobs:
         for i in $(seq 1 5); do apt-get install -y devscripts debhelper build-essential dh-make lintian lsb-release && break || sleep 5; done
 
     - name: Verify ROS distro detection
+      shell: bash
       run: |
         source scripts/detect-ros-distro.sh
         case "${{ matrix.ubuntu_version }}" in

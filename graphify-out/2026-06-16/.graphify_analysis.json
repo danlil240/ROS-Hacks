@@ -1,0 +1,282 @@
+{
+  "communities": {
+    "0": [
+      "functions",
+      "functions_add_ws_path",
+      "functions_ask_for_num",
+      "functions_ask_for_ws_and_domain",
+      "functions_build_release",
+      "functions_cache_ws_aliases",
+      "functions_clean_ros2_ws",
+      "functions_createws",
+      "functions_determine_ws_ros_version",
+      "functions_find_ws",
+      "functions_get_current_ws",
+      "functions_get_current_ws_name",
+      "functions_get_ros_domain_id",
+      "functions_get_version_stamp",
+      "functions_launch_select",
+      "functions_print_domain_info",
+      "functions_print_ros_domain_id",
+      "functions_prompt_new_ws",
+      "functions_rebuild_curr_ws",
+      "functions_ros2cd",
+      "functions_select_ws",
+      "functions_set_current_ws",
+      "functions_set_ros_domain_id",
+      "functions_source_cached_aliases",
+      "functions_source_ws",
+      "functions_unros",
+      "home_daniel_projects_ros_hacks_functions_sh__entry"
+    ],
+    "1": [
+      "completions_readme",
+      "docs_p10k_integration",
+      "readme_build_commands",
+      "readme_keyboard_shortcuts",
+      "readme_powerlevel10k_integration",
+      "readme_quick_commands",
+      "readme_ros2_command_shortcuts",
+      "readme_ros2_workspace_management",
+      "readme_ros_domain_id_management",
+      "readme_ros_hacks",
+      "readme_utility_functions",
+      "readme_workspace_alias_management",
+      "readme_workspace_navigation"
+    ],
+    "2": [
+      "diagnostic",
+      "diagnostic_check_bash_config",
+      "diagnostic_check_dependencies",
+      "diagnostic_check_dir",
+      "diagnostic_check_domain_id",
+      "diagnostic_check_file",
+      "diagnostic_check_workspace",
+      "diagnostic_check_zsh_config",
+      "diagnostic_fix_problems",
+      "diagnostic_print_header",
+      "diagnostic_run_diagnostics",
+      "home_daniel_projects_ros_hacks_diagnostic_sh__entry"
+    ],
+    "3": [
+      "home_daniel_projects_ros_hacks_scripts_setup_apt_repo_sh__entry",
+      "scripts_setup_apt_repo",
+      "scripts_setup_apt_repo_add_package",
+      "scripts_setup_apt_repo_build_package",
+      "scripts_setup_apt_repo_create_instructions",
+      "scripts_setup_apt_repo_increment_version",
+      "scripts_setup_apt_repo_install_local",
+      "scripts_setup_apt_repo_setup_github",
+      "scripts_setup_apt_repo_show_instructions",
+      "scripts_setup_apt_repo_update_repo"
+    ],
+    "4": [
+      "home_daniel_projects_ros_hacks_lib_build_sh__entry",
+      "lib_build",
+      "lib_build_open_colcon_log",
+      "lib_build_rh_errors_summary",
+      "lib_build_rh_log_dir",
+      "lib_build_rh_pkg_summary_line",
+      "lib_build_rh_preview_log",
+      "lib_build_show_colcon_errors",
+      "lib_build_show_colcon_warnings"
+    ],
+    "5": [
+      "home_daniel_projects_ros_hacks_setup_sh__entry",
+      "setup",
+      "setup_check_dependencies",
+      "setup_configure_bashrc",
+      "setup_configure_inputrc",
+      "setup_configure_zshrc",
+      "setup_create_initial_configs",
+      "setup_main"
+    ],
+    "6": [
+      "home_daniel_projects_ros_hacks_lib_quickcmd_sh__entry",
+      "lib_quickcmd",
+      "lib_quickcmd_exec_quick_command",
+      "lib_quickcmd_get_quick_command",
+      "lib_quickcmd_kill_tmux_quick_command",
+      "lib_quickcmd_print_quick_command",
+      "lib_quickcmd_set_quick_command"
+    ],
+    "7": [
+      "home_daniel_projects_ros_hacks_lib_devtools_sh__entry",
+      "lib_devtools",
+      "lib_devtools_gencc",
+      "lib_devtools_rir",
+      "lib_devtools_vscgen",
+      "lib_devtools_vscgen_pkg"
+    ],
+    "8": [
+      "home_daniel_projects_ros_hacks_lib_topic_tools_sh__entry",
+      "lib_topic_tools",
+      "lib_topic_tools_ros2_pkg_list",
+      "lib_topic_tools_ros2_topic_bw",
+      "lib_topic_tools_ros2_topic_hz",
+      "lib_topic_tools_ros2_topic_monitor"
+    ],
+    "9": [
+      "home_daniel_projects_ros_hacks_ros_hacks_sh__entry",
+      "ros_hacks",
+      "ros_hacks_colcon_defaults_file",
+      "ros_hacks_colcon_home",
+      "ros_hacks_git_ps1",
+      "ros_hacks_roshacks_loaded"
+    ],
+    "10": [
+      "completions_ros_hacks_completions",
+      "completions_ros_hacks_completions_rh_complete_pkg",
+      "completions_ros_hacks_completions_rh_complete_topic",
+      "completions_ros_hacks_completions_rh_ws_root",
+      "home_daniel_projects_ros_hacks_completions_ros_hacks_completions_bash__entry"
+    ],
+    "11": [
+      "aliases",
+      "aliases_launch_complete",
+      "home_daniel_projects_ros_hacks_aliases_sh__entry"
+    ],
+    "12": [
+      "home_daniel_projects_ros_hacks_lib_system_sh__entry",
+      "lib_system",
+      "lib_system_fixjb"
+    ],
+    "13": [
+      "home_daniel_projects_ros_hacks_scripts_backup_gpg_key_sh__entry",
+      "scripts_backup_gpg_key"
+    ],
+    "14": [
+      "home_daniel_projects_ros_hacks_scripts_gen_compile_commands_sh__entry",
+      "scripts_gen_compile_commands"
+    ],
+    "15": [
+      "home_daniel_projects_ros_hacks_scripts_gen_vscode_config_pkg_sh__entry",
+      "scripts_gen_vscode_config_pkg"
+    ],
+    "16": [
+      "home_daniel_projects_ros_hacks_scripts_gen_vscode_config_sh__entry",
+      "scripts_gen_vscode_config"
+    ],
+    "17": [
+      "home_daniel_projects_ros_hacks_scripts_install_apt_sh__entry",
+      "scripts_install_apt"
+    ],
+    "18": [
+      "home_daniel_projects_ros_hacks_scripts_run_in_ros_sh__entry",
+      "scripts_run_in_ros"
+    ],
+    "19": [
+      "build_package_workflow"
+    ],
+    "20": [
+      "defaults_build"
+    ],
+    "21": [
+      "publish_workflow"
+    ]
+  },
+  "cohesion": {
+    "0": 0.1623931623931624,
+    "1": 0.15384615384615385,
+    "2": 0.30303030303030304,
+    "3": 0.4222222222222222,
+    "4": 0.25,
+    "5": 0.4642857142857143,
+    "6": 0.2857142857142857,
+    "7": 0.3333333333333333,
+    "8": 0.3333333333333333,
+    "9": 0.3333333333333333,
+    "10": 0.4,
+    "11": 0.6666666666666666,
+    "12": 0.6666666666666666,
+    "13": 1.0,
+    "14": 1.0,
+    "15": 1.0,
+    "16": 1.0,
+    "17": 1.0,
+    "18": 1.0,
+    "19": 1.0,
+    "20": 1.0,
+    "21": 1.0
+  },
+  "gods": [
+    {
+      "id": "readme_ros_hacks",
+      "label": "ROS-Hacks",
+      "degree": 11
+    },
+    {
+      "id": "diagnostic_run_diagnostics",
+      "label": "run_diagnostics()",
+      "degree": 10
+    },
+    {
+      "id": "functions_get_current_ws",
+      "label": "get_current_ws()",
+      "degree": 9
+    },
+    {
+      "id": "functions_source_ws",
+      "label": "source_ws()",
+      "degree": 9
+    },
+    {
+      "id": "home_daniel_projects_ros_hacks_scripts_setup_apt_repo_sh__entry",
+      "label": "setup-apt-repo.sh script",
+      "degree": 8
+    },
+    {
+      "id": "setup_main",
+      "label": "main()",
+      "degree": 7
+    },
+    {
+      "id": "functions_createws",
+      "label": "createWS()",
+      "degree": 6
+    },
+    {
+      "id": "functions_ask_for_ws_and_domain",
+      "label": "ask_for_ws_and_domain()",
+      "degree": 6
+    },
+    {
+      "id": "functions_unros",
+      "label": "unROS()",
+      "degree": 5
+    },
+    {
+      "id": "functions_select_ws",
+      "label": "select_ws()",
+      "degree": 5
+    }
+  ],
+  "surprises": [
+    {
+      "source": "ROS-Hacks Completions",
+      "target": "ROS-Hacks",
+      "source_files": [
+        "completions/README.md",
+        "README.md"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "connects across different repos/directories; peripheral node `ROS-Hacks Completions` unexpectedly reaches hub `ROS-Hacks`"
+    },
+    {
+      "source": "Powerlevel10k Integration",
+      "target": "ROS-Hacks Powerlevel10k Integration",
+      "source_files": [
+        "README.md",
+        "docs/P10K-INTEGRATION.md"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "connects across different repos/directories"
+    }
+  ],
+  "tokens": {
+    "input": 4248,
+    "output": 1507
+  }
+}

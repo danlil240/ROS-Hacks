@@ -1,0 +1,3532 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [
+    {
+      "label": "ROS-Hacks.sh",
+      "file_type": "code",
+      "source_file": "ROS-Hacks.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "file"
+      },
+      "_origin": "ast",
+      "id": "ros_hacks",
+      "community": 9,
+      "norm_label": "ros-hacks.sh"
+    },
+    {
+      "label": "ROS-Hacks.sh script",
+      "file_type": "code",
+      "source_file": "ROS-Hacks.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_entrypoint"
+      },
+      "_origin": "ast",
+      "id": "home_daniel_projects_ros_hacks_ros_hacks_sh__entry",
+      "community": 9,
+      "norm_label": "ros-hacks.sh script"
+    },
+    {
+      "label": "__git_ps1()",
+      "file_type": "code",
+      "source_file": "ROS-Hacks.sh",
+      "source_location": "L55",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "ros_hacks_git_ps1",
+      "community": 9,
+      "norm_label": "__git_ps1()"
+    },
+    {
+      "label": "COLCON_HOME",
+      "file_type": "code",
+      "source_file": "ROS-Hacks.sh",
+      "source_location": "L74",
+      "metadata": {
+        "language": "bash",
+        "kind": "code"
+      },
+      "_origin": "ast",
+      "id": "ros_hacks_colcon_home",
+      "community": 9,
+      "norm_label": "colcon_home"
+    },
+    {
+      "label": "COLCON_DEFAULTS_FILE",
+      "file_type": "code",
+      "source_file": "ROS-Hacks.sh",
+      "source_location": "L75",
+      "metadata": {
+        "language": "bash",
+        "kind": "code"
+      },
+      "_origin": "ast",
+      "id": "ros_hacks_colcon_defaults_file",
+      "community": 9,
+      "norm_label": "colcon_defaults_file"
+    },
+    {
+      "label": "ROSHACKS_LOADED",
+      "file_type": "code",
+      "source_file": "ROS-Hacks.sh",
+      "source_location": "L77",
+      "metadata": {
+        "language": "bash",
+        "kind": "code"
+      },
+      "_origin": "ast",
+      "id": "ros_hacks_roshacks_loaded",
+      "community": 9,
+      "norm_label": "roshacks_loaded"
+    },
+    {
+      "label": "aliases.sh",
+      "file_type": "code",
+      "source_file": "aliases.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "file"
+      },
+      "_origin": "ast",
+      "id": "aliases",
+      "community": 11,
+      "norm_label": "aliases.sh"
+    },
+    {
+      "label": "aliases.sh script",
+      "file_type": "code",
+      "source_file": "aliases.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_entrypoint"
+      },
+      "_origin": "ast",
+      "id": "home_daniel_projects_ros_hacks_aliases_sh__entry",
+      "community": 11,
+      "norm_label": "aliases.sh script"
+    },
+    {
+      "label": "_launch_complete()",
+      "file_type": "code",
+      "source_file": "aliases.sh",
+      "source_location": "L121",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "aliases_launch_complete",
+      "community": 11,
+      "norm_label": "_launch_complete()"
+    },
+    {
+      "label": "ros-hacks-completions.bash",
+      "file_type": "code",
+      "source_file": "completions/ros-hacks-completions.bash",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "file"
+      },
+      "_origin": "ast",
+      "id": "completions_ros_hacks_completions",
+      "community": 10,
+      "norm_label": "ros-hacks-completions.bash"
+    },
+    {
+      "label": "ros-hacks-completions.bash script",
+      "file_type": "code",
+      "source_file": "completions/ros-hacks-completions.bash",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_entrypoint"
+      },
+      "_origin": "ast",
+      "id": "home_daniel_projects_ros_hacks_completions_ros_hacks_completions_bash__entry",
+      "community": 10,
+      "norm_label": "ros-hacks-completions.bash script"
+    },
+    {
+      "label": "__rh_ws_root()",
+      "file_type": "code",
+      "source_file": "completions/ros-hacks-completions.bash",
+      "source_location": "L4",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "completions_ros_hacks_completions_rh_ws_root",
+      "community": 10,
+      "norm_label": "__rh_ws_root()"
+    },
+    {
+      "label": "_rh_complete_pkg()",
+      "file_type": "code",
+      "source_file": "completions/ros-hacks-completions.bash",
+      "source_location": "L14",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "completions_ros_hacks_completions_rh_complete_pkg",
+      "community": 10,
+      "norm_label": "_rh_complete_pkg()"
+    },
+    {
+      "label": "_rh_complete_topic()",
+      "file_type": "code",
+      "source_file": "completions/ros-hacks-completions.bash",
+      "source_location": "L30",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "completions_ros_hacks_completions_rh_complete_topic",
+      "community": 10,
+      "norm_label": "_rh_complete_topic()"
+    },
+    {
+      "label": "diagnostic.sh",
+      "file_type": "code",
+      "source_file": "diagnostic.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "file"
+      },
+      "_origin": "ast",
+      "id": "diagnostic",
+      "community": 2,
+      "norm_label": "diagnostic.sh"
+    },
+    {
+      "label": "diagnostic.sh script",
+      "file_type": "code",
+      "source_file": "diagnostic.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_entrypoint"
+      },
+      "_origin": "ast",
+      "id": "home_daniel_projects_ros_hacks_diagnostic_sh__entry",
+      "community": 2,
+      "norm_label": "diagnostic.sh script"
+    },
+    {
+      "label": "print_header()",
+      "file_type": "code",
+      "source_file": "diagnostic.sh",
+      "source_location": "L27",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "diagnostic_print_header",
+      "community": 2,
+      "norm_label": "print_header()"
+    },
+    {
+      "label": "check_zsh_config()",
+      "file_type": "code",
+      "source_file": "diagnostic.sh",
+      "source_location": "L34",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "diagnostic_check_zsh_config",
+      "community": 2,
+      "norm_label": "check_zsh_config()"
+    },
+    {
+      "label": "check_file()",
+      "file_type": "code",
+      "source_file": "diagnostic.sh",
+      "source_location": "L46",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "diagnostic_check_file",
+      "community": 2,
+      "norm_label": "check_file()"
+    },
+    {
+      "label": "check_dir()",
+      "file_type": "code",
+      "source_file": "diagnostic.sh",
+      "source_location": "L61",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "diagnostic_check_dir",
+      "community": 2,
+      "norm_label": "check_dir()"
+    },
+    {
+      "label": "check_workspace()",
+      "file_type": "code",
+      "source_file": "diagnostic.sh",
+      "source_location": "L76",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "diagnostic_check_workspace",
+      "community": 2,
+      "norm_label": "check_workspace()"
+    },
+    {
+      "label": "check_domain_id()",
+      "file_type": "code",
+      "source_file": "diagnostic.sh",
+      "source_location": "L98",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "diagnostic_check_domain_id",
+      "community": 2,
+      "norm_label": "check_domain_id()"
+    },
+    {
+      "label": "check_bash_config()",
+      "file_type": "code",
+      "source_file": "diagnostic.sh",
+      "source_location": "L122",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "diagnostic_check_bash_config",
+      "community": 2,
+      "norm_label": "check_bash_config()"
+    },
+    {
+      "label": "check_dependencies()",
+      "file_type": "code",
+      "source_file": "diagnostic.sh",
+      "source_location": "L134",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "diagnostic_check_dependencies",
+      "community": 2,
+      "norm_label": "check_dependencies()"
+    },
+    {
+      "label": "fix_problems()",
+      "file_type": "code",
+      "source_file": "diagnostic.sh",
+      "source_location": "L147",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "diagnostic_fix_problems",
+      "community": 2,
+      "norm_label": "fix_problems()"
+    },
+    {
+      "label": "run_diagnostics()",
+      "file_type": "code",
+      "source_file": "diagnostic.sh",
+      "source_location": "L205",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "diagnostic_run_diagnostics",
+      "community": 2,
+      "norm_label": "run_diagnostics()"
+    },
+    {
+      "label": "functions.sh",
+      "file_type": "code",
+      "source_file": "functions.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "file"
+      },
+      "_origin": "ast",
+      "id": "functions",
+      "community": 0,
+      "norm_label": "functions.sh"
+    },
+    {
+      "label": "functions.sh script",
+      "file_type": "code",
+      "source_file": "functions.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_entrypoint"
+      },
+      "_origin": "ast",
+      "id": "home_daniel_projects_ros_hacks_functions_sh__entry",
+      "community": 0,
+      "norm_label": "functions.sh script"
+    },
+    {
+      "label": "prompt_new_ws()",
+      "file_type": "code",
+      "source_file": "functions.sh",
+      "source_location": "L28",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "functions_prompt_new_ws",
+      "community": 0,
+      "norm_label": "prompt_new_ws()"
+    },
+    {
+      "label": "createWS()",
+      "file_type": "code",
+      "source_file": "functions.sh",
+      "source_location": "L42",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "functions_createws",
+      "community": 0,
+      "norm_label": "createws()"
+    },
+    {
+      "label": "unROS()",
+      "file_type": "code",
+      "source_file": "functions.sh",
+      "source_location": "L99",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "functions_unros",
+      "community": 0,
+      "norm_label": "unros()"
+    },
+    {
+      "label": "select_ws()",
+      "file_type": "code",
+      "source_file": "functions.sh",
+      "source_location": "L158",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "functions_select_ws",
+      "community": 0,
+      "norm_label": "select_ws()"
+    },
+    {
+      "label": "get_current_ws()",
+      "file_type": "code",
+      "source_file": "functions.sh",
+      "source_location": "L185",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "functions_get_current_ws",
+      "community": 0,
+      "norm_label": "get_current_ws()"
+    },
+    {
+      "label": "get_current_ws_name()",
+      "file_type": "code",
+      "source_file": "functions.sh",
+      "source_location": "L197",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "functions_get_current_ws_name",
+      "community": 0,
+      "norm_label": "get_current_ws_name()"
+    },
+    {
+      "label": "set_current_ws()",
+      "file_type": "code",
+      "source_file": "functions.sh",
+      "source_location": "L208",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "functions_set_current_ws",
+      "community": 0,
+      "norm_label": "set_current_ws()"
+    },
+    {
+      "label": "get_ros_domain_id()",
+      "file_type": "code",
+      "source_file": "functions.sh",
+      "source_location": "L234",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "functions_get_ros_domain_id",
+      "community": 0,
+      "norm_label": "get_ros_domain_id()"
+    },
+    {
+      "label": "print_ros_domain_id()",
+      "file_type": "code",
+      "source_file": "functions.sh",
+      "source_location": "L243",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "functions_print_ros_domain_id",
+      "community": 0,
+      "norm_label": "print_ros_domain_id()"
+    },
+    {
+      "label": "set_ros_domain_id()",
+      "file_type": "code",
+      "source_file": "functions.sh",
+      "source_location": "L248",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "functions_set_ros_domain_id",
+      "community": 0,
+      "norm_label": "set_ros_domain_id()"
+    },
+    {
+      "label": "determine_ws_ros_version()",
+      "file_type": "code",
+      "source_file": "functions.sh",
+      "source_location": "L260",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "functions_determine_ws_ros_version",
+      "community": 0,
+      "norm_label": "determine_ws_ros_version()"
+    },
+    {
+      "label": "cache_ws_aliases()",
+      "file_type": "code",
+      "source_file": "functions.sh",
+      "source_location": "L279",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "functions_cache_ws_aliases",
+      "community": 0,
+      "norm_label": "cache_ws_aliases()"
+    },
+    {
+      "label": "source_cached_aliases()",
+      "file_type": "code",
+      "source_file": "functions.sh",
+      "source_location": "L335",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "functions_source_cached_aliases",
+      "community": 0,
+      "norm_label": "source_cached_aliases()"
+    },
+    {
+      "label": "source_ws()",
+      "file_type": "code",
+      "source_file": "functions.sh",
+      "source_location": "L355",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "functions_source_ws",
+      "community": 0,
+      "norm_label": "source_ws()"
+    },
+    {
+      "label": "ask_for_ws_and_domain()",
+      "file_type": "code",
+      "source_file": "functions.sh",
+      "source_location": "L393",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "functions_ask_for_ws_and_domain",
+      "community": 0,
+      "norm_label": "ask_for_ws_and_domain()"
+    },
+    {
+      "label": "rebuild_curr_ws()",
+      "file_type": "code",
+      "source_file": "functions.sh",
+      "source_location": "L439",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "functions_rebuild_curr_ws",
+      "community": 0,
+      "norm_label": "rebuild_curr_ws()"
+    },
+    {
+      "label": "get_version_stamp()",
+      "file_type": "code",
+      "source_file": "functions.sh",
+      "source_location": "L499",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "functions_get_version_stamp",
+      "community": 0,
+      "norm_label": "get_version_stamp()"
+    },
+    {
+      "label": "build_release()",
+      "file_type": "code",
+      "source_file": "functions.sh",
+      "source_location": "L526",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "functions_build_release",
+      "community": 0,
+      "norm_label": "build_release()"
+    },
+    {
+      "label": "ros2cd()",
+      "file_type": "code",
+      "source_file": "functions.sh",
+      "source_location": "L568",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "functions_ros2cd",
+      "community": 0,
+      "norm_label": "ros2cd()"
+    },
+    {
+      "label": "launch_select()",
+      "file_type": "code",
+      "source_file": "functions.sh",
+      "source_location": "L601",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "functions_launch_select",
+      "community": 0,
+      "norm_label": "launch_select()"
+    },
+    {
+      "label": "clean_ros2_ws()",
+      "file_type": "code",
+      "source_file": "functions.sh",
+      "source_location": "L711",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "functions_clean_ros2_ws",
+      "community": 0,
+      "norm_label": "clean_ros2_ws()"
+    },
+    {
+      "label": "find_ws()",
+      "file_type": "code",
+      "source_file": "functions.sh",
+      "source_location": "L727",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "functions_find_ws",
+      "community": 0,
+      "norm_label": "find_ws()"
+    },
+    {
+      "label": "print_domain_info()",
+      "file_type": "code",
+      "source_file": "functions.sh",
+      "source_location": "L759",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "functions_print_domain_info",
+      "community": 0,
+      "norm_label": "print_domain_info()"
+    },
+    {
+      "label": "ask_for_num()",
+      "file_type": "code",
+      "source_file": "functions.sh",
+      "source_location": "L764",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "functions_ask_for_num",
+      "community": 0,
+      "norm_label": "ask_for_num()"
+    },
+    {
+      "label": "add_ws_path()",
+      "file_type": "code",
+      "source_file": "functions.sh",
+      "source_location": "L797",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "functions_add_ws_path",
+      "community": 0,
+      "norm_label": "add_ws_path()"
+    },
+    {
+      "label": "build.sh",
+      "file_type": "code",
+      "source_file": "lib/build.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "file"
+      },
+      "_origin": "ast",
+      "id": "lib_build",
+      "community": 4,
+      "norm_label": "build.sh"
+    },
+    {
+      "label": "build.sh script",
+      "file_type": "code",
+      "source_file": "lib/build.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_entrypoint"
+      },
+      "_origin": "ast",
+      "id": "home_daniel_projects_ros_hacks_lib_build_sh__entry",
+      "community": 4,
+      "norm_label": "build.sh script"
+    },
+    {
+      "label": "_rh_log_dir()",
+      "file_type": "code",
+      "source_file": "lib/build.sh",
+      "source_location": "L8",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "lib_build_rh_log_dir",
+      "community": 4,
+      "norm_label": "_rh_log_dir()"
+    },
+    {
+      "label": "_rh_pkg_summary_line()",
+      "file_type": "code",
+      "source_file": "lib/build.sh",
+      "source_location": "L28",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "lib_build_rh_pkg_summary_line",
+      "community": 4,
+      "norm_label": "_rh_pkg_summary_line()"
+    },
+    {
+      "label": "_rh_errors_summary()",
+      "file_type": "code",
+      "source_file": "lib/build.sh",
+      "source_location": "L44",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "lib_build_rh_errors_summary",
+      "community": 4,
+      "norm_label": "_rh_errors_summary()"
+    },
+    {
+      "label": "_rh_preview_log()",
+      "file_type": "code",
+      "source_file": "lib/build.sh",
+      "source_location": "L59",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "lib_build_rh_preview_log",
+      "community": 4,
+      "norm_label": "_rh_preview_log()"
+    },
+    {
+      "label": "open_colcon_log()",
+      "file_type": "code",
+      "source_file": "lib/build.sh",
+      "source_location": "L77",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "lib_build_open_colcon_log",
+      "community": 4,
+      "norm_label": "open_colcon_log()"
+    },
+    {
+      "label": "show_colcon_errors()",
+      "file_type": "code",
+      "source_file": "lib/build.sh",
+      "source_location": "L95",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "lib_build_show_colcon_errors",
+      "community": 4,
+      "norm_label": "show_colcon_errors()"
+    },
+    {
+      "label": "show_colcon_warnings()",
+      "file_type": "code",
+      "source_file": "lib/build.sh",
+      "source_location": "L155",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "lib_build_show_colcon_warnings",
+      "community": 4,
+      "norm_label": "show_colcon_warnings()"
+    },
+    {
+      "label": "devtools.sh",
+      "file_type": "code",
+      "source_file": "lib/devtools.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "file"
+      },
+      "_origin": "ast",
+      "id": "lib_devtools",
+      "community": 7,
+      "norm_label": "devtools.sh"
+    },
+    {
+      "label": "devtools.sh script",
+      "file_type": "code",
+      "source_file": "lib/devtools.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_entrypoint"
+      },
+      "_origin": "ast",
+      "id": "home_daniel_projects_ros_hacks_lib_devtools_sh__entry",
+      "community": 7,
+      "norm_label": "devtools.sh script"
+    },
+    {
+      "label": "gencc()",
+      "file_type": "code",
+      "source_file": "lib/devtools.sh",
+      "source_location": "L5",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "lib_devtools_gencc",
+      "community": 7,
+      "norm_label": "gencc()"
+    },
+    {
+      "label": "vscgen()",
+      "file_type": "code",
+      "source_file": "lib/devtools.sh",
+      "source_location": "L18",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "lib_devtools_vscgen",
+      "community": 7,
+      "norm_label": "vscgen()"
+    },
+    {
+      "label": "vscgen_pkg()",
+      "file_type": "code",
+      "source_file": "lib/devtools.sh",
+      "source_location": "L31",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "lib_devtools_vscgen_pkg",
+      "community": 7,
+      "norm_label": "vscgen_pkg()"
+    },
+    {
+      "label": "rir()",
+      "file_type": "code",
+      "source_file": "lib/devtools.sh",
+      "source_location": "L37",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "lib_devtools_rir",
+      "community": 7,
+      "norm_label": "rir()"
+    },
+    {
+      "label": "quickcmd.sh",
+      "file_type": "code",
+      "source_file": "lib/quickcmd.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "file"
+      },
+      "_origin": "ast",
+      "id": "lib_quickcmd",
+      "community": 6,
+      "norm_label": "quickcmd.sh"
+    },
+    {
+      "label": "quickcmd.sh script",
+      "file_type": "code",
+      "source_file": "lib/quickcmd.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_entrypoint"
+      },
+      "_origin": "ast",
+      "id": "home_daniel_projects_ros_hacks_lib_quickcmd_sh__entry",
+      "community": 6,
+      "norm_label": "quickcmd.sh script"
+    },
+    {
+      "label": "set-quick-command()",
+      "file_type": "code",
+      "source_file": "lib/quickcmd.sh",
+      "source_location": "L7",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "lib_quickcmd_set_quick_command",
+      "community": 6,
+      "norm_label": "set-quick-command()"
+    },
+    {
+      "label": "get-quick-command()",
+      "file_type": "code",
+      "source_file": "lib/quickcmd.sh",
+      "source_location": "L21",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "lib_quickcmd_get_quick_command",
+      "community": 6,
+      "norm_label": "get-quick-command()"
+    },
+    {
+      "label": "print-quick-command()",
+      "file_type": "code",
+      "source_file": "lib/quickcmd.sh",
+      "source_location": "L32",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "lib_quickcmd_print_quick_command",
+      "community": 6,
+      "norm_label": "print-quick-command()"
+    },
+    {
+      "label": "exec-quick-command()",
+      "file_type": "code",
+      "source_file": "lib/quickcmd.sh",
+      "source_location": "L44",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "lib_quickcmd_exec_quick_command",
+      "community": 6,
+      "norm_label": "exec-quick-command()"
+    },
+    {
+      "label": "kill-tmux-quick-command()",
+      "file_type": "code",
+      "source_file": "lib/quickcmd.sh",
+      "source_location": "L59",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "lib_quickcmd_kill_tmux_quick_command",
+      "community": 6,
+      "norm_label": "kill-tmux-quick-command()"
+    },
+    {
+      "label": "system.sh",
+      "file_type": "code",
+      "source_file": "lib/system.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "file"
+      },
+      "_origin": "ast",
+      "id": "lib_system",
+      "community": 12,
+      "norm_label": "system.sh"
+    },
+    {
+      "label": "system.sh script",
+      "file_type": "code",
+      "source_file": "lib/system.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_entrypoint"
+      },
+      "_origin": "ast",
+      "id": "home_daniel_projects_ros_hacks_lib_system_sh__entry",
+      "community": 12,
+      "norm_label": "system.sh script"
+    },
+    {
+      "label": "fixJB()",
+      "file_type": "code",
+      "source_file": "lib/system.sh",
+      "source_location": "L6",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "lib_system_fixjb",
+      "community": 12,
+      "norm_label": "fixjb()"
+    },
+    {
+      "label": "topic_tools.sh",
+      "file_type": "code",
+      "source_file": "lib/topic_tools.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "file"
+      },
+      "_origin": "ast",
+      "id": "lib_topic_tools",
+      "community": 8,
+      "norm_label": "topic_tools.sh"
+    },
+    {
+      "label": "topic_tools.sh script",
+      "file_type": "code",
+      "source_file": "lib/topic_tools.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_entrypoint"
+      },
+      "_origin": "ast",
+      "id": "home_daniel_projects_ros_hacks_lib_topic_tools_sh__entry",
+      "community": 8,
+      "norm_label": "topic_tools.sh script"
+    },
+    {
+      "label": "ros2_topic_monitor()",
+      "file_type": "code",
+      "source_file": "lib/topic_tools.sh",
+      "source_location": "L6",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "lib_topic_tools_ros2_topic_monitor",
+      "community": 8,
+      "norm_label": "ros2_topic_monitor()"
+    },
+    {
+      "label": "ros2_topic_hz()",
+      "file_type": "code",
+      "source_file": "lib/topic_tools.sh",
+      "source_location": "L20",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "lib_topic_tools_ros2_topic_hz",
+      "community": 8,
+      "norm_label": "ros2_topic_hz()"
+    },
+    {
+      "label": "ros2_topic_bw()",
+      "file_type": "code",
+      "source_file": "lib/topic_tools.sh",
+      "source_location": "L34",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "lib_topic_tools_ros2_topic_bw",
+      "community": 8,
+      "norm_label": "ros2_topic_bw()"
+    },
+    {
+      "label": "ros2_pkg_list()",
+      "file_type": "code",
+      "source_file": "lib/topic_tools.sh",
+      "source_location": "L48",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "lib_topic_tools_ros2_pkg_list",
+      "community": 8,
+      "norm_label": "ros2_pkg_list()"
+    },
+    {
+      "label": "backup-gpg-key.sh",
+      "file_type": "code",
+      "source_file": "scripts/backup-gpg-key.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "file"
+      },
+      "_origin": "ast",
+      "id": "scripts_backup_gpg_key",
+      "community": 13,
+      "norm_label": "backup-gpg-key.sh"
+    },
+    {
+      "label": "backup-gpg-key.sh script",
+      "file_type": "code",
+      "source_file": "scripts/backup-gpg-key.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_entrypoint"
+      },
+      "_origin": "ast",
+      "id": "home_daniel_projects_ros_hacks_scripts_backup_gpg_key_sh__entry",
+      "community": 13,
+      "norm_label": "backup-gpg-key.sh script"
+    },
+    {
+      "label": "gen-compile-commands.sh",
+      "file_type": "code",
+      "source_file": "scripts/gen-compile-commands.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "file"
+      },
+      "_origin": "ast",
+      "id": "scripts_gen_compile_commands",
+      "community": 14,
+      "norm_label": "gen-compile-commands.sh"
+    },
+    {
+      "label": "gen-compile-commands.sh script",
+      "file_type": "code",
+      "source_file": "scripts/gen-compile-commands.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_entrypoint"
+      },
+      "_origin": "ast",
+      "id": "home_daniel_projects_ros_hacks_scripts_gen_compile_commands_sh__entry",
+      "community": 14,
+      "norm_label": "gen-compile-commands.sh script"
+    },
+    {
+      "label": "gen-vscode-config-pkg.sh",
+      "file_type": "code",
+      "source_file": "scripts/gen-vscode-config-pkg.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "file"
+      },
+      "_origin": "ast",
+      "id": "scripts_gen_vscode_config_pkg",
+      "community": 15,
+      "norm_label": "gen-vscode-config-pkg.sh"
+    },
+    {
+      "label": "gen-vscode-config-pkg.sh script",
+      "file_type": "code",
+      "source_file": "scripts/gen-vscode-config-pkg.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_entrypoint"
+      },
+      "_origin": "ast",
+      "id": "home_daniel_projects_ros_hacks_scripts_gen_vscode_config_pkg_sh__entry",
+      "community": 15,
+      "norm_label": "gen-vscode-config-pkg.sh script"
+    },
+    {
+      "label": "gen-vscode-config.sh",
+      "file_type": "code",
+      "source_file": "scripts/gen-vscode-config.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "file"
+      },
+      "_origin": "ast",
+      "id": "scripts_gen_vscode_config",
+      "community": 16,
+      "norm_label": "gen-vscode-config.sh"
+    },
+    {
+      "label": "gen-vscode-config.sh script",
+      "file_type": "code",
+      "source_file": "scripts/gen-vscode-config.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_entrypoint"
+      },
+      "_origin": "ast",
+      "id": "home_daniel_projects_ros_hacks_scripts_gen_vscode_config_sh__entry",
+      "community": 16,
+      "norm_label": "gen-vscode-config.sh script"
+    },
+    {
+      "label": "install-apt.sh",
+      "file_type": "code",
+      "source_file": "scripts/install-apt.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "file"
+      },
+      "_origin": "ast",
+      "id": "scripts_install_apt",
+      "community": 17,
+      "norm_label": "install-apt.sh"
+    },
+    {
+      "label": "install-apt.sh script",
+      "file_type": "code",
+      "source_file": "scripts/install-apt.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_entrypoint"
+      },
+      "_origin": "ast",
+      "id": "home_daniel_projects_ros_hacks_scripts_install_apt_sh__entry",
+      "community": 17,
+      "norm_label": "install-apt.sh script"
+    },
+    {
+      "label": "run-in-ros.sh",
+      "file_type": "code",
+      "source_file": "scripts/run-in-ros.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "file"
+      },
+      "_origin": "ast",
+      "id": "scripts_run_in_ros",
+      "community": 18,
+      "norm_label": "run-in-ros.sh"
+    },
+    {
+      "label": "run-in-ros.sh script",
+      "file_type": "code",
+      "source_file": "scripts/run-in-ros.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_entrypoint"
+      },
+      "_origin": "ast",
+      "id": "home_daniel_projects_ros_hacks_scripts_run_in_ros_sh__entry",
+      "community": 18,
+      "norm_label": "run-in-ros.sh script"
+    },
+    {
+      "label": "setup-apt-repo.sh",
+      "file_type": "code",
+      "source_file": "scripts/setup-apt-repo.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "file"
+      },
+      "_origin": "ast",
+      "id": "scripts_setup_apt_repo",
+      "community": 3,
+      "norm_label": "setup-apt-repo.sh"
+    },
+    {
+      "label": "setup-apt-repo.sh script",
+      "file_type": "code",
+      "source_file": "scripts/setup-apt-repo.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_entrypoint"
+      },
+      "_origin": "ast",
+      "id": "home_daniel_projects_ros_hacks_scripts_setup_apt_repo_sh__entry",
+      "community": 3,
+      "norm_label": "setup-apt-repo.sh script"
+    },
+    {
+      "label": "increment_version()",
+      "file_type": "code",
+      "source_file": "scripts/setup-apt-repo.sh",
+      "source_location": "L17",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "scripts_setup_apt_repo_increment_version",
+      "community": 3,
+      "norm_label": "increment_version()"
+    },
+    {
+      "label": "update_repo()",
+      "file_type": "code",
+      "source_file": "scripts/setup-apt-repo.sh",
+      "source_location": "L167",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "scripts_setup_apt_repo_update_repo",
+      "community": 3,
+      "norm_label": "update_repo()"
+    },
+    {
+      "label": "add_package()",
+      "file_type": "code",
+      "source_file": "scripts/setup-apt-repo.sh",
+      "source_location": "L271",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "scripts_setup_apt_repo_add_package",
+      "community": 3,
+      "norm_label": "add_package()"
+    },
+    {
+      "label": "create_instructions()",
+      "file_type": "code",
+      "source_file": "scripts/setup-apt-repo.sh",
+      "source_location": "L286",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "scripts_setup_apt_repo_create_instructions",
+      "community": 3,
+      "norm_label": "create_instructions()"
+    },
+    {
+      "label": "build_package()",
+      "file_type": "code",
+      "source_file": "scripts/setup-apt-repo.sh",
+      "source_location": "L432",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "scripts_setup_apt_repo_build_package",
+      "community": 3,
+      "norm_label": "build_package()"
+    },
+    {
+      "label": "setup_github()",
+      "file_type": "code",
+      "source_file": "scripts/setup-apt-repo.sh",
+      "source_location": "L507",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "scripts_setup_apt_repo_setup_github",
+      "community": 3,
+      "norm_label": "setup_github()"
+    },
+    {
+      "label": "show_instructions()",
+      "file_type": "code",
+      "source_file": "scripts/setup-apt-repo.sh",
+      "source_location": "L573",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "scripts_setup_apt_repo_show_instructions",
+      "community": 3,
+      "norm_label": "show_instructions()"
+    },
+    {
+      "label": "install_local()",
+      "file_type": "code",
+      "source_file": "scripts/setup-apt-repo.sh",
+      "source_location": "L603",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "scripts_setup_apt_repo_install_local",
+      "community": 3,
+      "norm_label": "install_local()"
+    },
+    {
+      "label": "setup.sh",
+      "file_type": "code",
+      "source_file": "setup.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "file"
+      },
+      "_origin": "ast",
+      "id": "setup",
+      "community": 5,
+      "norm_label": "setup.sh"
+    },
+    {
+      "label": "setup.sh script",
+      "file_type": "code",
+      "source_file": "setup.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_entrypoint"
+      },
+      "_origin": "ast",
+      "id": "home_daniel_projects_ros_hacks_setup_sh__entry",
+      "community": 5,
+      "norm_label": "setup.sh script"
+    },
+    {
+      "label": "check_dependencies()",
+      "file_type": "code",
+      "source_file": "setup.sh",
+      "source_location": "L34",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "setup_check_dependencies",
+      "community": 5,
+      "norm_label": "check_dependencies()"
+    },
+    {
+      "label": "configure_zshrc()",
+      "file_type": "code",
+      "source_file": "setup.sh",
+      "source_location": "L88",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "setup_configure_zshrc",
+      "community": 5,
+      "norm_label": "configure_zshrc()"
+    },
+    {
+      "label": "configure_bashrc()",
+      "file_type": "code",
+      "source_file": "setup.sh",
+      "source_location": "L111",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "setup_configure_bashrc",
+      "community": 5,
+      "norm_label": "configure_bashrc()"
+    },
+    {
+      "label": "configure_inputrc()",
+      "file_type": "code",
+      "source_file": "setup.sh",
+      "source_location": "L136",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "setup_configure_inputrc",
+      "community": 5,
+      "norm_label": "configure_inputrc()"
+    },
+    {
+      "label": "create_initial_configs()",
+      "file_type": "code",
+      "source_file": "setup.sh",
+      "source_location": "L164",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "setup_create_initial_configs",
+      "community": 5,
+      "norm_label": "create_initial_configs()"
+    },
+    {
+      "label": "main()",
+      "file_type": "code",
+      "source_file": "setup.sh",
+      "source_location": "L193",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast",
+      "id": "setup_main",
+      "community": 5,
+      "norm_label": "main()"
+    },
+    {
+      "label": "ROS-Hacks",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "readme_ros_hacks",
+      "community": 1,
+      "norm_label": "ros-hacks"
+    },
+    {
+      "label": "Powerlevel10k Integration",
+      "file_type": "concept",
+      "source_file": "README.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "readme_powerlevel10k_integration",
+      "community": 1,
+      "norm_label": "powerlevel10k integration"
+    },
+    {
+      "label": "ROS2 Workspace Management",
+      "file_type": "concept",
+      "source_file": "README.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "readme_ros2_workspace_management",
+      "community": 1,
+      "norm_label": "ros2 workspace management"
+    },
+    {
+      "label": "ROS2 Command Shortcuts",
+      "file_type": "concept",
+      "source_file": "README.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "readme_ros2_command_shortcuts",
+      "community": 1,
+      "norm_label": "ros2 command shortcuts"
+    },
+    {
+      "label": "Workspace Navigation",
+      "file_type": "concept",
+      "source_file": "README.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "readme_workspace_navigation",
+      "community": 1,
+      "norm_label": "workspace navigation"
+    },
+    {
+      "label": "Build Commands",
+      "file_type": "concept",
+      "source_file": "README.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "readme_build_commands",
+      "community": 1,
+      "norm_label": "build commands"
+    },
+    {
+      "label": "ROS_DOMAIN_ID Management",
+      "file_type": "concept",
+      "source_file": "README.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "readme_ros_domain_id_management",
+      "community": 1,
+      "norm_label": "ros_domain_id management"
+    },
+    {
+      "label": "Utility Functions",
+      "file_type": "concept",
+      "source_file": "README.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "readme_utility_functions",
+      "community": 1,
+      "norm_label": "utility functions"
+    },
+    {
+      "label": "Keyboard Shortcuts",
+      "file_type": "concept",
+      "source_file": "README.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "readme_keyboard_shortcuts",
+      "community": 1,
+      "norm_label": "keyboard shortcuts"
+    },
+    {
+      "label": "Workspace Alias Management",
+      "file_type": "concept",
+      "source_file": "README.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "readme_workspace_alias_management",
+      "community": 1,
+      "norm_label": "workspace alias management"
+    },
+    {
+      "label": "Quick Commands",
+      "file_type": "concept",
+      "source_file": "README.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "readme_quick_commands",
+      "community": 1,
+      "norm_label": "quick commands"
+    },
+    {
+      "label": "Build Defaults",
+      "file_type": "code",
+      "source_file": "defaults.yaml",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "defaults_build",
+      "community": 20,
+      "norm_label": "build defaults"
+    },
+    {
+      "label": "Build and Release Package Workflow",
+      "file_type": "code",
+      "source_file": ".github/workflows/build-package.yml",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "build_package_workflow",
+      "community": 19,
+      "norm_label": "build and release package workflow"
+    },
+    {
+      "label": "Disabled APT Workflow",
+      "file_type": "code",
+      "source_file": ".github/workflows/publish.yml",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "publish_workflow",
+      "community": 21,
+      "norm_label": "disabled apt workflow"
+    },
+    {
+      "label": "ROS-Hacks Completions",
+      "file_type": "document",
+      "source_file": "completions/README.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "completions_readme",
+      "community": 1,
+      "norm_label": "ros-hacks completions"
+    },
+    {
+      "label": "ROS-Hacks Powerlevel10k Integration",
+      "file_type": "document",
+      "source_file": "docs/P10K-INTEGRATION.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "docs_p10k_integration",
+      "community": 1,
+      "norm_label": "ros-hacks powerlevel10k integration"
+    }
+  ],
+  "links": [
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ROS-Hacks.sh",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "ros_hacks",
+      "target": "home_daniel_projects_ros_hacks_ros_hacks_sh__entry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "ROS-Hacks.sh",
+      "source_location": "L75",
+      "weight": 1.0,
+      "source": "ros_hacks",
+      "target": "ros_hacks_colcon_defaults_file",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "ROS-Hacks.sh",
+      "source_location": "L74",
+      "weight": 1.0,
+      "source": "ros_hacks",
+      "target": "ros_hacks_colcon_home",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "ROS-Hacks.sh",
+      "source_location": "L55",
+      "weight": 1.0,
+      "source": "ros_hacks",
+      "target": "ros_hacks_git_ps1",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "ROS-Hacks.sh",
+      "source_location": "L77",
+      "weight": 1.0,
+      "source": "ros_hacks",
+      "target": "ros_hacks_roshacks_loaded",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "aliases.sh",
+      "source_location": "L121",
+      "weight": 1.0,
+      "source": "aliases",
+      "target": "aliases_launch_complete",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "aliases.sh",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "aliases",
+      "target": "home_daniel_projects_ros_hacks_aliases_sh__entry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "completions/ros-hacks-completions.bash",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "completions_ros_hacks_completions",
+      "target": "completions_ros_hacks_completions_rh_complete_pkg",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "completions/ros-hacks-completions.bash",
+      "source_location": "L30",
+      "weight": 1.0,
+      "source": "completions_ros_hacks_completions",
+      "target": "completions_ros_hacks_completions_rh_complete_topic",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "completions/ros-hacks-completions.bash",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "completions_ros_hacks_completions",
+      "target": "completions_ros_hacks_completions_rh_ws_root",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "completions/ros-hacks-completions.bash",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "completions_ros_hacks_completions",
+      "target": "home_daniel_projects_ros_hacks_completions_ros_hacks_completions_bash__entry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "diagnostic.sh",
+      "source_location": "L122",
+      "weight": 1.0,
+      "source": "diagnostic",
+      "target": "diagnostic_check_bash_config",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "diagnostic.sh",
+      "source_location": "L134",
+      "weight": 1.0,
+      "source": "diagnostic",
+      "target": "diagnostic_check_dependencies",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "diagnostic.sh",
+      "source_location": "L61",
+      "weight": 1.0,
+      "source": "diagnostic",
+      "target": "diagnostic_check_dir",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "diagnostic.sh",
+      "source_location": "L98",
+      "weight": 1.0,
+      "source": "diagnostic",
+      "target": "diagnostic_check_domain_id",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "diagnostic.sh",
+      "source_location": "L46",
+      "weight": 1.0,
+      "source": "diagnostic",
+      "target": "diagnostic_check_file",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "diagnostic.sh",
+      "source_location": "L76",
+      "weight": 1.0,
+      "source": "diagnostic",
+      "target": "diagnostic_check_workspace",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "diagnostic.sh",
+      "source_location": "L34",
+      "weight": 1.0,
+      "source": "diagnostic",
+      "target": "diagnostic_check_zsh_config",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "diagnostic.sh",
+      "source_location": "L147",
+      "weight": 1.0,
+      "source": "diagnostic",
+      "target": "diagnostic_fix_problems",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "diagnostic.sh",
+      "source_location": "L27",
+      "weight": 1.0,
+      "source": "diagnostic",
+      "target": "diagnostic_print_header",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "diagnostic.sh",
+      "source_location": "L205",
+      "weight": 1.0,
+      "source": "diagnostic",
+      "target": "diagnostic_run_diagnostics",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "diagnostic.sh",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "diagnostic",
+      "target": "home_daniel_projects_ros_hacks_diagnostic_sh__entry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "diagnostic.sh",
+      "source_location": "L238",
+      "weight": 1.0,
+      "context": "call",
+      "source": "home_daniel_projects_ros_hacks_diagnostic_sh__entry",
+      "target": "diagnostic_run_diagnostics",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "diagnostic.sh",
+      "source_location": "L206",
+      "weight": 1.0,
+      "context": "call",
+      "source": "diagnostic_run_diagnostics",
+      "target": "diagnostic_print_header",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "diagnostic.sh",
+      "source_location": "L223",
+      "weight": 1.0,
+      "context": "call",
+      "source": "diagnostic_run_diagnostics",
+      "target": "diagnostic_check_zsh_config",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "diagnostic.sh",
+      "source_location": "L211",
+      "weight": 1.0,
+      "context": "call",
+      "source": "diagnostic_run_diagnostics",
+      "target": "diagnostic_check_file",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "diagnostic.sh",
+      "source_location": "L217",
+      "weight": 1.0,
+      "context": "call",
+      "source": "diagnostic_run_diagnostics",
+      "target": "diagnostic_check_workspace",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "diagnostic.sh",
+      "source_location": "L219",
+      "weight": 1.0,
+      "context": "call",
+      "source": "diagnostic_run_diagnostics",
+      "target": "diagnostic_check_domain_id",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "diagnostic.sh",
+      "source_location": "L221",
+      "weight": 1.0,
+      "context": "call",
+      "source": "diagnostic_run_diagnostics",
+      "target": "diagnostic_check_bash_config",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "diagnostic.sh",
+      "source_location": "L225",
+      "weight": 1.0,
+      "context": "call",
+      "source": "diagnostic_run_diagnostics",
+      "target": "diagnostic_check_dependencies",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "diagnostic.sh",
+      "source_location": "L231",
+      "weight": 1.0,
+      "context": "call",
+      "source": "diagnostic_run_diagnostics",
+      "target": "diagnostic_fix_problems",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L797",
+      "weight": 1.0,
+      "source": "functions",
+      "target": "functions_add_ws_path",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L764",
+      "weight": 1.0,
+      "source": "functions",
+      "target": "functions_ask_for_num",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L393",
+      "weight": 1.0,
+      "source": "functions",
+      "target": "functions_ask_for_ws_and_domain",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L526",
+      "weight": 1.0,
+      "source": "functions",
+      "target": "functions_build_release",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L279",
+      "weight": 1.0,
+      "source": "functions",
+      "target": "functions_cache_ws_aliases",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L711",
+      "weight": 1.0,
+      "source": "functions",
+      "target": "functions_clean_ros2_ws",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L42",
+      "weight": 1.0,
+      "source": "functions",
+      "target": "functions_createws",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L260",
+      "weight": 1.0,
+      "source": "functions",
+      "target": "functions_determine_ws_ros_version",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L727",
+      "weight": 1.0,
+      "source": "functions",
+      "target": "functions_find_ws",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L185",
+      "weight": 1.0,
+      "source": "functions",
+      "target": "functions_get_current_ws",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L197",
+      "weight": 1.0,
+      "source": "functions",
+      "target": "functions_get_current_ws_name",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L234",
+      "weight": 1.0,
+      "source": "functions",
+      "target": "functions_get_ros_domain_id",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L499",
+      "weight": 1.0,
+      "source": "functions",
+      "target": "functions_get_version_stamp",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L601",
+      "weight": 1.0,
+      "source": "functions",
+      "target": "functions_launch_select",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L759",
+      "weight": 1.0,
+      "source": "functions",
+      "target": "functions_print_domain_info",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L243",
+      "weight": 1.0,
+      "source": "functions",
+      "target": "functions_print_ros_domain_id",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L28",
+      "weight": 1.0,
+      "source": "functions",
+      "target": "functions_prompt_new_ws",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L439",
+      "weight": 1.0,
+      "source": "functions",
+      "target": "functions_rebuild_curr_ws",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L568",
+      "weight": 1.0,
+      "source": "functions",
+      "target": "functions_ros2cd",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L158",
+      "weight": 1.0,
+      "source": "functions",
+      "target": "functions_select_ws",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L208",
+      "weight": 1.0,
+      "source": "functions",
+      "target": "functions_set_current_ws",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L248",
+      "weight": 1.0,
+      "source": "functions",
+      "target": "functions_set_ros_domain_id",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L335",
+      "weight": 1.0,
+      "source": "functions",
+      "target": "functions_source_cached_aliases",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L355",
+      "weight": 1.0,
+      "source": "functions",
+      "target": "functions_source_ws",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L99",
+      "weight": 1.0,
+      "source": "functions",
+      "target": "functions_unros",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "functions",
+      "target": "home_daniel_projects_ros_hacks_functions_sh__entry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L37",
+      "weight": 1.0,
+      "context": "call",
+      "source": "functions_prompt_new_ws",
+      "target": "functions_createws",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L72",
+      "weight": 1.0,
+      "context": "call",
+      "source": "functions_createws",
+      "target": "functions_get_current_ws",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L71",
+      "weight": 1.0,
+      "context": "call",
+      "source": "functions_createws",
+      "target": "functions_set_current_ws",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L90",
+      "weight": 1.0,
+      "context": "call",
+      "source": "functions_createws",
+      "target": "functions_source_ws",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L79",
+      "weight": 1.0,
+      "context": "call",
+      "source": "functions_createws",
+      "target": "functions_unros",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L535",
+      "weight": 1.0,
+      "context": "call",
+      "source": "functions_build_release",
+      "target": "functions_unros",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L165",
+      "weight": 1.0,
+      "context": "call",
+      "source": "functions_select_ws",
+      "target": "functions_unros",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L363",
+      "weight": 1.0,
+      "context": "call",
+      "source": "functions_source_ws",
+      "target": "functions_unros",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L160",
+      "weight": 1.0,
+      "context": "call",
+      "source": "functions_select_ws",
+      "target": "functions_ask_for_ws_and_domain",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L174",
+      "weight": 1.0,
+      "context": "call",
+      "source": "functions_select_ws",
+      "target": "functions_set_current_ws",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L176",
+      "weight": 1.0,
+      "context": "call",
+      "source": "functions_select_ws",
+      "target": "functions_source_ws",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L394",
+      "weight": 1.0,
+      "context": "call",
+      "source": "functions_ask_for_ws_and_domain",
+      "target": "functions_get_current_ws",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L527",
+      "weight": 1.0,
+      "context": "call",
+      "source": "functions_build_release",
+      "target": "functions_get_current_ws",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L282",
+      "weight": 1.0,
+      "context": "call",
+      "source": "functions_cache_ws_aliases",
+      "target": "functions_get_current_ws",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L198",
+      "weight": 1.0,
+      "context": "call",
+      "source": "functions_get_current_ws_name",
+      "target": "functions_get_current_ws",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L602",
+      "weight": 1.0,
+      "context": "call",
+      "source": "functions_launch_select",
+      "target": "functions_get_current_ws",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L440",
+      "weight": 1.0,
+      "context": "call",
+      "source": "functions_rebuild_curr_ws",
+      "target": "functions_get_current_ws",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L575",
+      "weight": 1.0,
+      "context": "call",
+      "source": "functions_ros2cd",
+      "target": "functions_get_current_ws",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L760",
+      "weight": 1.0,
+      "context": "call",
+      "source": "functions_print_domain_info",
+      "target": "functions_get_ros_domain_id",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L244",
+      "weight": 1.0,
+      "context": "call",
+      "source": "functions_print_ros_domain_id",
+      "target": "functions_get_ros_domain_id",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L387",
+      "weight": 1.0,
+      "context": "call",
+      "source": "functions_source_ws",
+      "target": "functions_get_ros_domain_id",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L424",
+      "weight": 1.0,
+      "context": "call",
+      "source": "functions_ask_for_ws_and_domain",
+      "target": "functions_set_ros_domain_id",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L361",
+      "weight": 1.0,
+      "context": "call",
+      "source": "functions_source_ws",
+      "target": "functions_determine_ws_ros_version",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L472",
+      "weight": 1.0,
+      "context": "call",
+      "source": "functions_rebuild_curr_ws",
+      "target": "functions_cache_ws_aliases",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L378",
+      "weight": 1.0,
+      "context": "call",
+      "source": "functions_source_ws",
+      "target": "functions_cache_ws_aliases",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L382",
+      "weight": 1.0,
+      "context": "call",
+      "source": "functions_source_ws",
+      "target": "functions_source_cached_aliases",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L476",
+      "weight": 1.0,
+      "context": "call",
+      "source": "functions_rebuild_curr_ws",
+      "target": "functions_source_ws",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L395",
+      "weight": 1.0,
+      "context": "call",
+      "source": "functions_ask_for_ws_and_domain",
+      "target": "functions_find_ws",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L396",
+      "weight": 1.0,
+      "context": "call",
+      "source": "functions_ask_for_ws_and_domain",
+      "target": "functions_print_domain_info",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L554",
+      "weight": 1.0,
+      "context": "call",
+      "source": "functions_build_release",
+      "target": "functions_get_version_stamp",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "functions.sh",
+      "source_location": "L557",
+      "weight": 1.0,
+      "context": "call",
+      "source": "functions_build_release",
+      "target": "functions_clean_ros2_ws",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/build.sh",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "lib_build",
+      "target": "home_daniel_projects_ros_hacks_lib_build_sh__entry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/build.sh",
+      "source_location": "L77",
+      "weight": 1.0,
+      "source": "lib_build",
+      "target": "lib_build_open_colcon_log",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/build.sh",
+      "source_location": "L44",
+      "weight": 1.0,
+      "source": "lib_build",
+      "target": "lib_build_rh_errors_summary",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/build.sh",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "lib_build",
+      "target": "lib_build_rh_log_dir",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/build.sh",
+      "source_location": "L28",
+      "weight": 1.0,
+      "source": "lib_build",
+      "target": "lib_build_rh_pkg_summary_line",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/build.sh",
+      "source_location": "L59",
+      "weight": 1.0,
+      "source": "lib_build",
+      "target": "lib_build_rh_preview_log",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/build.sh",
+      "source_location": "L95",
+      "weight": 1.0,
+      "source": "lib_build",
+      "target": "lib_build_show_colcon_errors",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/build.sh",
+      "source_location": "L155",
+      "weight": 1.0,
+      "source": "lib_build",
+      "target": "lib_build_show_colcon_warnings",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/build.sh",
+      "source_location": "L54",
+      "weight": 1.0,
+      "context": "call",
+      "source": "lib_build_rh_errors_summary",
+      "target": "lib_build_rh_pkg_summary_line",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/devtools.sh",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "lib_devtools",
+      "target": "home_daniel_projects_ros_hacks_lib_devtools_sh__entry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/devtools.sh",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "lib_devtools",
+      "target": "lib_devtools_gencc",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/devtools.sh",
+      "source_location": "L37",
+      "weight": 1.0,
+      "source": "lib_devtools",
+      "target": "lib_devtools_rir",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/devtools.sh",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "lib_devtools",
+      "target": "lib_devtools_vscgen",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/devtools.sh",
+      "source_location": "L31",
+      "weight": 1.0,
+      "source": "lib_devtools",
+      "target": "lib_devtools_vscgen_pkg",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/quickcmd.sh",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "lib_quickcmd",
+      "target": "home_daniel_projects_ros_hacks_lib_quickcmd_sh__entry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/quickcmd.sh",
+      "source_location": "L44",
+      "weight": 1.0,
+      "source": "lib_quickcmd",
+      "target": "lib_quickcmd_exec_quick_command",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/quickcmd.sh",
+      "source_location": "L21",
+      "weight": 1.0,
+      "source": "lib_quickcmd",
+      "target": "lib_quickcmd_get_quick_command",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/quickcmd.sh",
+      "source_location": "L59",
+      "weight": 1.0,
+      "source": "lib_quickcmd",
+      "target": "lib_quickcmd_kill_tmux_quick_command",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/quickcmd.sh",
+      "source_location": "L32",
+      "weight": 1.0,
+      "source": "lib_quickcmd",
+      "target": "lib_quickcmd_print_quick_command",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/quickcmd.sh",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "lib_quickcmd",
+      "target": "lib_quickcmd_set_quick_command",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/system.sh",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "lib_system",
+      "target": "home_daniel_projects_ros_hacks_lib_system_sh__entry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/system.sh",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "lib_system",
+      "target": "lib_system_fixjb",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/topic_tools.sh",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "lib_topic_tools",
+      "target": "home_daniel_projects_ros_hacks_lib_topic_tools_sh__entry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/topic_tools.sh",
+      "source_location": "L48",
+      "weight": 1.0,
+      "source": "lib_topic_tools",
+      "target": "lib_topic_tools_ros2_pkg_list",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/topic_tools.sh",
+      "source_location": "L34",
+      "weight": 1.0,
+      "source": "lib_topic_tools",
+      "target": "lib_topic_tools_ros2_topic_bw",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/topic_tools.sh",
+      "source_location": "L20",
+      "weight": 1.0,
+      "source": "lib_topic_tools",
+      "target": "lib_topic_tools_ros2_topic_hz",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/topic_tools.sh",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "lib_topic_tools",
+      "target": "lib_topic_tools_ros2_topic_monitor",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/backup-gpg-key.sh",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "scripts_backup_gpg_key",
+      "target": "home_daniel_projects_ros_hacks_scripts_backup_gpg_key_sh__entry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/gen-compile-commands.sh",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "scripts_gen_compile_commands",
+      "target": "home_daniel_projects_ros_hacks_scripts_gen_compile_commands_sh__entry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/gen-vscode-config-pkg.sh",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "scripts_gen_vscode_config_pkg",
+      "target": "home_daniel_projects_ros_hacks_scripts_gen_vscode_config_pkg_sh__entry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/gen-vscode-config.sh",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "scripts_gen_vscode_config",
+      "target": "home_daniel_projects_ros_hacks_scripts_gen_vscode_config_sh__entry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/install-apt.sh",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "scripts_install_apt",
+      "target": "home_daniel_projects_ros_hacks_scripts_install_apt_sh__entry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/run-in-ros.sh",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "scripts_run_in_ros",
+      "target": "home_daniel_projects_ros_hacks_scripts_run_in_ros_sh__entry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/setup-apt-repo.sh",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "scripts_setup_apt_repo",
+      "target": "home_daniel_projects_ros_hacks_scripts_setup_apt_repo_sh__entry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/setup-apt-repo.sh",
+      "source_location": "L271",
+      "weight": 1.0,
+      "source": "scripts_setup_apt_repo",
+      "target": "scripts_setup_apt_repo_add_package",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/setup-apt-repo.sh",
+      "source_location": "L432",
+      "weight": 1.0,
+      "source": "scripts_setup_apt_repo",
+      "target": "scripts_setup_apt_repo_build_package",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/setup-apt-repo.sh",
+      "source_location": "L286",
+      "weight": 1.0,
+      "source": "scripts_setup_apt_repo",
+      "target": "scripts_setup_apt_repo_create_instructions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/setup-apt-repo.sh",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "scripts_setup_apt_repo",
+      "target": "scripts_setup_apt_repo_increment_version",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/setup-apt-repo.sh",
+      "source_location": "L603",
+      "weight": 1.0,
+      "source": "scripts_setup_apt_repo",
+      "target": "scripts_setup_apt_repo_install_local",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/setup-apt-repo.sh",
+      "source_location": "L507",
+      "weight": 1.0,
+      "source": "scripts_setup_apt_repo",
+      "target": "scripts_setup_apt_repo_setup_github",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/setup-apt-repo.sh",
+      "source_location": "L573",
+      "weight": 1.0,
+      "source": "scripts_setup_apt_repo",
+      "target": "scripts_setup_apt_repo_show_instructions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/setup-apt-repo.sh",
+      "source_location": "L167",
+      "weight": 1.0,
+      "source": "scripts_setup_apt_repo",
+      "target": "scripts_setup_apt_repo_update_repo",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/setup-apt-repo.sh",
+      "source_location": "L649",
+      "weight": 1.0,
+      "context": "call",
+      "source": "home_daniel_projects_ros_hacks_scripts_setup_apt_repo_sh__entry",
+      "target": "scripts_setup_apt_repo_add_package",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/setup-apt-repo.sh",
+      "source_location": "L656",
+      "weight": 1.0,
+      "context": "call",
+      "source": "home_daniel_projects_ros_hacks_scripts_setup_apt_repo_sh__entry",
+      "target": "scripts_setup_apt_repo_build_package",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/setup-apt-repo.sh",
+      "source_location": "L655",
+      "weight": 1.0,
+      "context": "call",
+      "source": "home_daniel_projects_ros_hacks_scripts_setup_apt_repo_sh__entry",
+      "target": "scripts_setup_apt_repo_create_instructions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/setup-apt-repo.sh",
+      "source_location": "L669",
+      "weight": 1.0,
+      "context": "call",
+      "source": "home_daniel_projects_ros_hacks_scripts_setup_apt_repo_sh__entry",
+      "target": "scripts_setup_apt_repo_install_local",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/setup-apt-repo.sh",
+      "source_location": "L657",
+      "weight": 1.0,
+      "context": "call",
+      "source": "home_daniel_projects_ros_hacks_scripts_setup_apt_repo_sh__entry",
+      "target": "scripts_setup_apt_repo_setup_github",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/setup-apt-repo.sh",
+      "source_location": "L660",
+      "weight": 1.0,
+      "context": "call",
+      "source": "home_daniel_projects_ros_hacks_scripts_setup_apt_repo_sh__entry",
+      "target": "scripts_setup_apt_repo_show_instructions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/setup-apt-repo.sh",
+      "source_location": "L651",
+      "weight": 1.0,
+      "context": "call",
+      "source": "home_daniel_projects_ros_hacks_scripts_setup_apt_repo_sh__entry",
+      "target": "scripts_setup_apt_repo_update_repo",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/setup-apt-repo.sh",
+      "source_location": "L445",
+      "weight": 1.0,
+      "context": "call",
+      "source": "scripts_setup_apt_repo_build_package",
+      "target": "scripts_setup_apt_repo_increment_version",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/setup-apt-repo.sh",
+      "source_location": "L281",
+      "weight": 1.0,
+      "context": "call",
+      "source": "scripts_setup_apt_repo_add_package",
+      "target": "scripts_setup_apt_repo_update_repo",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/setup-apt-repo.sh",
+      "source_location": "L499",
+      "weight": 1.0,
+      "context": "call",
+      "source": "scripts_setup_apt_repo_build_package",
+      "target": "scripts_setup_apt_repo_add_package",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "setup.sh",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "setup",
+      "target": "home_daniel_projects_ros_hacks_setup_sh__entry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "setup.sh",
+      "source_location": "L34",
+      "weight": 1.0,
+      "source": "setup",
+      "target": "setup_check_dependencies",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "setup.sh",
+      "source_location": "L111",
+      "weight": 1.0,
+      "source": "setup",
+      "target": "setup_configure_bashrc",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "setup.sh",
+      "source_location": "L136",
+      "weight": 1.0,
+      "source": "setup",
+      "target": "setup_configure_inputrc",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "setup.sh",
+      "source_location": "L88",
+      "weight": 1.0,
+      "source": "setup",
+      "target": "setup_configure_zshrc",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "setup.sh",
+      "source_location": "L164",
+      "weight": 1.0,
+      "source": "setup",
+      "target": "setup_create_initial_configs",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "setup.sh",
+      "source_location": "L193",
+      "weight": 1.0,
+      "source": "setup",
+      "target": "setup_main",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "setup.sh",
+      "source_location": "L219",
+      "weight": 1.0,
+      "context": "call",
+      "source": "home_daniel_projects_ros_hacks_setup_sh__entry",
+      "target": "setup_main",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "setup.sh",
+      "source_location": "L199",
+      "weight": 1.0,
+      "context": "call",
+      "source": "setup_main",
+      "target": "setup_check_dependencies",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "setup.sh",
+      "source_location": "L202",
+      "weight": 1.0,
+      "context": "call",
+      "source": "setup_main",
+      "target": "setup_configure_zshrc",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "setup.sh",
+      "source_location": "L200",
+      "weight": 1.0,
+      "context": "call",
+      "source": "setup_main",
+      "target": "setup_configure_bashrc",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "setup.sh",
+      "source_location": "L204",
+      "weight": 1.0,
+      "context": "call",
+      "source": "setup_main",
+      "target": "setup_configure_inputrc",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "setup.sh",
+      "source_location": "L205",
+      "weight": 1.0,
+      "context": "call",
+      "source": "setup_main",
+      "target": "setup_create_initial_configs",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "completions/README.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "completions_readme",
+      "target": "readme_ros_hacks"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "readme_ros_hacks",
+      "target": "readme_build_commands"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "readme_ros_hacks",
+      "target": "readme_keyboard_shortcuts"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "readme_ros_hacks",
+      "target": "readme_powerlevel10k_integration"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "readme_ros_hacks",
+      "target": "readme_quick_commands"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "readme_ros_hacks",
+      "target": "readme_ros2_command_shortcuts"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "readme_ros_hacks",
+      "target": "readme_ros2_workspace_management"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "readme_ros_hacks",
+      "target": "readme_ros_domain_id_management"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "readme_ros_hacks",
+      "target": "readme_utility_functions"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "readme_ros_hacks",
+      "target": "readme_workspace_alias_management"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "readme_ros_hacks",
+      "target": "readme_workspace_navigation"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "readme_powerlevel10k_integration",
+      "target": "docs_p10k_integration"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".github/workflows/build-package.yml",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "build_package_workflow",
+      "target": "build_package_workflow"
+    }
+  ],
+  "hyperedges": [],
+  "built_at_commit": "49ff2f596cf9fa98ef60c35dafd4e9ae15432baf"
+}
