@@ -40,13 +40,7 @@ QUICK_COMMAND_FILE=$HOME/.cache/ros-hacks/quick_command
 
 alias pR='printenv | grep -i -e ROS -e CMAKE -e RMW -e AMENT -e COLCON'
 alias sw='source_ws $(cat $WS_FILE)'
-if [[ -n ${ZSH_VERSION:-} ]]; then
-    alias sr='source /opt/ros/${ROS2_NAME}/setup.zsh'
-    alias csr='unROS; source /opt/ros/${ROS2_NAME}/setup.zsh'
-else
-    alias sr='source /opt/ros/${ROS2_NAME}/setup.bash'
-    alias csr='unROS; source /opt/ros/${ROS2_NAME}/setup.bash'
-fi
+unalias sr csr 2>/dev/null || true
 
 # Build aliases
 alias cob='colcon build --symlink-install'

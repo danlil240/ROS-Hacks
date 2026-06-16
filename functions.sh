@@ -104,6 +104,12 @@ function unROS() {
         if [[ ! "$v" =~ ^[A-Za-z_][A-Za-z0-9_]*$ ]]; then
             continue
         fi
+        # ROS-Hacks config vars (not sourced ROS environment)
+        case "$v" in
+            ROS2_NAME | ROS2NAME | ROSHACKS_*)
+                continue
+                ;;
+        esac
         # Get the value
         if [[ $v == *"PWD"* ]]; then
             continue
@@ -153,6 +159,54 @@ function unROS() {
     unset CMAKE_PREFIX_PATH
     unset AMENT_PREFIX_PATH
     unset COLCON_PREFIX_PATH
+}
+
+function ensure_ros2_name() {
+    if [[ -n "${ROS2_NAME:-}" ]]; then
+        return 0
+    fi
+    if [[ -n "${ROS_DISTRO:-}" ]]; then
+        export ROS2_NAME="$ROS_DISTRO"
+        return 0
+    fi
+    local rh_dir="${ROSHACKS_DIR:-}"
+    if [[ -z "$rh_dir" ]]; then
+        if [[ -n ${ZSH_VERSION:-} ]]; then
+            rh_dir="$(cd -- "$(dirname -- "${(%):-%x}")" &>/dev/null && pwd)"
+        else
+            rh_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
+        fi
+    fi
+    # shellcheck source=scripts/detect-ros-distro.sh
+    source "${rh_dir}/scripts/detect-ros-distro.sh"
+}
+
+function source_ros_distro() {
+    ensure_ros2_name
+    local setup
+    if [[ -n ${ZSH_VERSION:-} && -f "/opt/ros/${ROS2_NAME}/setup.zsh" ]]; then
+        setup="/opt/ros/${ROS2_NAME}/setup.zsh"
+    else
+        setup="/opt/ros/${ROS2_NAME}/setup.bash"
+    fi
+    if [[ ! -f "$setup" ]]; then
+        printf "${RED_TXT}ROS setup not found: ${WHITE_TXT}${setup}${NC}\n"
+        return 1
+    fi
+    source "$setup"
+}
+
+function clean_source_ros_distro() {
+    unROS
+    source_ros_distro
+}
+
+function sr() {
+    source_ros_distro
+}
+
+function csr() {
+    clean_source_ros_distro
 }
 
 function select_ws() {
