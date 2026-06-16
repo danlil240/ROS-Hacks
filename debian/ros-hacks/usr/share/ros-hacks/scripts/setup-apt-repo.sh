@@ -56,15 +56,32 @@ EOF
     # Replace the old changelog with the new one
     mv "$CHANGELOG_FILE.new" "$CHANGELOG_FILE"
 
-    # Also update the DEBIAN/control file if it exists (generated during build)
-    DEBIAN_CONTROL="${SOURCE_DIR}/debian/ros-hacks/DEBIAN/control"
-    if [ -f "$DEBIAN_CONTROL" ]; then
-        # Update the Version field in the DEBIAN/control file
-        sed -i "s/^Version: .*/Version: ${NEW_DEBIAN_VERSION}/" "$DEBIAN_CONTROL"
-        echo -e "${GREEN}Updated version in DEBIAN/control to ${NEW_DEBIAN_VERSION}${NC}"
-    fi
-
     echo -e "${GREEN}Version updated from $CURRENT_VERSION to $NEW_VERSION${NC}"
+}
+
+# Remove stale debian build artifacts (may be root-owned after Docker/container builds)
+clean_build_artifacts() {
+    local artifact_paths=(
+        "${SOURCE_DIR}/debian/ros-hacks"
+        "${SOURCE_DIR}/debian/.debhelper"
+        "${SOURCE_DIR}/debian/debhelper-build-stamp"
+        "${SOURCE_DIR}/debian/files"
+    )
+
+    local needs_sudo=0
+    for path in "${artifact_paths[@]}"; do
+        if [ -e "$path" ] && [ ! -w "$path" ]; then
+            needs_sudo=1
+            break
+        fi
+    done
+
+    if [ "$needs_sudo" -eq 1 ]; then
+        echo -e "${YELLOW}Removing root-owned build artifacts (from Docker/container builds)...${NC}"
+        sudo rm -rf "${artifact_paths[@]}" "${SOURCE_DIR}"/debian/*.substvars 2>/dev/null || true
+    else
+        rm -rf "${artifact_paths[@]}" "${SOURCE_DIR}"/debian/*.substvars 2>/dev/null || true
+    fi
 }
 
 # Check if GPG is installed
@@ -464,6 +481,7 @@ build_package() {
     PARENT_DIR_ABS="$(dirname "$SOURCE_DIR_ABS")"
 
     cd "$SOURCE_DIR"
+    clean_build_artifacts
     dpkg-buildpackage -us -uc -b -d
     if [ $? -eq 0 ]; then
         echo -e "${GREEN}Package built successfully${NC}"

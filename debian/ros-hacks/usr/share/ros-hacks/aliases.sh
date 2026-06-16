@@ -4,7 +4,11 @@ if [[ ${SKIP:-} == 1 ]]; then
 fi
 
 # Determine ROS2 distribution based on Ubuntu version
-_ALIASES_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
+if [[ -n ${ZSH_VERSION:-} ]]; then
+    _ALIASES_DIR="$(cd -- "$(dirname -- "${(%):-%x}")" &>/dev/null && pwd)"
+else
+    _ALIASES_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
+fi
 # shellcheck source=scripts/detect-ros-distro.sh
 source "${_ALIASES_DIR}/scripts/detect-ros-distro.sh"
 unset _ALIASES_DIR

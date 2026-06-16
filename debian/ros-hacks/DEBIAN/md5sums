@@ -1,9 +1,9 @@
-0b5c3b140c18b91f0b084fa334eae4c1  usr/share/doc/ros-hacks/changelog.Debian.gz
+6ecbeb49100404e6c6bed2f6c7dcc133  usr/share/doc/ros-hacks/changelog.Debian.gz
 63d549e9691a1329e2dff72904f7eb4e  usr/share/ros-hacks/README.md
 9dcfa150cc824a14a21a8f7d9b20e10f  usr/share/ros-hacks/ROS-Hacks.sh
 2cc24a614e609129cb88e33de8f54cfc  usr/share/ros-hacks/ROS-Hacks.zsh
-443f27a08f1ad2464c9ac5e2e381ce61  usr/share/ros-hacks/VERSION
-f4992ad84d47cbaed5045ed2ce6f3d75  usr/share/ros-hacks/aliases.sh
+9b23ff7bb3ae7d909f31e401a61cfde9  usr/share/ros-hacks/VERSION
+2fd517ac907370b09b6b4c3cb05fae0a  usr/share/ros-hacks/aliases.sh
 dd6e2fdf942cf012fbf74bca68deefe6  usr/share/ros-hacks/completions/README.md
 392fb501171293f435709f17ef640c3a  usr/share/ros-hacks/completions/ros-hacks-completions.bash
 f666fe06b2f9c621a6f1323ef2582a61  usr/share/ros-hacks/completions/ros-hacks-completions.zsh
@@ -25,7 +25,7 @@ f585161651a21ab012b8dd05ae31428b  usr/share/ros-hacks/scripts/gen-vscode-config-
 8dec9076c839968e6552975d965c1976  usr/share/ros-hacks/scripts/gen-vscode-config.sh
 2ab718825acb2cf277d90805ad4d79a2  usr/share/ros-hacks/scripts/install-apt.sh
 dc40f4e939b7026958fe60483edf9440  usr/share/ros-hacks/scripts/run-in-ros.sh
-a06ad3e0ee3db8fdaf56044169c18203  usr/share/ros-hacks/scripts/setup-apt-repo.sh
+31658fb895391f9ca26cb8e33e311f87  usr/share/ros-hacks/scripts/setup-apt-repo.sh
 eb7dce06fd110dacc5c698e0532eab60  usr/share/ros-hacks/scripts/setup-p10k.zsh
 c278da418e63bed63e994d409a8bcb1e  usr/share/ros-hacks/setup.sh
 1f4b2ca63944196074cdfec6152de420  usr/share/ros-hacks/zsh-keybindings.zsh
