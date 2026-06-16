@@ -47,13 +47,8 @@ PY
 fi
 
 # Determine ROS 2 distro for include path hints
-ROS2_NAME=""
-case "$(lsb_release -cs 2>/dev/null || echo unknown)" in
-  focal) ROS2_NAME=foxy;;
-  jammy) ROS2_NAME=humble;;
-  noble) ROS2_NAME=jazzy;;
-  *)     ROS2_NAME=humble;;
-esac
+# shellcheck source=detect-ros-distro.sh
+source "${SCRIPTS_DIR}/detect-ros-distro.sh"
 
 VSCODE_DIR="$PKG_ROOT/.vscode"
 mkdir -p "$VSCODE_DIR"

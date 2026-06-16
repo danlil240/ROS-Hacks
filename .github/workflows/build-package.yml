@@ -11,8 +11,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ubuntu_version: ['22.04', '24.04']
     container:
-      image: ubuntu:22.04
+      image: ubuntu:${{ matrix.ubuntu_version }}
 
     steps:
     - name: Checkout code
@@ -21,7 +24,17 @@ jobs:
     - name: Install dependencies
       run: |
         for i in $(seq 1 5); do apt-get update && break || sleep 5; done
-        for i in $(seq 1 5); do apt-get install -y devscripts debhelper build-essential dh-make lintian && break || sleep 5; done
+        for i in $(seq 1 5); do apt-get install -y devscripts debhelper build-essential dh-make lintian lsb-release && break || sleep 5; done
+
+    - name: Verify ROS distro detection
+      run: |
+        source scripts/detect-ros-distro.sh
+        case "${{ matrix.ubuntu_version }}" in
+          22.04) test "$ROS2_NAME" = "humble" ;;
+          24.04) test "$ROS2_NAME" = "jazzy" ;;
+          *) echo "Unexpected Ubuntu version: ${{ matrix.ubuntu_version }}" >&2; exit 1 ;;
+        esac
+        echo "Detected ROS2_NAME=$ROS2_NAME on Ubuntu ${{ matrix.ubuntu_version }}"
 
     - name: Build package
       run: |
@@ -35,7 +48,7 @@ jobs:
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: packages
+        name: packages-ubuntu-${{ matrix.ubuntu_version }}
         path: artifacts/*.deb
         
   release:
@@ -45,9 +58,10 @@ jobs:
 
     steps:
     - name: Download artifacts
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
-        name: packages
+        pattern: packages-*
+        merge-multiple: true
         path: artifacts
 
     - name: Create Release

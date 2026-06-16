@@ -5,8 +5,8 @@ build:
     - "-DCMAKE_INSTALL_MESSAGE=NEVER"
     - "-DCMAKE_EXPORT_COMPILE_COMMANDS=YES"
     - "-DCMAKE_BUILD_TYPE=Debug"
-    - "-DCMAKE_C_COMPILER:FILEPATH=/usr/bin/gcc-12"
-    - "-DCMAKE_CXX_COMPILER:FILEPATH=/usr/bin/g++-12"
+    - "-DCMAKE_C_COMPILER:FILEPATH=/usr/bin/gcc"
+    - "-DCMAKE_CXX_COMPILER:FILEPATH=/usr/bin/g++"
   event-handlers:
     - console_cohesion-
     - console_direct-

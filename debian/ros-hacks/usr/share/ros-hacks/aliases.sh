@@ -4,16 +4,10 @@ if [[ ${SKIP:-} == 1 ]]; then
 fi
 
 # Determine ROS2 distribution based on Ubuntu version
-if [[ $(lsb_release -cs) == 'focal' ]]; then
-    ROS2_NAME='foxy'
-elif [[ $(lsb_release -cs) == 'jammy' ]]; then
-    ROS2_NAME='humble'
-elif [[ $(lsb_release -cs) == 'noble' ]]; then
-    ROS2_NAME='jazzy'
-else
-    # Default to latest stable release if version can't be determined
-    ROS2_NAME='humble'
-fi
+_ALIASES_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
+# shellcheck source=scripts/detect-ros-distro.sh
+source "${_ALIASES_DIR}/scripts/detect-ros-distro.sh"
+unset _ALIASES_DIR
 
 # Define colors:
 NC='\033[0m'

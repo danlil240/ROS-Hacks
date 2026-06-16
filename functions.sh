@@ -19,7 +19,7 @@ DIM_BLUE_TXT='\e[2;34m'
 WS_FILE=${WS_FILE:-"$HOME/.cache/ros-hacks/ros_ws_selected"}
 ROS_DOMAIN_ID_FILE=${ROS_DOMAIN_ID_FILE:-"$HOME/.cache/ros-hacks/ros_domain_id"}
 QUICK_COMMAND_FILE=${QUICK_COMMAND_FILE:-"$HOME/.cache/ros-hacks/quick_command"}
-ROS2NAME=${ROS2_NAME:-"humble"}
+ROS2NAME=${ROS2_NAME:-"jazzy"}
 WS_SEARCH_PATHS_FILE=${WS_SEARCH_PATHS_FILE:-"$HOME/.cache/ros-hacks/ws_paths"}
 WS_ALIASES_FILE=${WS_ALIASES_FILE:-"$HOME/.cache/ros-hacks/ws_aliases"}
 

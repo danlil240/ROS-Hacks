@@ -12,30 +12,17 @@ if [[ "${1:-}" == "--ws" && -n "${2:-}" ]]; then
   WS_ROOT="$2"; shift 2
 fi
 
-# Determine ROS 2 codename from Ubuntu release
-ROS2_NAME=""
-case "$(lsb_release -cs 2>/dev/null || echo unknown)" in
-  focal) ROS2_NAME=foxy;;
-  jammy) ROS2_NAME=humble;;
-  noble) ROS2_NAME=jazzy;;
-  *)     ROS2_NAME="";;
-esac
+# Determine ROS 2 codename from Ubuntu release or installed ROS
+_RUN_IN_ROS_DIR="$(cd -- "$(dirname -- "$0")" &>/dev/null && pwd)"
+# shellcheck source=detect-ros-distro.sh
+source "${_RUN_IN_ROS_DIR}/detect-ros-distro.sh"
+unset _RUN_IN_ROS_DIR
 
-# Source system ROS if available (prefer detected codename)
-if [[ -n "$ROS2_NAME" ]]; then
-  if [[ -n ${ZSH_VERSION:-} && -f "/opt/ros/$ROS2_NAME/setup.zsh" ]]; then
-    source "/opt/ros/$ROS2_NAME/setup.zsh"
-  elif [[ -f "/opt/ros/$ROS2_NAME/setup.bash" ]]; then
-    source "/opt/ros/$ROS2_NAME/setup.bash"
-  fi
-else
-  for d in jazzy humble iron foxy rolling; do
-    if [[ -n ${ZSH_VERSION:-} && -f "/opt/ros/$d/setup.zsh" ]]; then
-      source "/opt/ros/$d/setup.zsh"; break
-    elif [[ -f "/opt/ros/$d/setup.bash" ]]; then
-      source "/opt/ros/$d/setup.bash"; break
-    fi
-  done
+# Source system ROS if available
+if [[ -n ${ZSH_VERSION:-} && -f "/opt/ros/$ROS2_NAME/setup.zsh" ]]; then
+  source "/opt/ros/$ROS2_NAME/setup.zsh"
+elif [[ -f "/opt/ros/$ROS2_NAME/setup.bash" ]]; then
+  source "/opt/ros/$ROS2_NAME/setup.bash"
 fi
 
 # Resolve workspace root: CLI > env > PWD (if looks like a ws)

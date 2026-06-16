@@ -2,6 +2,16 @@
 
 This is a repository for the ROS-Hacks package, a productivity toolkit that enhances the ROS2 development experience with workspace management tools, convenient aliases, keyboard shortcuts, and utility functions.
 
+## Supported platforms
+
+| Ubuntu | ROS 2 |
+|--------|-------|
+| 20.04 (focal) | Foxy |
+| 22.04 (jammy) | Humble |
+| 24.04 (noble) | Jazzy |
+
+ROS-Hacks detects the matching ROS 2 distribution from your Ubuntu release and falls back to any installed `/opt/ros/<distro>` if detection is inconclusive.
+
 ## Adding this repository to your system
 
 1. Download and add the GPG key:
