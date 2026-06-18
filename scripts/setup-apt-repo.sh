@@ -541,8 +541,8 @@ setup_github() {
     # Work in the APT repository directory
     cd "$REPO_DIR"
     
-    # Add all APT repository files
-    git add .
+    # Add APT repository files (never git add . — avoids leaking .gpg-backup/)
+    git add dists/ pool/ ros-hacks.key README.md SIGNING_KEY_FPR AGENTS.md 2>/dev/null || true
     
     # Check if there are changes to commit
     if git diff --staged --quiet; then
