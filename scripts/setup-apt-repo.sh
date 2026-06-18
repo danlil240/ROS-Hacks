@@ -13,6 +13,40 @@ YELLOW='\e[93m'
 BLUE='\e[34m'
 RED='\e[31m'
 
+# Canonical APT signing key — never generate or replace without explicit user approval.
+CANONICAL_SIGNING_KEY_FPR="24F6F039ADD1E7A19FE61176172DC787BB63A69F"
+
+read_canonical_signing_key_fpr() {
+    local apt_repo_dir="$1"
+    if [ -f "$apt_repo_dir/SIGNING_KEY_FPR" ]; then
+        tr -d '[:space:]' <"$apt_repo_dir/SIGNING_KEY_FPR"
+    else
+        echo "$CANONICAL_SIGNING_KEY_FPR"
+    fi
+}
+
+gpg_key_fingerprint() {
+    local key_file="$1"
+    gpg --with-colons --import-options show-only --import <"$key_file" 2>/dev/null | awk -F: '/^fpr:/ {print $10; exit}'
+}
+
+require_canonical_signing_key() {
+    local fpr="$1"
+    local context="$2"
+    if [ "$fpr" != "$CANONICAL_SIGNING_KEY_FPR" ]; then
+        echo -e "${RED}ERROR: $context fingerprint ($fpr) does not match canonical key ($CANONICAL_SIGNING_KEY_FPR).${NC}"
+        echo -e "${RED}Refusing to continue — restore the original key from backup (see AGENTS.md).${NC}"
+        exit 1
+    fi
+}
+
+export_signing_key_backup() {
+    local signing_key="$1"
+    mkdir -p "$GPG_BACKUP_DIR"
+    gpg --armor --export-secret-keys "$signing_key" >"$GPG_PRIVATE_KEY"
+    gpg --armor --export "$signing_key" >"$GPG_PUBLIC_KEY"
+}
+
 # Function to increment version number
 increment_version() {
     echo -e "${BLUE}Incrementing version number...${NC}"
@@ -133,52 +167,36 @@ mkdir -p "$REPO_DIR"/{pool/main,dists/stable/main/binary-amd64}
 GPG_BACKUP_DIR="$REPO_DIR/.gpg-backup"
 GPG_PRIVATE_KEY="$GPG_BACKUP_DIR/private.key"
 GPG_PUBLIC_KEY="$GPG_BACKUP_DIR/public.key"
+EXPECTED_SIGNING_KEY_FPR="$(read_canonical_signing_key_fpr "$REPO_DIR")"
+require_canonical_signing_key "$EXPECTED_SIGNING_KEY_FPR" "Expected signing key"
 
-# Check if we have a backed-up key to restore
-if [ -f "$GPG_PRIVATE_KEY" ] && ! gpg --list-keys | grep -q "ROS-Hacks APT Repository"; then
-    echo -e "${BLUE}Restoring GPG key from backup...${NC}"
+if [ -f "$GPG_PRIVATE_KEY" ]; then
+    BACKUP_FPR="$(gpg_key_fingerprint "$GPG_PRIVATE_KEY")"
+    require_canonical_signing_key "$BACKUP_FPR" "Backed-up private key"
+fi
+
+# Restore canonical key from backup if missing from keyring
+if [ -f "$GPG_PRIVATE_KEY" ] && ! gpg --list-secret-keys "$EXPECTED_SIGNING_KEY_FPR" >/dev/null 2>&1; then
+    echo -e "${BLUE}Restoring canonical GPG key from backup...${NC}"
     gpg --batch --import "$GPG_PRIVATE_KEY"
     echo -e "${GREEN}GPG key restored from backup${NC}"
 fi
 
-# Generate GPG key if needed
-if ! gpg --list-keys | grep -q "ROS-Hacks APT Repository"; then
-    echo -e "${BLUE}Generating GPG key for signing packages...${NC}"
+if ! gpg --list-secret-keys "$EXPECTED_SIGNING_KEY_FPR" >/dev/null 2>&1; then
+    echo -e "${RED}Canonical signing key $EXPECTED_SIGNING_KEY_FPR not found in keyring or backup.${NC}"
+    echo -e "${RED}Restore ~/.ros-hacks-apt/.gpg-backup/ from your external backup, then run:${NC}"
+    echo -e "${RED}  ./scripts/backup-gpg-key.sh restore${NC}"
+    exit 1
+fi
 
-    # Create key configuration file
-    cat >/tmp/gpg-key-gen.conf <<EOF
-Key-Type: RSA
-Key-Length: 4096
-Name-Real: ROS-Hacks APT Repository
-Name-Email: your-email@example.com
-Expire-Date: 0
-%no-protection
-%commit
-EOF
-
-    # Generate key
-    gpg --batch --gen-key /tmp/gpg-key-gen.conf
-    rm /tmp/gpg-key-gen.conf
-
-    # Backup the key immediately after generation
-    mkdir -p "$GPG_BACKUP_DIR"
-    gpg --armor --export-secret-keys "ROS-Hacks APT Repository" > "$GPG_PRIVATE_KEY"
-    gpg --armor --export "ROS-Hacks APT Repository" > "$GPG_PUBLIC_KEY"
-    
-    # Export public key to repo root for distribution
-    cp "$GPG_PUBLIC_KEY" "$REPO_DIR/ros-hacks.key"
-    
-    echo -e "${GREEN}GPG key generated and backed up to $GPG_BACKUP_DIR${NC}"
-    echo -e "${YELLOW}IMPORTANT: Keep $GPG_BACKUP_DIR secure and backed up!${NC}"
-elif [ ! -f "$GPG_PRIVATE_KEY" ]; then
-    # Key exists in keyring but not backed up - back it up now
-    echo -e "${BLUE}Backing up existing GPG key...${NC}"
-    mkdir -p "$GPG_BACKUP_DIR"
-    gpg --armor --export-secret-keys "ROS-Hacks APT Repository" > "$GPG_PRIVATE_KEY"
-    gpg --armor --export "ROS-Hacks APT Repository" > "$GPG_PUBLIC_KEY"
+if [ ! -f "$GPG_PRIVATE_KEY" ]; then
+    echo -e "${BLUE}Backing up canonical GPG key...${NC}"
+    export_signing_key_backup "$EXPECTED_SIGNING_KEY_FPR"
     cp "$GPG_PUBLIC_KEY" "$REPO_DIR/ros-hacks.key"
     echo -e "${GREEN}GPG key backed up to $GPG_BACKUP_DIR${NC}"
 fi
+
+echo "$EXPECTED_SIGNING_KEY_FPR" >"$REPO_DIR/.signing_key_fpr"
 
 # Function to update the repository
 update_repo() {
@@ -232,32 +250,17 @@ EOF
     # Sign Release file with a deterministic key and export the matching public key
     rm -f dists/stable/Release.gpg dists/stable/InRelease
     
-    # Always use the same key by storing/reading the fingerprint
+    # Always use the canonical key fingerprint
     KEY_FPR_FILE="$REPO_DIR/.signing_key_fpr"
-    
-    if [ -f "$KEY_FPR_FILE" ]; then
-        # Use existing key fingerprint
-        SIGNING_KEY=$(cat "$KEY_FPR_FILE")
-        echo -e "${BLUE}Using existing signing key: $SIGNING_KEY${NC}"
-    else
-        # Get the first (and should be only) key for ROS-Hacks APT Repository
-        SIGNING_KEY=$(gpg --list-secret-keys --with-colons 'ROS-Hacks APT Repository' 2>/dev/null | awk -F: '/^fpr:/ {print $10; exit}')
-        if [ -z "$SIGNING_KEY" ]; then
-            echo -e "${RED}No GPG key found for 'ROS-Hacks APT Repository'${NC}"
-            exit 1
-        fi
-        # Save the fingerprint for future use
-        echo "$SIGNING_KEY" > "$KEY_FPR_FILE"
-        echo -e "${GREEN}Saved signing key fingerprint: $SIGNING_KEY${NC}"
-    fi
+    SIGNING_KEY="$(read_canonical_signing_key_fpr "$REPO_DIR")"
+    echo "$SIGNING_KEY" >"$KEY_FPR_FILE"
+    echo -e "${BLUE}Using canonical signing key: $SIGNING_KEY${NC}"
     
     # Verify the key still exists
     if ! gpg --list-secret-keys "$SIGNING_KEY" >/dev/null 2>&1; then
-        echo -e "${RED}Signing key $SIGNING_KEY not found! Removing cached fingerprint.${NC}"
-        rm -f "$KEY_FPR_FILE"
+        echo -e "${RED}Signing key $SIGNING_KEY not found! Restore from backup.${NC}"
         exit 1
     fi
-    
     # Always use the backed-up public key to ensure consistency
     if [ -f "$GPG_PUBLIC_KEY" ]; then
         cp "$GPG_PUBLIC_KEY" "$REPO_DIR/ros-hacks.key"
