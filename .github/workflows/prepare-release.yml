@@ -72,7 +72,12 @@ jobs:
 
       - name: Create and push tag
         if: ${{ !inputs.dry_run }}
+        env:
+          RELEASE_PUSH_TOKEN: ${{ secrets.RELEASE_PUSH_TOKEN }}
         run: |
           git tag -a "${{ steps.bump.outputs.tag }}" -m "Release ${{ steps.bump.outputs.version }}"
+          if [[ -n "${RELEASE_PUSH_TOKEN}" ]]; then
+            git remote set-url origin "https://x-access-token:${RELEASE_PUSH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          fi
           git push origin main
           git push origin "${{ steps.bump.outputs.tag }}"
