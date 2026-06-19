@@ -86,9 +86,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Trigger APT repository update
-        uses: peter-evans/repository-dispatch@v3
-        with:
-          token: ${{ secrets.ROS_HACKS_APT_DISPATCH_TOKEN }}
-          repository: danlil240/ros-hacks-apt
-          event-type: release-published
-          client-payload: '{"source_ref": "${{ github.ref_name }}", "source_repo": "danlil240/ROS-Hacks"}'
+        env:
+          GH_TOKEN: ${{ secrets.ROS_HACKS_APT_DISPATCH_TOKEN }}
+        run: |
+          gh workflow run "Update APT Repository" \
+            -R danlil240/ros-hacks-apt \
+            -f source_repo=danlil240/ROS-Hacks \
+            -f source_ref="${{ github.ref_name }}"
