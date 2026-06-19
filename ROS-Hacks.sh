@@ -24,6 +24,10 @@ else
     echo "[ROS-Hacks] Warning: Could not find aliases.sh file."
 fi
 
+if [[ -f "${ROSHACKS_DIR}/lib/stdout-log.sh" ]]; then
+    source "${ROSHACKS_DIR}/lib/stdout-log.sh"
+fi
+
 if [[ -f "${ROSHACKS_DIR}/functions.sh" ]]; then
     source "${ROSHACKS_DIR}/functions.sh"
 else
@@ -34,6 +38,7 @@ fi
 # Source optional modules if present
 if [[ -d "${ROSHACKS_LIB_DIR}" ]]; then
     for _rh_mod in "${ROSHACKS_LIB_DIR}"/*.sh; do
+        [[ "$(basename -- "${_rh_mod}")" == "stdout-log.sh" ]] && continue
         [[ -f "${_rh_mod}" ]] && source "${_rh_mod}"
     done
     unset _rh_mod

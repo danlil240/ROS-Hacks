@@ -5,6 +5,8 @@ case "$1" in
     configure)
         echo "Creating symbolic link: /usr/bin/ros-hacks-setup -> /usr/share/ros-hacks/setup.sh"
         ln -sf /usr/share/ros-hacks/setup.sh /usr/bin/ros-hacks-setup
+        echo "Creating symbolic link: /usr/bin/ros-hacks-setup-p10k -> /usr/share/ros-hacks/scripts/setup-p10k.zsh"
+        ln -sf /usr/share/ros-hacks/scripts/setup-p10k.zsh /usr/bin/ros-hacks-setup-p10k
         ;;
     
     abort-upgrade|abort-remove|abort-deconfigure)

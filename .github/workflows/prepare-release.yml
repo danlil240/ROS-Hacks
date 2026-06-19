@@ -1,0 +1,78 @@
+name: Prepare Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: 'Version bump type'
+        required: true
+        default: patch
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+      dry_run:
+        description: 'Preview version bump without committing or tagging'
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+
+concurrency:
+  group: prepare-release
+  cancel-in-progress: false
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: main
+
+      - name: Configure git
+        run: |
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+
+      - name: Bump version
+        id: bump
+        env:
+          DRY_RUN: ${{ inputs.dry_run == true && '1' || '0' }}
+        run: |
+          chmod +x scripts/bump-version.sh
+          OUTPUT="$(./scripts/bump-version.sh "${{ inputs.bump }}")"
+          echo "$OUTPUT"
+          echo "version=$(echo "$OUTPUT" | awk -F= '/^VERSION=/{print $2}')" >> "$GITHUB_OUTPUT"
+          echo "tag=$(echo "$OUTPUT" | awk -F= '/^TAG=/{print $2}')" >> "$GITHUB_OUTPUT"
+
+      - name: Stop after dry run
+        if: inputs.dry_run
+        run: |
+          echo "Dry run complete. No commit or tag created."
+
+      - name: Verify tag does not exist
+        if: ${{ !inputs.dry_run }}
+        run: |
+          if git rev-parse "${{ steps.bump.outputs.tag }}" >/dev/null 2>&1; then
+            echo "ERROR: Tag ${{ steps.bump.outputs.tag }} already exists." >&2
+            exit 1
+          fi
+
+      - name: Commit version bump
+        if: ${{ !inputs.dry_run }}
+        run: |
+          git add VERSION debian/changelog
+          git commit -m "Release ${{ steps.bump.outputs.version }}"
+
+      - name: Create and push tag
+        if: ${{ !inputs.dry_run }}
+        run: |
+          git tag -a "${{ steps.bump.outputs.tag }}" -m "Release ${{ steps.bump.outputs.version }}"
+          git push origin main
+          git push origin "${{ steps.bump.outputs.tag }}"

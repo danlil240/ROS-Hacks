@@ -17,7 +17,8 @@ install -m 644 "$SRC"/*.yaml "$SRC"/*.zsh "$SRC/inputrc" "$SRC/VERSION" "$SRC/RE
 install -m 755 "$SRC/lib"/*.sh "$DEST/lib/"
 install -m 644 "$SRC/completions"/* "$DEST/completions/"
 install -m 755 "$SRC/scripts"/*.sh "$DEST/scripts/"
-[[ -f "$SRC/scripts/setup-p10k.zsh" ]] && install -m 644 "$SRC/scripts/setup-p10k.zsh" "$DEST/scripts/"
+[[ -f "$SRC/scripts/setup-p10k.zsh" ]] && install -m 755 "$SRC/scripts/setup-p10k.zsh" "$DEST/scripts/"
+[[ -f "$DEST/scripts/setup-p10k.zsh" ]] && ln -sf "$DEST/scripts/setup-p10k.zsh" /usr/bin/ros-hacks-setup-p10k
 
 echo "Deployed to $DEST"
 grep -q 'function csr()' "$DEST/functions.sh" && echo "csr function: OK"

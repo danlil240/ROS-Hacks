@@ -19,8 +19,13 @@ if [[ -z "${ROSHACKS_LOADED:-}" ]]; then
     roshacks_dir="$(cd -- "$(dirname -- "${(%):-%x}")" >/dev/null 2>&1 && pwd)"
   fi
   
-  if [[ -n "$roshacks_dir" && -f "$roshacks_dir/functions.sh" ]]; then
-    source "$roshacks_dir/functions.sh"
+  if [[ -n "$roshacks_dir" ]]; then
+    if [[ -f "$roshacks_dir/lib/stdout-log.sh" ]]; then
+      source "$roshacks_dir/lib/stdout-log.sh"
+    fi
+    if [[ -f "$roshacks_dir/functions.sh" ]]; then
+      source "$roshacks_dir/functions.sh"
+    fi
   fi
 fi
 

@@ -26,6 +26,11 @@
 "\e[20;2~": "rebuild_curr_ws && exit\n"     # Shift+F9 - Rebuild workspace and exit terminal
 "\e[20;5~": "rebuild_curr_ws "--cmake-force-configure"\n"  # Ctrl+F9 - Force CMake reconfigure and rebuild
 
+# ROS-Hacks stdout log
+"\eOS": "show_ros_hacks_stdout\n"           # F4 - SS3 (same family as F3 \eOR)
+"\e[14~": "show_ros_hacks_stdout\n"         # F4 - CSI variant
+"\e[13~": "show_ros_hacks_stdout\n"         # F4 - alternate CSI
+
 # Package building shortcuts
 "\e[19~": "\e[Hpushd `cat ~/.cache/ros-hacks/ros_ws_selected` > /dev/null; colcon build --symlink-install --packages-select \e[F ; popd > /dev/null\n"  # F8 - Build specific package in current workspace
 

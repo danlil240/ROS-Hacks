@@ -5,6 +5,19 @@
 # Version: 1.0.0
 # ==========================================================
 
+if [[ -z "${ROSHACKS_STDOUT_LOG_LOADED:-}" ]]; then
+    if [[ -n ${ZSH_VERSION:-} ]]; then
+        _RH_FUNCTIONS_DIR="$(cd -- "$(dirname -- "${(%):-%x}")" &>/dev/null && pwd)"
+    else
+        _RH_FUNCTIONS_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
+    fi
+    if [[ -f "${_RH_FUNCTIONS_DIR}/lib/stdout-log.sh" ]]; then
+        # shellcheck source=lib/stdout-log.sh
+        source "${_RH_FUNCTIONS_DIR}/lib/stdout-log.sh"
+    fi
+    unset _RH_FUNCTIONS_DIR
+fi
+
 # Color definitions for terminal output
 NC='\033[0m'
 GREEN_TXT='\e[0;32m'
@@ -397,11 +410,11 @@ function source_cached_aliases() {
         [[ -z "${alias_file}" ]] && continue
         
         if [[ -f "${alias_file}" ]]; then
-            printf "Sourcing alias file:${BOLDWHITE} ${alias_file}${NC}\n"
-            source "${alias_file}"
+            rh_print "Sourcing alias file:${BOLDWHITE} ${alias_file}${NC}"
+            __rh_source_quiet "${alias_file}"
             alias_count=$((alias_count + 1))
         else
-            printf "${YELLOW_TXT}Alias file not found (skipping): ${alias_file}${NC}\n"
+            rh_print "${YELLOW_TXT}Alias file not found (skipping): ${alias_file}${NC}"
         fi
     done < "${WS_ALIASES_FILE}"
 }
@@ -415,16 +428,16 @@ function source_ws() {
         determine_ws_ros_version $ws_name
         if [[ $ros_type == "ROS2" ]]; then # Catkin found in ws
             unROS
-            printf "Sourcing ${WHITE_TXT}$ws_name ${NC}\n"
+            rh_print "Sourcing ${WHITE_TXT}$ws_name ${NC}"
             local ws_setup="$ws_name/install/setup.bash"
             if [[ -n ${ZSH_VERSION:-} && -f "$ws_name/install/setup.zsh" ]]; then
                 ws_setup="$ws_name/install/setup.zsh"
             fi
-            source "$ws_setup"
+            __rh_source_quiet "$ws_setup"
             if [[ -n ${ZSH_VERSION:-} && -f "$ws_name/post_source.zsh" ]]; then
-                source "$ws_name/post_source.zsh"
+                __rh_source_quiet "$ws_name/post_source.zsh"
             elif [ -f $ws_name/post_source.bash ]; then
-                source $ws_name/post_source.bash
+                __rh_source_quiet "$ws_name/post_source.bash"
             fi
             
             # Only cache when forced (workspace switch) or no cache exists

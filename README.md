@@ -107,6 +107,7 @@ See `docs/P10K-INTEGRATION.md` for detailed configuration options.
 - **Source ROS2 setup**: `sr`
 - **Clean ROS2 environment**: `csr`
 - **Source current workspace**: `sw`
+- **Show cached ROS-Hacks stdout**: `rhout` or `show_ros_hacks_stdout` or press `F4`
 - **Show colcon build errors**: `se` or `show_colcon_errors`
 - **Monitor topic**: `ros2_topic_monitor <topic>`
 - **Check topic frequency**: `ros2_topic_hz <topic>`
@@ -114,6 +115,7 @@ See `docs/P10K-INTEGRATION.md` for detailed configuration options.
 
 ### Keyboard Shortcuts (via inputrc)
 
+- `F4`: Show cached ROS-Hacks stdout for this terminal (`show_ros_hacks_stdout` / `rhout`)
 - `F5`: Reload bash configuration
 - `Shift+F9`: Rebuild workspace and exit terminal
 - `Ctrl+g`: Add grep filter to command
