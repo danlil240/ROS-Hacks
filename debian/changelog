@@ -1,3 +1,9 @@
+ros-hacks (1.0.42-1) unstable; urgency=medium
+
+  * Release 1.0.42
+
+ -- Daniel <danlil240@gmail.com>  Fri, 19 Jun 2026 06:27:04 +0000
+
 ros-hacks (1.0.41-1) unstable; urgency=medium
 
   * Auto-updated version to 1.0.41
