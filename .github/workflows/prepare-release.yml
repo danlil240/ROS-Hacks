@@ -20,6 +20,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 concurrency:
   group: prepare-release
@@ -81,3 +82,11 @@ jobs:
           fi
           git push origin main
           git push origin "${{ steps.bump.outputs.tag }}"
+
+      - name: Trigger release build
+        if: ${{ !inputs.dry_run }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh workflow run build-package.yml --ref "${{ steps.bump.outputs.tag }}"
+          echo "Triggered build-package for ${{ steps.bump.outputs.tag }}"

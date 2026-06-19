@@ -1,13 +1,13 @@
 {
   "ROS-Hacks.sh": {
-    "mtime": 1781613255.7599406,
-    "ast_hash": "9dcfa150cc824a14a21a8f7d9b20e10f",
-    "semantic_hash": "9dcfa150cc824a14a21a8f7d9b20e10f"
+    "mtime": 1781848669.9676838,
+    "ast_hash": "3e3116a786a1ef833a5528c39514f0f4",
+    "semantic_hash": ""
   },
   "aliases.sh": {
-    "mtime": 1781613255.7599406,
-    "ast_hash": "56803ed5c1a476161684f91adf8c83a7",
-    "semantic_hash": "56803ed5c1a476161684f91adf8c83a7"
+    "mtime": 1781809398.9398248,
+    "ast_hash": "be92ffaec9962abed245125ad39f7cea",
+    "semantic_hash": ""
   },
   "completions/ros-hacks-completions.bash": {
     "mtime": 1781613255.7601943,
@@ -15,9 +15,9 @@
     "semantic_hash": "392fb501171293f435709f17ef640c3a"
   },
   "debian/postinst": {
-    "mtime": 1781613255.7602863,
-    "ast_hash": "1147a224e90241fb1dc6ab07f2fe40f7",
-    "semantic_hash": "1147a224e90241fb1dc6ab07f2fe40f7"
+    "mtime": 1781848337.881551,
+    "ast_hash": "0e9bc2232f4e77de069d394821b3acee",
+    "semantic_hash": ""
   },
   "diagnostic.sh": {
     "mtime": 1781613255.761037,
@@ -25,9 +25,9 @@
     "semantic_hash": "890c3201b90cc72522e294c88d6fe6c0"
   },
   "functions.sh": {
-    "mtime": 1781613255.761037,
-    "ast_hash": "131f402811347a0a9e8acd144cf77448",
-    "semantic_hash": "131f402811347a0a9e8acd144cf77448"
+    "mtime": 1781849124.8398516,
+    "ast_hash": "985c967581ea4ae241036b5713fe1a78",
+    "semantic_hash": ""
   },
   "lib/build.sh": {
     "mtime": 1781613255.761037,
@@ -55,9 +55,9 @@
     "semantic_hash": "b797595e598ab9442b3cc46c641b54fd"
   },
   "scripts/backup-gpg-key.sh": {
-    "mtime": 1781613255.7613847,
-    "ast_hash": "7908aaf45176f9133988e6cc360e6d88",
-    "semantic_hash": "7908aaf45176f9133988e6cc360e6d88"
+    "mtime": 1781809627.3148599,
+    "ast_hash": "97b7034747e9a4730d83267edba0fea5",
+    "semantic_hash": ""
   },
   "scripts/gen-compile-commands.sh": {
     "mtime": 1781613255.7614744,
@@ -65,9 +65,9 @@
     "semantic_hash": "34f70b5d53361aa451a759b5b22dbfcd"
   },
   "scripts/gen-vscode-config-pkg.sh": {
-    "mtime": 1781613255.7614744,
-    "ast_hash": "f57e246696d599e819e0583e17135b7f",
-    "semantic_hash": "f57e246696d599e819e0583e17135b7f"
+    "mtime": 1781613789.5184753,
+    "ast_hash": "f585161651a21ab012b8dd05ae31428b",
+    "semantic_hash": ""
   },
   "scripts/gen-vscode-config.sh": {
     "mtime": 1781613255.7614744,
@@ -80,18 +80,88 @@
     "semantic_hash": "2ab718825acb2cf277d90805ad4d79a2"
   },
   "scripts/run-in-ros.sh": {
-    "mtime": 1781613255.7614744,
-    "ast_hash": "e2655ab0cee77238f4ac254d98f99a3a",
-    "semantic_hash": "e2655ab0cee77238f4ac254d98f99a3a"
+    "mtime": 1781613786.8743572,
+    "ast_hash": "dc40f4e939b7026958fe60483edf9440",
+    "semantic_hash": ""
   },
   "scripts/setup-apt-repo.sh": {
-    "mtime": 1781613255.7614744,
-    "ast_hash": "a06ad3e0ee3db8fdaf56044169c18203",
-    "semantic_hash": "a06ad3e0ee3db8fdaf56044169c18203"
+    "mtime": 1781810045.5157666,
+    "ast_hash": "6c0805c6bb5a6f8ac7408744d9cf633e",
+    "semantic_hash": ""
   },
   "setup.sh": {
     "mtime": 1781613255.7614744,
     "ast_hash": "c278da418e63bed63e994d409a8bcb1e",
     "semantic_hash": "c278da418e63bed63e994d409a8bcb1e"
+  },
+  "scripts/deploy-to-usr-share.sh": {
+    "mtime": 1781848338.902602,
+    "ast_hash": "0c5fc514c9c1c166f6e681909bc4df72",
+    "semantic_hash": ""
+  },
+  "scripts/detect-ros-distro.sh": {
+    "mtime": 1781613775.2139077,
+    "ast_hash": "adac8331991269f5ce67d3f1e1c5638d",
+    "semantic_hash": ""
+  },
+  ".github/workflows/build-package.yml": {
+    "mtime": 1781849534.325481,
+    "ast_hash": "dd3f3a3bcc64e97a249c55ddc69b9d48",
+    "semantic_hash": ""
+  },
+  ".github/workflows/publish.yml": {
+    "mtime": 1781613255.7599406,
+    "ast_hash": "1a57d679c6fc37b7cc64de65330bf08b",
+    "semantic_hash": ""
+  },
+  "AGENTS.md": {
+    "mtime": 1781809586.982922,
+    "ast_hash": "8771d54421866a98cd7e2c807f3c49b9",
+    "semantic_hash": ""
+  },
+  "README.md": {
+    "mtime": 1781848682.239266,
+    "ast_hash": "8cf732eac781964c1c67d89c07c2a402",
+    "semantic_hash": ""
+  },
+  "completions/README.md": {
+    "mtime": 1781613255.7599406,
+    "ast_hash": "dd6e2fdf942cf012fbf74bca68deefe6",
+    "semantic_hash": ""
+  },
+  "defaults.yaml": {
+    "mtime": 1781613791.6705716,
+    "ast_hash": "b910ac17d88ece388fe0df8dc7ae8bb6",
+    "semantic_hash": ""
+  },
+  "docs/P10K-INTEGRATION.md": {
+    "mtime": 1781613255.761037,
+    "ast_hash": "377d598f68a27ce51acc89c27e45b86d",
+    "semantic_hash": ""
+  },
+  "lib/stdout-log.sh": {
+    "mtime": 1781849138.4314744,
+    "ast_hash": "3466c6a6130d13fcbda27940d842d9ee",
+    "semantic_hash": ""
+  },
+  "scripts/bump-version.sh": {
+    "mtime": 1781849525.8650982,
+    "ast_hash": "f4bdd1c5333f057bc2da506661cd3171",
+    "semantic_hash": ""
+  },
+  ".cursor/skills/ros-hacks-release/SKILL.md": {
+    "mtime": 1781849558.166559,
+    "ast_hash": "1a2fdea88e141731d098e6fbe53f3291",
+    "semantic_hash": ""
+  },
+  ".cursor/skills/ros-hacks-release/reference.md": {
+    "mtime": 1781849562.1097372,
+    "ast_hash": "743249f0b5a9fcee1612e3ad7df90c52",
+    "semantic_hash": ""
+  },
+  ".github/workflows/prepare-release.yml": {
+    "mtime": 1781849573.7142615,
+    "ast_hash": "7fd57a098d8e1bbbda77d8e82474f1f0",
+    "semantic_hash": ""
   }
 }
