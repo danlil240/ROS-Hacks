@@ -5,7 +5,7 @@
 # Version: 1.0.0
 # ==========================================================
 
-if [[ -z "${ROSHACKS_STDOUT_LOG_LOADED:-}" ]]; then
+if ! { type rh_print | grep -q function; } 2>/dev/null; then
     if [[ -n ${ZSH_VERSION:-} ]]; then
         _RH_FUNCTIONS_DIR="$(cd -- "$(dirname -- "${(%):-%x}")" &>/dev/null && pwd)"
     else

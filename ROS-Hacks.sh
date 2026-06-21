@@ -5,8 +5,12 @@
 # ==========================================================
 
 
-# Define script directory (bash-specific)
-ROSHACKS_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
+# Define script directory (bash and zsh compatible)
+if [[ -n "${ZSH_VERSION:-}" ]]; then
+    ROSHACKS_DIR="$(cd -- "$(dirname -- "${(%):-%x}")" &>/dev/null && pwd)"
+else
+    ROSHACKS_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
+fi
 ROSHACKS_LIB_DIR="${ROSHACKS_DIR}/lib"
 ROSHACKS_COMPLETIONS_DIR="${ROSHACKS_DIR}/completions"
 

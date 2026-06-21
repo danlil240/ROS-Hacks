@@ -3,7 +3,7 @@
 # ROS-Hacks - Per-terminal stdout cache (/tmp/ros-hacks)
 # ==========================================================
 
-if [[ -z "${ROSHACKS_STDOUT_LOG_LOADED:-}" ]]; then
+if ! { type rh_print | grep -q function; } 2>/dev/null; then
 export ROSHACKS_STDOUT_LOG_LOADED=1
 
 ROSHACKS_LOG_DIR="${ROSHACKS_LOG_DIR:-/tmp/ros-hacks}"
