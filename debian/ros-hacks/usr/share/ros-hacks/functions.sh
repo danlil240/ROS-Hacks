@@ -23,6 +23,15 @@ ROS2NAME=${ROS2_NAME:-"jazzy"}
 WS_SEARCH_PATHS_FILE=${WS_SEARCH_PATHS_FILE:-"$HOME/.cache/ros-hacks/ws_paths"}
 WS_ALIASES_FILE=${WS_ALIASES_FILE:-"$HOME/.cache/ros-hacks/ws_aliases"}
 
+# Detect fd command name (fd on most systems, fdfind on Debian/Ubuntu)
+if command -v fd &>/dev/null; then
+    RH_FD_CMD="fd"
+elif command -v fdfind &>/dev/null; then
+    RH_FD_CMD="fdfind"
+else
+    RH_FD_CMD=""
+fi
+
 # Prompts the user to create a new ROS2 workspace
 # Usage: prompt_new_ws
 function prompt_new_ws() {
@@ -161,6 +170,7 @@ function select_ws() {
 
     if [[ "$num" == "-1" ]]; then
         rm -f "$WS_FILE"
+        rm -f "${WS_ALIASES_FILE}"
         unset curr_ws
         unROS
         printf "${YELLOW_TXT}Workspace unselected.${NC}\n"
@@ -217,6 +227,9 @@ function set_current_ws() {
         printf "${RED_TXT}Workspace directory does not exist: ${WHITE_TXT}${new_curr_ws}${NC}\n"
         return 1
     fi
+
+    # Clean cached aliases from previous workspace
+    rm -f "${WS_ALIASES_FILE}"
 
     # Set the workspace path
     echo "$new_curr_ws" >"$WS_FILE"
@@ -315,7 +328,14 @@ function cache_ws_aliases() {
     printf "${BLUE_TXT}Searching for alias files in workspace...${NC}\n"
     # Search and write paths directly to cache file
     : > "${WS_ALIASES_FILE}"
-    command fd -H -t f -d "${maxdepth}" -g "*aliases" --exclude build --exclude install --exclude log --exclude .git "${src_path}" 2>/dev/null > "${WS_ALIASES_FILE}"
+    if [[ -n "${RH_FD_CMD}" ]]; then
+        command "${RH_FD_CMD}" -H -t f -d "${maxdepth}" -g "*aliases" --no-ignore --exclude build --exclude install --exclude log --exclude .git "${src_path}" 2>/dev/null > "${WS_ALIASES_FILE}"
+    else
+        # Fallback to find if fd/fdfind is not installed
+        find "${src_path}" -maxdepth "${maxdepth}" -type f -name "*aliases" \
+            -not -path "*/build/*" -not -path "*/install/*" -not -path "*/log/*" -not -path "*/.git/*" \
+            2>/dev/null > "${WS_ALIASES_FILE}"
+    fi
 
     local alias_count
     alias_count=$(wc -l < "${WS_ALIASES_FILE}" 2>/dev/null || echo 0)
