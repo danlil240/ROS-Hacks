@@ -48,7 +48,7 @@ Prepare Release workflow  →  tag v* pushed  →  Build and Release Package
 | Workflow | Trigger | Purpose |
 |----------|---------|---------|
 | `prepare-release.yml` | `workflow_dispatch` | Bump `VERSION` + `debian/changelog`, commit, tag `v*`, push |
-| `build-package.yml` | push `main`, tag `v*`, PR | Matrix build (22.04/24.04), GitHub Release on tag, dispatch APT |
+| `build-package.yml` | push `main`, tag `v*`, PR | Matrix build (22.04/24.04/26.04), GitHub Release on tag, dispatch APT |
 
 ### Workflows (ros-hacks-apt)
 

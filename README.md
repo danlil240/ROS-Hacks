@@ -9,6 +9,7 @@ This is a repository for the ROS-Hacks package, a productivity toolkit that enha
 | 20.04 (focal) | Foxy |
 | 22.04 (jammy) | Humble |
 | 24.04 (noble) | Jazzy |
+| 26.04 (resolute) | Lyrical |
 
 ROS-Hacks detects the matching ROS 2 distribution from your Ubuntu release and falls back to any installed `/opt/ros/<distro>` if detection is inconclusive.
 
